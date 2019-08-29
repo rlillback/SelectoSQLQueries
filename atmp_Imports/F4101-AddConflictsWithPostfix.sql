@@ -4,33 +4,23 @@ go
 -----------------------------------------------------------------------------------------
 --
 -- Populate the intermediate table atmp.F4101 in N01A-DWSQLPD with possible JDE Data
+-- ONLY For items that already exist in JDE, but will get a different IMLITM
+-- this procedure appends -SU to those items that need to change.
+--
+-- NOTE: THIS ASSUMES A MAX PN OF 22 CHARS.
+--       As of this writing, the max PN len was 10 chars.
 --
 -- Assumptions:
 --  You've already created the backup table bkup.F4101 & populated it.
 --  You've already populated the table atmp.ItemConflicts.
 --  You've already populated all the UDC codes for Suwanee
+--  You've already run the inital population of atmp.F4101 with new items
 --
 -- History:
--- 26-Aug-2019 R.Lillback Created Initial Version
--- 27-Aug-2019 R.Lillback Populate SRP1 from UDC 41/S1 with ProductLine info
--- 28-Aug-2019 R.Lillback Use the ItemConflicts table to determine issues
--- 28-Aug-2019 R.Lillback Populate SRP2 from UDC 41/S2 with brand info
--- 28-Aug-2019 R.Lillback Populate SRP3 from UDC 41/S3 with cartridge technology info
--- 28-Aug-2019 R.Lillback Populate SRP5 from UDC 41/S5 with cartridge size info
--- 28-Aug-2019 R.Lillback Populate SRP6 from UDC 41/S6 with product stage info
--- 28-Aug-2019 R.Lillback Populate PRP1 from UDC 41/P1 with product category info
--- 28-Aug-2019 R.Lillback Populate PRP5 from UDC 41/P5 with series info
+-- 28-Aug-2019 R.Lillback Created Initial Version
 --
 -----------------------------------------------------------------------------------------
 SET NOCOUNT ON;
--- ***************************************************************
--- Copy data from the backup table into development
--- ***************************************************************
-/*  // TODO: Uncomment this to restore F4101 in development from the backup file
-truncate table N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4101
-insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4101 select * from bkup.F4101;
-*/
-truncate table atmp.F4101; -- Clear the table before loading data into it
 
 declare @rowOffset float;
 -- Make sure to go 10 numbers beyond that last number in DEVELOPMENT
@@ -48,45 +38,35 @@ declare @tNow float = CONVERT (
 								datepart(ss, getdate())
 								); -- Time now as held by JDE
 	                               
-if OBJECT_ID(N'tempdb..#existingItems') is not NULL
-	drop table #existingItems  
-		
-create table #existingItems (
-	existingItem nvarchar(25)
-)
-
-insert into #existingItems
-	select PartNumber from atmp.ItemConflicts
-
 insert into atmp.F4101 -- Insert the new data into it
 	select 
 			(@rowOffset + ROW_NUMBER() OVER(ORDER BY ItemCode asc)) AS IMITM,
-			LEFT(ItemCode,25) collate database_default as IMLITM ,
-			LEFT(ItemCode,25) collate database_default as IMAITM ,
+			LEFT(RTRIM(ItemCode),22) + N'-SU' collate database_default as IMLITM ,
+			LEFT(RTRIM(ItemCode),22) + N'-SU' collate database_default as IMAITM ,
 			LEFT(ItemCodeDesc,30) collate database_default as IMDSC1,
 			N'' collate database_default as IMDSC2,
 			LEFT(ItemCodeDesc,30) collate database_default as IMSRTX,
 			N'' collate database_default as IMALN,
-			RIGHT(ProductLine,3) collate database_default as IMSRP1, -- ### RAL 27-Aug-2019 Added SRP1 population
+			RIGHT(ProductLine,3) collate database_default as IMSRP1, 
 			IMSRP2 = (select LTRIM(RTRIM(DRKY)) 
 					  from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 
 					  where DRSY = N'41' and DRRT = N'S2' and
-					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_BRAND)) collate database_default), -- ### RAL 28-Aug-2019 Added SRP2 population
+					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_BRAND)) collate database_default), 
 			IMSRP3 = (select LTRIM(RTRIM(DRKY))
 			          from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 as udc
 					  left join dbo.ods_IM_UDT_CARTRIDGE_TECHNOLOGY as sage 
 						on udc.DRSY = N'41' and udc.DRRT = N'S3' and
 						   udc.DRDL02 = LEFT(RTRIM(sage.UDF_DESCRIPTION),30) collate database_default
-					  where LTRIM(RTRIM(sage.UDF_CODE)) = LTRIM(RTRIM(i.UDF_CARTRIDGE_CODE))) collate database_default, -- ### RAL 28-Aug-2019 Added SRP3 population
+					  where LTRIM(RTRIM(sage.UDF_CODE)) = LTRIM(RTRIM(i.UDF_CARTRIDGE_CODE))) collate database_default, 
 			N'' collate database_default as IMSRP4,
 			IMSRP5 = (select LTRIM(RTRIM(DRKY)) 
 					  from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 
 					  where DRSY = N'41' and DRRT = N'S5' and
-					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_CARTRIDGE_SIZE)) collate database_default), -- ### RAL 28-Aug-2019 Added SRP5 population 
+					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_CARTRIDGE_SIZE)) collate database_default),  
 			IMSRP6 = (select RIGHT(DRKY,6) 
 					  from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 
 					  where DRSY = N'41' and DRRT = N'06' and
-					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_PRODUCT_STAGE)) collate database_default), -- ### RAL 28-Aug-2019 Added SRP6 population
+					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_PRODUCT_STAGE)) collate database_default), 
 			N'' collate database_default as IMSRP7,
 			N'' collate database_default as IMSRP8,
 			N'' collate database_default as IMSRP9,
@@ -94,14 +74,14 @@ insert into atmp.F4101 -- Insert the new data into it
 			IMPRP1 = (select LTRIM(RTRIM(DRKY)) 
 					  from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 
 					  where DRSY = N'41' and DRRT = N'P1' and
-					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_PRODUCT_CATEGORY)) collate database_default), -- ### RAL 28-Aug-2019 Added PRP1 population
+					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_PRODUCT_CATEGORY)) collate database_default), 
 			N'' collate database_default as IMPRP2,
 			N'' collate database_default as IMPRP3,
 			N'' collate database_default as IMPRP4,
 			IMPRP5 = (select LTRIM(RTRIM(DRKY)) 
 					  from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 
 					  where DRSY = N'41' and DRRT = N'P5' and
-					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_SERIES)) collate database_default), -- ### RAL 28-Aug-2019 Added PRP5 population
+					        LTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_SERIES)) collate database_default), 
 			N'' collate database_default as IMPRP6,
 			N'SUW' collate database_default as IMPRP7, -- SUW for Suwanee product code
 			N'' collate database_default as IMPRP8,
@@ -112,12 +92,12 @@ insert into atmp.F4101 -- Insert the new data into it
 			end collate database_default as IMPRP9, 
 			N'' collate database_default as IMPRP0,
 			N'' collate database_default as IMCDCD, 
-			N'' collate database_default as IMPDGR, -- ### RAL 26-Aug-2019 //TODO: Default this to SUW
+			N'' collate database_default as IMPDGR, -- //TODO: Default this to SUW
 			N'' collate database_default as IMDSGP,
-			N'' collate database_default as IMPRGR, -- ### RAL 26-Aug-2019 //TODO: Default this to SUW or some other product group
-			N'' collate database_default as IMRPRC, -- ### RAL 26-Aug-2019 //TODO: Default this to SUW or some other product group
+			N'' collate database_default as IMPRGR, -- //TODO: Default this to SUW or some other product group
+			N'' collate database_default as IMRPRC, -- //TODO: Default this to SUW or some other product group
 			N'' collate database_default as IMORPR,
-			CAST(0 as float) as IMBUYR,				-- ### RAL 26-Aug-2019 //TODO: Update this in a later procedure to populate buyers
+			CAST(0 as float) as IMBUYR,				-- //TODO: Update this in a later procedure to populate buyers
 			N'' collate database_default as IMDRAW,
 			N'' collate database_default as IMRVNO,
 			N'' collate database_default as IMDSZE,
@@ -407,17 +387,14 @@ insert into atmp.F4101 -- Insert the new data into it
 			CAST(0 as float) as IMCOORE,
 			N'' collate database_default as IMVCPFC,
 			N'N' collate database_default as IMPNYN
-	from dbo.ods_CI_Item as i
-		left join #existingItems on LEFT(ItemCode,25) collate database_default = existingItem
-	where 
-		existingItem is null and		-- Don't import existing items
-		i.InactiveItem = N'N' and		-- Import only active items
-		left(ltrim(rtrim(i.ItemCode)),1) <> N'/' -- Don't import sales item lines
+	from atmp.ItemConflicts as c
+		inner join dbo.ods_CI_Item as i on c.PartNumber = i.ItemCode
+	where
+		c.ActionKey = 2 -- Only grab PN's that will have -SU appended to them
 	-- END insert
-		
-drop table #existingItems
 
--- ### 28-Aug-2019 -- can't have a null SRP or PRP, so set themn to the blank version
+
+-- can't have a null SRP or PRP, so set themn to the blank version
 update atmp.F4101 
 set IMSRP2 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'S2' and LTRIM(RTRIM(DRKY)) = N'') 
 where IMSRP2 is null
@@ -445,3 +422,5 @@ where IMPRP5 is null
 //TODO: ### RAL Uncomment this section to actually copy the data into Development
 insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4101 select * from atmp.F4101
 */
+
+	
