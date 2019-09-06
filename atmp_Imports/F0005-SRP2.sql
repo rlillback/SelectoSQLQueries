@@ -32,6 +32,8 @@ declare @tNow float = CONVERT (
 							   datepart(ss, getdate())
 							   ); -- Time now as held by JDE
 
+delete from testctl.F0005 where DRSY = N'41' and DRRT = N'S2' and RIGHT(LTRIM(RTRIM(DRDL01)),4) = N'-SEL'
+
 insert into testctl.F0005
 select
 	N'41' as DRSY,

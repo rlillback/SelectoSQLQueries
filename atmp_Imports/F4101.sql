@@ -20,6 +20,8 @@ go
 -- 28-Aug-2019 R.Lillback Populate SRP6 from UDC 41/S6 with product stage info
 -- 28-Aug-2019 R.Lillback Populate PRP1 from UDC 41/P1 with product category info
 -- 28-Aug-2019 R.Lillback Populate PRP5 from UDC 41/P5 with series info
+-- 06-Sep-2019 R.Lillback Populate planner number with 301
+-- 06-Sep-2019 R.Lillback Remove double " from descriptions
 --
 -----------------------------------------------------------------------------------------
 SET NOCOUNT ON;
@@ -287,7 +289,7 @@ insert into atmp.F4101 -- Insert the new data into it
 			N'' collate database_default as IMFIFO,
 			N'' collate database_default as IMLOTS,
 			CAST(0 as float) as IMSLD,
-			N'200' collate database_default as IMANPL, -- ### //TODO: We need to define planner numbers for both vended and manufactured parts
+			N'301' collate database_default as IMANPL, -- ### 9/6/2019
 			N'0' collate database_default as IMMPST,
 			CAST(0 as float) as IMPCTM,
 			CAST(0 as float) as IMMMPC,
@@ -419,28 +421,40 @@ drop table #existingItems
 
 -- ### 28-Aug-2019 -- can't have a null SRP or PRP, so set themn to the blank version
 update atmp.F4101 
-set IMSRP2 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'S2' and LTRIM(RTRIM(DRKY)) = N'') 
-where IMSRP2 is null
+	set IMSRP2 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'S2' and LTRIM(RTRIM(DRKY)) = N'') 
+where 
+	IMSRP2 is null
 
 update atmp.F4101 
-set IMSRP3 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'S3' and LTRIM(RTRIM(DRKY)) = N'') 
-where IMSRP3 is null
+	set IMSRP3 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'S3' and LTRIM(RTRIM(DRKY)) = N'') 
+where 
+	IMSRP3 is null
 
 update atmp.F4101 
-set IMSRP5 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'S5' and LTRIM(RTRIM(DRKY)) = N'') 
-where IMSRP5 is null
+	set IMSRP5 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'S5' and LTRIM(RTRIM(DRKY)) = N'') 
+where 
+	IMSRP5 is null
 
 update atmp.F4101 
-set IMSRP6 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'06' and LTRIM(RTRIM(DRKY)) = N'') 
+	set IMSRP6 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'06' and LTRIM(RTRIM(DRKY)) = N'') 
 where IMSRP6 is null
 
 update atmp.F4101 
-set IMPRP1 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'P1' and LTRIM(RTRIM(DRKY)) = N'') 
-where IMPRP1 is null
+	set IMPRP1 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'P1' and LTRIM(RTRIM(DRKY)) = N'') 
+where 
+	IMPRP1 is null
 
 update atmp.F4101 
-set IMPRP5 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'P5' and LTRIM(RTRIM(DRKY)) = N'') 
-where IMPRP5 is null
+	set IMPRP5 = (select DRKY from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 where DRSY = N'41' and DRRT = N'P5' and LTRIM(RTRIM(DRKY)) = N'') 
+where 
+	IMPRP5 is null
+
+-- ### 9/6/2019
+update atmp.F4101
+	set IMDSC1 = REPLACE(IMDSC1,N'""', N'"')
+where
+	CHARINDEX(N'""',IMDSC1) > 0
+
 /*
 //TODO: ### RAL Uncomment this section to actually copy the data into Development
 insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4101 select * from atmp.F4101
