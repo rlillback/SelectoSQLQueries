@@ -13,3 +13,7 @@ Go
 --insert into bkup.F4106 select * from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4106
 --truncate table bkup.F4104
 --insert into bkup.F4104 select * from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4104
+--truncate table bkup.F3002
+--insert into bkup.F3002 select * from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F3002
+--truncate table bkup.F3003
+--insert into bkup.F3003 select * from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F3003
