@@ -103,17 +103,6 @@ BEGIN
 		[IRWSCHF] [nchar](1) NULL,
 		[IRTRAF] [nchar](1) NULL,
 		[IRDFOPC] [nchar](1) NULL,
-	 CONSTRAINT [tmpRouter_PK] PRIMARY KEY CLUSTERED 
-	(
-		[IRMMCU] ASC,
-		[IRKIT] ASC,
-		[IRTRT] ASC,
-		[IRBQTY] ASC,
-		[IROPSQ] ASC,
-		[IROPSC] ASC,
-		[IRLINE] ASC,
-		[IREFFF] ASC
-	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 	) ON [PRIMARY]
 
 	declare @thisItem float;
@@ -250,7 +239,7 @@ BEGIN
 	where IRKITL is null
 
 
-
+	truncate table atmp.F3003;  -- truncate the table before adding data into it.
 	insert into atmp.F3003 select * from #tmpRouter
 
 	drop table #mfgItems
