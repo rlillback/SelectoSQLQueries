@@ -12,6 +12,9 @@ GO
 --
 -- HISTORY:
 --   24-Sep-2019 R.Lillback Created initial version
+--   26-Nov-2019 R.Lillback Fixed bug where BOM lines did not populate if the PN already
+--               exists in JDE; therefore, atmp.F4101 is null.  If NULL, then grab
+--	             IMUOM1 from JDE_DEVELOPMENT.
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F3002Load')
 	DROP PROCEDURE dbo.usp_F3002Load
@@ -124,7 +127,8 @@ BEGIN
 			CAST( 0 AS FLOAT) AS IXSBNT,
 			N'Y' COLLATE database_default AS IXPRTA,
 			CAST( Sage.LineQty AS FLOAT) AS IXQNTY,
-			IM2.IMUOM1 COLLATE database_default AS IXUM,
+			-- ### RAL Modified the following line to account for items that exist alredy in JDE
+			ISNULL(IM2.IMUOM1, (SELECT IMUOM1 FROM N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4101 WHERE Sage.ChildNum collate database_default = IMLITM)) COLLATE database_default AS IXUM,
 			CAST( 0 AS FLOAT) AS IXBQTY,
 			N'EA' COLLATE database_default AS IXUOM,
 			N'V' COLLATE database_default AS IXFVBT,
@@ -197,7 +201,7 @@ BEGIN
 															   LTRIM(RTRIM(IB1.IBMCU)) = N'3SUW' collate database_default
 		join atmp.F4102 AS IB2 ON Sage.ChildNum collate database_default = IB2.IBLITM AND 
 															   LTRIM(RTRIM(IB2.IBMCU)) = N'3SUW' collate database_default
-		join atmp.F4101 AS IM2 ON Sage.ChildNum collate database_default = IM2.IMLITM
+		left join atmp.F4101 AS IM2 ON Sage.ChildNum collate database_default = IM2.IMLITM
 		order by IXKIT asc, IXCPNT asc
 		
 
