@@ -17,6 +17,8 @@ GO
 -- TODO:
 --	Laura to find mapping of Credit Message to customers
 --  Kinetico Accounting to define new sales group codes AC04
+--  Laura to find out if we need payment mapping
+--  Suwanee - How do we identify remit-to only addresses?
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Load_Customer')
 	DROP PROCEDURE dbo.usp_F0101_Load_Customer
@@ -45,7 +47,7 @@ BEGIN
 	declare @tmpMCU nchar(12) = (SELECT ABMCU FROM N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 WHERE ABAN8 = 4590); 
 
 	-- set the starting customer number 
-	declare @startingRowNum float = 330000;
+	declare @startingRowNum float = 890000;
 
 	if OBJECT_ID(N'tempdb..#tempIntermediate') is not null
 		drop table #tempIntermediate
@@ -83,13 +85,7 @@ BEGIN
 			CustCode as cc
 		from #tempIntermediate
 	) as y on x.CustCode = y.cc
-
-	-- Sales group mapping
-	-- TODO Accounting needs to define the new sales group codes
-
-	-- Parent mapping????
-	-- TODO Laura to find out if we need payment mapping
-	                               
+                              
 	insert into atmp.F0101
 	select 
 		ROWNUM AS ABAN8,
@@ -108,10 +104,7 @@ BEGIN
 		N'N' COLLATE DATABASE_DEFAULT AS ABAT4,
 		N'N' COLLATE DATABASE_DEFAULT AS ABAT5,
 		N'N' COLLATE DATABASE_DEFAULT AS ABATP,
-		CASE CreditMesssage
-			when N'16' then N'N'		-- Ship to only 
-			else N'Y'
-		END COLLATE DATABASE_DEFAULT AS ABATR,
+		N'Y' COLLATE DATABASE_DEFAULT AS ABATR, -- Ship to addresses ae loaded under the S3 type
 		N'N' COLLATE DATABASE_DEFAULT AS ABATPR,
 		N'' COLLATE DATABASE_DEFAULT AS ABAB3,
 		N'N' COLLATE DATABASE_DEFAULT AS ABATE,
@@ -192,7 +185,7 @@ BEGIN
 		CAST(0 AS FLOAT) AS ABCAAD
 	from #tempIntermediate
 	where 
-		CreditMessage is not NULL
+		CreditMesssage is not NULL
 				AND
 		SalesGroup is not NULL
 
@@ -201,3 +194,4 @@ BEGIN
 END
 
 GO
+
