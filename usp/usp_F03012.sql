@@ -35,6 +35,25 @@ BEGIN
 								   datepart(ss, getdate())
 								   ); -- Time now as held by JDE
 
+	if OBJECT_ID(N'tempdb..#tempCustomer') is not NULL
+		drop table #tempCustomer
+
+	create table #tempCustomer (
+		AN8 float not NULL,
+		ALKY nchar(20) not NULL,
+		CreditLimit float NULL,
+		TERMSNUM nchar(2) NULL,
+		EMAIL3 nchar(30) NULL,
+		SHIPVIA nchar(30) NULL,
+		SalesGroup nchar(3) NULL,
+		Parent nchar(1) NULL,
+	)
+
+	insert into #tempCustomer 
+		select ABAN8, ABALKY, NULL, NULL, NULL, NULL, NULL, NULL 
+		from atmp.F0101 
+		where ABAT01 = N'C3'
+
 	insert into atmp.F03012							   
 	select
 		CAST(ABAN8 AS FLOAT) AS AIAN8,
@@ -67,29 +86,29 @@ BEGIN
 		N'' COLLATE Latin1_General_CI_AS_WS AS AICRCD,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AITXA1,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIEXR1,
-		CAST((tmp.[Customer Credit Limit] * 1) AS FLOAT) AS AIACL, -- //TODO: Are there customer credit limits?
+		CAST((tmp.[CreditLimit] * 1) AS FLOAT) AS AIACL, -- //TODO: Are there customer credit limits?
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AIHDAR,
-		case tmp.[TERMSNUM] -- //TODO: Update terms once Laura finalizes them
-					when '1' then N'N30'
-					when '2' then N'N45'
-					when '3' then N'N60'
-					when '4' then N'H02'
-					when '5' then N'H27'
+		case tmp.[TERMSNUM] -- Per spreadsheet on Teams site
+					when '0' then N'01'
+					when '1' then N'D1' -- error
+					when '2' then N'13'
+					when '5' then N'1.6'
 					when '6' then N'D6' -- error
-					when '7' then N'D7' -- error
-					when '8' then N'03'
-					when '9' then N'03'
-					when '10' then N'D10' -- error
-					when '11' then N'N15'
-					when '12' then N'N10'
-					when '13' then N'N7'
-					when '14' then N'D14' -- error
-					when '15' then N'D15' -- error
-					when '16' then N'13'
-					when '17' then N'10T'
-					when '18' then N'D18' -- error
-					when '19' then N'2/1'
-					when '20' then N'D20' -- error
+					when '10' then N'N10'
+					when '11' then N'1/1' 
+					when '14' then N'N14'
+					when '15' then N'N15'
+					when '20' then N'N20' 
+					when '21' then N'2/1'
+					when '30' then N'N30'
+					when '35' then N'235'
+					when '36' then N'N36' 
+					when '45' then N'N45' 
+					when '46' then N'D46' -- error
+					when '60' then N'N60'
+					when '90' then N'N90' 
+					when '99' then N'H27'
+					when '8' then N'6/1' 
 					else N'EE' -- error
 		end COLLATE Latin1_General_CI_AS_WS AS AITRAR, 
 		N'P' COLLATE Latin1_General_CI_AS_WS AS AISTTO,
@@ -108,11 +127,7 @@ BEGIN
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIALGM, -- Decided default to Blank
 		SUBSTRING(ABALPH,1, 1) COLLATE Latin1_General_CI_AS_WS AS AICYCN,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIBO,
-		CASE 
-			when CI.CreditMesssage = N'CC' then N'CC'
-			when CI.CreditMesssage = N'16' then N'16'
-			else N''
-		end COLLATE Latin1_General_CI_AS_WS AS AITSTA,
+		N'' COLLATE Latin1_General_CI_AS_WS AS AITSTA,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AICKHC,
 		0 AS AIDLC,
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AIDNLT,
@@ -165,11 +180,8 @@ BEGIN
 		N'SQLLD' COLLATE Latin1_General_CI_AS_WS AS AIPOPN,
 		118001 AS AIDAOJ,
 		CAST(1 AS FLOAT) AS AIAN8R,
-		CASE 
-			when CreditMesssage = N'16' then N'S'
-			else N'X'
-		end COLLATE Latin1_General_CI_AS_WS AS AIBADT, -- //TODO: How does pricing work?
-		CASE 
+		N'X' COLLATE Latin1_General_CI_AS_WS AS AIBADT,
+		CASE  -- //TODO: How does pricing work?
 			when SalesGroup = N'200' then N'TEMDLR'
 			when SalesGroup = N'202' then N'TEMCI50'
 			when SalesGroup = N'204' then N'TEMMEM'
@@ -187,8 +199,8 @@ BEGIN
 		N'' COLLATE Latin1_General_CI_AS_WS AS AISTOP,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIZON,
 		CAST(0 AS FLOAT) AS AICARS,
-		LEFT((tmp.EMAIL3),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL1,
-		LEFT((tmp.SHIPVIA),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL2,
+		LEFT((tmp.EMAIL3),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL1, --  TODO Map these
+		LEFT((tmp.SHIPVIA),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL2, -- TODO Map these
 		CAST(0 AS FLOAT) AS AILTDT,
 		N'PP' COLLATE Latin1_General_CI_AS_WS AS AIFRTH, -- Default to Pre-paid for now
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AIAFT,
@@ -236,7 +248,7 @@ BEGIN
 		0 AS AIURDT,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIURRF,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AICP01,
-		CASE
+		CASE 											-- TODO How does pricing work?
 			when SalesGroup = N'215' then N'TEMECXFR'
 			when SalesGroup = N'220' then N'TEMECXFR'
 			else N'TEMECULA' 
@@ -319,7 +331,7 @@ BEGIN
 		CAST(0 AS FLOAT) AS AICAAD,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIGOPASF
 	from
-		atmp.tmp_CustomerIntermediate as CI
-		join testdta.F0101 on ROWNUM = ABAN8
-		join N01ADWSQLPD.KSTG.dbo.ods_Nimbus_Customer as tmp on CI.CustCode = tmp.[Customer Number] COLLATE Latin1_General_CI_AS_WS
+		atmp.F0101
+		join #tempCust as tmp on ABAN8 = AN8
+	-- implicit = where ABAT01 = N'C3'
 END
