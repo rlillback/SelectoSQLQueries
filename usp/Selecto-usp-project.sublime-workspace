@@ -3,6 +3,10 @@
 	{
 		"selected_items":
 		[
+			[
+				"Cre",
+				"CreditLimit"
+			]
 		]
 	},
 	"buffers":
@@ -17,28 +21,10 @@
 			}
 		},
 		{
-			"file": "usp_F03012.sql",
-			"settings":
-			{
-				"buffer_size": 12972,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "usp_F0101_Load_Vendor.sql",
 			"settings":
 			{
 				"buffer_size": 6303,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "usp_UDC_CustVend.sql",
-			"settings":
-			{
-				"buffer_size": 2769,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -80,6 +66,8 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/K/KINETICO/Common/Ray/1099-2019Data/ConsolidateData.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_CustomerAddressLoad.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_PrepareVendorDataForMerge.sql",
@@ -90,7 +78,7 @@
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -150,8 +138,8 @@
 						"selection":
 						[
 							[
-								6747,
-								6747
+								1009,
+								1009
 							]
 						],
 						"settings":
@@ -160,7 +148,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 54.0,
+						"translation.y": 1064.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -168,35 +156,6 @@
 				},
 				{
 					"buffer": 1,
-					"file": "usp_F03012.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12972,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								12968,
-								12968
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5570.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "usp_F0101_Load_Vendor.sql",
 					"semi_transient": false,
 					"settings":
@@ -218,39 +177,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 226.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "usp_UDC_CustVend.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2769,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2764,
-								2764
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

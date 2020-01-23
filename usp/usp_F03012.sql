@@ -13,7 +13,7 @@ GO
 -- 
 -- TODO:
 -- Laura to find out G/L Mapping for Customers
--- Ray to find out if we are importing credit limits from dbo.ods_AR_Customer CreditLimit
+-- AIARPY -> Should it just be set to ABAN8?  If not, what are the rules around it?
 -- ### Figure out what else??
 --------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012')
@@ -50,9 +50,18 @@ BEGIN
 	)
 
 	insert into #tempCustomer 
-		select ABAN8, ABALKY, NULL, NULL, NULL, NULL, NULL, NULL 
+		select ABAN8, ABALKY, NULL, NULL, NULL, NULL, NULL, N'' 
 		from atmp.F0101 
 		where ABAT01 = N'C3'
+
+	update x
+		set CreditLimit = ISNULL(c.CreditLimit, 0),
+		    TERMSNUM = ISNULL(c.TermsCode, N'EE'),
+		    EMAIL3 = ISNULL(c.EmailAddress , N''),
+		    SHIPVIA = ISNULL(c.ShipMethod, N''),
+		    Parent = N'P'
+	from #tempCustomer as x
+		left join dbo.ods_AR_Customer as c on x.ALKY = c.CustomerNo collate DATABASE_DEFAULT
 
 	insert into atmp.F03012							   
 	select
@@ -117,7 +126,7 @@ BEGIN
 			when Parent = N'' then N'P'
 			else N'P'
 		end COLLATE Latin1_General_CI_AS_WS AS AISTMT,
-		CAST(round(aban8/10,0,1)*10 AS FLOAT) AS AIARPY,
+		ABAN8 AS AIARPY, -- TODO: Do we need to change this?
 		CASE 
 			when Parent = N'' then N'Y'
 			else N'N'
@@ -320,7 +329,7 @@ BEGIN
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIOPBO,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIAPSB,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AITIER1,
-		CAST(N'0' AS FLOAT) AS AIPWPCP,
+		CAST(0 AS FLOAT) AS AIPWPCP,
 		N'0' COLLATE Latin1_General_CI_AS_WS AS AICUSTS,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AISTOF,
 		CAST(0 AS FLOAT) AS AITERRID,
