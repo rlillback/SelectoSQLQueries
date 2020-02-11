@@ -12,8 +12,12 @@ GO
 -- 20-Jan-2020 R.Lillback Created initial file
 -- 
 -- TODO:
--- Laura to find out G/L Mapping for Customers
+-- Accounting to define Customer Sales Codes
+-- Accounting to define Customer Sales Codes to G/L Account maping
+-- Are there parent/child relationships that need to be populated??
 -- AIARPY -> Should it just be set to ABAN8?  If not, what are the rules around it?
+-- AIFRTH -> Is a default to PP ok?
+-- AICRCA -> Is it ok to default to USD?
 -- ### Figure out what else??
 --------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012')
@@ -98,30 +102,25 @@ BEGIN
 		CAST((tmp.[CreditLimit] * 1) AS FLOAT) AS AIACL, -- //TODO: Are there customer credit limits?
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AIHDAR,
 		case tmp.[TERMSNUM] -- Per spreadsheet on Teams site
-					when '0' then N'01'
-					when '1' then N'D1' -- error
-					when '2' then N'13'
-					when '5' then N'1.6'
-					when '6' then N'D6' -- error
+					when '00' then N'01'
+					when '01' then N'D1'  -- error
+					when '02' then N'2/1'
+					when '05' then N'1.6'
+					when '06' then N'1/2' 
+					when '07' then N'D7'  -- error
+					when '08' then N'6/1' 
 					when '10' then N'N10'
-					when '11' then N'1/1' 
-					when '14' then N'N14'
-					when '15' then N'N15'
-					when '20' then N'N20' 
-					when '21' then N'2/1'
+					when '21' then N'D21' -- error
 					when '30' then N'N30'
-					when '35' then N'235'
-					when '36' then N'N36' 
+					when '36' then N'D36' -- error 
 					when '45' then N'N45' 
-					when '46' then N'D46' -- error
 					when '60' then N'N60'
 					when '90' then N'N90' 
 					when '99' then N'H27'
-					when '8' then N'6/1' 
-					else N'EE' -- error
+					else N'EE' 			  -- error
 		end COLLATE Latin1_General_CI_AS_WS AS AITRAR, 
 		N'P' COLLATE Latin1_General_CI_AS_WS AS AISTTO,
-		N'C' COLLATE Latin1_General_CI_AS_WS AS AIRYIN, -- Per Laura, default to C
+		N'C' COLLATE Latin1_General_CI_AS_WS AS AIRYIN, 
 		CASE 
 			when Parent = N'' then N'P'
 			else N'P'
@@ -133,7 +132,7 @@ BEGIN
 		end COLLATE Latin1_General_CI_AS_WS AS AIATCS,
 		N'P' COLLATE Latin1_General_CI_AS_WS AS AISITO,
 		N'3' COLLATE Latin1_General_CI_AS_WS AS AISQNL,
-		N'' COLLATE Latin1_General_CI_AS_WS AS AIALGM, -- Decided default to Blank
+		N'' COLLATE Latin1_General_CI_AS_WS AS AIALGM, 
 		SUBSTRING(ABALPH,1, 1) COLLATE Latin1_General_CI_AS_WS AS AICYCN,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIBO,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AITSTA,
@@ -218,7 +217,7 @@ BEGIN
 		N'Y' COLLATE Latin1_General_CI_AS_WS AS AIBACK,
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AIPORQ,
 		N'0' COLLATE Latin1_General_CI_AS_WS AS AIPRIO,
-		CASE 
+		CASE 												-- //TODO: Parent/child relationships??
 			when Parent = N'' then N'C'
 			else N'P'
 		end COLLATE Latin1_General_CI_AS_WS AS AIARTO,
@@ -236,7 +235,7 @@ BEGIN
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIPALC,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIVUMD,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIWUMD,
-		CASE
+		case   												-- //TODO: Parent/child relationships??
 			when Parent = N'' then N'P'
 			else N'I' 
 		end COLLATE Latin1_General_CI_AS_WS AS AIEDPM,
@@ -257,7 +256,7 @@ BEGIN
 		0 AS AIURDT,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIURRF,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AICP01,
-		CASE 											-- TODO How does pricing work?
+		CASE 											-- //TODO: How does pricing work?
 			when SalesGroup = N'215' then N'TEMECXFR'
 			when SalesGroup = N'220' then N'TEMECXFR'
 			else N'TEMECULA' 

@@ -66,7 +66,7 @@ BEGIN
 			NULL as ROWNUM
 		   ,CustomerNo as CustCode
 		   ,CustomerName as AlphaName
-		   ,NULL as CreditMessage
+		   ,N'' as CreditMessage -- TODO: Laura to define what this really should be
 		   ,NULL as SalesGroup
 		   ,NULL as Parent
 		from dbo.ods_AR_Customer

@@ -1,11 +1,11 @@
-use JDE_DEVELOPMENT
+use SelectoJDE
 go
 
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-	-- ****************************************************************************************
+-- ****************************************************************************************
 -- Merge Vendor data 
 --
 -- PREREQUISITES: V3 is in UDC 01/ST
@@ -13,9 +13,11 @@ GO
 --
 -- HISTORY:
 --   21-Jan-2020 R.Lillback Created initial version
+--   10-Feb-2020 R.Lillback Updated the load to not bring in inactive vendors
+--   10-Feb-2020 R.Lillback starting row number is now a next number NNN001 from NNSY = 01
 --
 -- TODO:
---   Find a way to load flat file data into the system (maybe a diff file?)
+--   
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Vendor_Load')
 	DROP PROCEDURE atmp.usp_F0101_Vendor_Load
@@ -36,10 +38,10 @@ BEGIN
 								   datepart(mi, getdate())*100 +
 								   datepart(ss, getdate())
 								   ); -- Time now as held by JDE
-	declare @tmpMCU nchar(12) = (SELECT ABMCU FROM TESTDTA.F0101 WHERE ABAN8 = 4590);
+	declare @tmpMCU nchar(12) = (SELECT ABMCU FROM N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 WHERE ABAN8 = 4590);
 
 	-- set the starting customer number 
-	declare @startingRowNum float = 330000;
+	declare @startingRowNum float = (select NNN001 from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 where NNSY = N'01');
 
 	if OBJECT_ID(N'tempdb..#tempIntermediate') is not null
 		drop table #tempIntermediate
@@ -57,12 +59,13 @@ BEGIN
 		select 
 			NULL as ROWNUM
 		   ,VendorNo as VendCode
-		   ,CustomerName as AlphaName
+		   ,LEFT(VendorName,40) as AlphaName
 		   ,TaxPayerIdSocialSecurityNo as TaxId
 		   ,N'C' as CorpIdentity
 		   ,NULL as RemittanceAddr
 		from dbo.ods_AP_Vendor
-		where VendorStatus <> N'I'
+		left join dbo.ods_VendorFlatFile on VendorNo = ALKY and AT1 = N'I' COLLATE DATABASE_DEFAULT
+		where VendorStatus <> N'I' and ALKY is NULL
 
 	-- now set the JDE address book numbers as ROW_NUMBER
 	update x
@@ -72,7 +75,7 @@ BEGIN
 	(
 		select  
 			@startingRowNum
-			+ ROW_NUMBER() OVER(ORDER BY CustCode) 
+			+ ROW_NUMBER() OVER(ORDER BY VendCode) 
 			- 1  as xrn,
 			VendCode as cc
 		from #tempIntermediate
@@ -176,6 +179,10 @@ BEGIN
 			CAST(0 AS FLOAT) AS ABPERRS,
 			CAST(0 AS FLOAT) AS ABCAAD
 	from #tempIntermediate as INTER
+
+	update N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 set NNN001 = (select max(ROWNUM)+1 from #tempIntermediate) where NNSY=N'01'
+
+	drop table #tempIntermediate
 	
 END
 
