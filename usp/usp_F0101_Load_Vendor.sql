@@ -6,7 +6,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- ****************************************************************************************
--- Merge Vendor data 
+-- Load Vendor data for all V3 reords.  Don't set the remittance address, it will happen
+-- in another procedure.
 --
 -- PREREQUISITES: V3 is in UDC 01/ST
 --                SUW is in UDC 01/01
@@ -20,10 +21,10 @@ GO
 --   
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Vendor_Load')
-	DROP PROCEDURE atmp.usp_F0101_Vendor_Load
+	DROP PROCEDURE dbo.usp_F0101_Vendor_Load
 GO
 
-CREATE PROCEDURE atmp.usp_F0101_Vendor_Load
+CREATE PROCEDURE dbo.usp_F0101_Vendor_Load
 AS
 BEGIN
 
@@ -88,10 +89,10 @@ BEGIN
 			INTER.TaxId COLLATE DATABASE_DEFAULT AS ABTAX,
 			INTER.AlphaName COLLATE DATABASE_DEFAULT AS ABALPH,
 			N'' COLLATE DATABASE_DEFAULT AS ABDC,
-			@tmpMCU COLLATE DATABASE_DEFAULT AS ABMCU, -- ### Was 2TEM
+			@tmpMCU COLLATE DATABASE_DEFAULT AS ABMCU, 
 			N'' COLLATE DATABASE_DEFAULT AS ABSIC,
 			N'' COLLATE DATABASE_DEFAULT AS ABLNGP,
-			N'V3' COLLATE DATABASE_DEFAULT AS ABAT1, -- Was V
+			N'V3' COLLATE DATABASE_DEFAULT AS ABAT1, 
 			N'' COLLATE DATABASE_DEFAULT AS ABCM,
 			INTER.CorpIdentity COLLATE DATABASE_DEFAULT AS ABTAXC,
 			N'N' COLLATE DATABASE_DEFAULT AS ABAT2,

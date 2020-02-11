@@ -11,10 +11,10 @@ GO
 -- 24-Jan-2020 R.Lillback Created Initial Version
 --------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0401')
-	DROP PROCEDURE atmp.usp_F0401
+	DROP PROCEDURE dbo.usp_F0401
 GO
 
-CREATE PROCEDURE atmp.usp_F0401
+CREATE PROCEDURE dbo.usp_F0401
 AS
 BEGIN
 	-- Set up the audit trail
@@ -69,7 +69,7 @@ BEGIN
 				else N'EE' 			  -- error
 			end COLLATE Latin1_General_CI_AS_WS as A6TRAP,
 			N'N' COLLATE DATABASE_DEFAULT AS A6SCK,
-			VF.PYIN COLLATE DATABASE_DEFAULT AS A6PYIN,
+			VF1.PYIN COLLATE DATABASE_DEFAULT AS A6PYIN,
 			CAST(0 AS FLOAT) AS A6SNTO,
 			N'' COLLATE DATABASE_DEFAULT AS A6AB1,
 			CAST(0 AS FLOAT) AS A6FLD,
@@ -133,9 +133,10 @@ BEGIN
 			N'' COLLATE DATABASE_DEFAULT AS A6ATRL
 	from 
 		atmp.F0101
-		left join dbo.VendorFlatFile as VF on ABALKY = VF.VendorNo COLLATE DATABASE_DEFAULT
+		left join dbo.ods_VendorFlatFile as VF on ABALKY = VF.ALKY COLLATE DATABASE_DEFAULT and VF.MCUP is not NULL
+		left join dbo.ods_VendorFlatFile as VF1 on ABALKY = VF1.ALKY COLLATE DATABASE_DEFAULT and VF1.PYIN is not NULL
 		left join dbo.ods_AP_Vendor as V on ABALKY = V.VendorNo COLLATE DATABASE_DEFAULT
 	where 
-		ABAT01 = N'V3'
+		ABAT1 = N'V3'
 END
 
