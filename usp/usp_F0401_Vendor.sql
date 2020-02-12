@@ -9,12 +9,13 @@ GO
 -- Populate the Vendor Master records.
 --
 -- 24-Jan-2020 R.Lillback Created Initial Version
+-- 12-Feb-2020 R.Lillback Changed procedures name from usp_F0401
 --------------------------------------------------------------------------------------------
-IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0401')
-	DROP PROCEDURE dbo.usp_F0401
+IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0401_Vendor')
+	DROP PROCEDURE dbo.usp_F0401_Vendor
 GO
 
-CREATE PROCEDURE dbo.usp_F0401
+CREATE PROCEDURE dbo.usp_F0401_Vendor
 AS
 BEGIN
 	-- Set up the audit trail
