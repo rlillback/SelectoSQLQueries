@@ -198,7 +198,7 @@ BEGIN
 	--
 	-- Update the next number for addresses
 	--
-	update N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 set NNN001 = (select max(ROWNUM)+1 from #tempIntermediate) where NNSY=N'01'
+	update N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 set NNN001 = (select max(ABAN8)+1 from atmp.F0101) where NNSY=N'01'
 
 	drop table #tempIntermediate
 	

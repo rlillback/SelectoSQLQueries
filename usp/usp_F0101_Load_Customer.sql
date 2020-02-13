@@ -13,12 +13,14 @@ GO
 --
 -- History: 
 -- 20191119 - R.Lillback Created initial version
+-- 12-Feb-2020 - R.Lillback Converted to next numbers from a fixed address number
 --
 -- TODO:
---	Laura to find mapping of Credit Message to customers
---  Kinetico Accounting to define new sales group codes AC04
---  Laura to find out if we need payment mapping
---  Suwanee - How do we identify remit-to only addresses?
+--	Laura: Define how are we mapping credit messages?
+--  Amy Bryson: Fill out sales group code spreadsheet.
+--  Lee Blunden: Approve filled out sales group code spreadsheet.
+--  Accounting: Define sales group codes to GL# mapping.
+--  
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Load_Customer')
 	DROP PROCEDURE dbo.usp_F0101_Load_Customer
@@ -47,7 +49,7 @@ BEGIN
 	declare @tmpMCU nchar(12) = (SELECT ABMCU FROM N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 WHERE ABAN8 = 4590); 
 
 	-- set the starting customer number 
-	declare @startingRowNum float = 890000;
+	declare @startingRowNum float = (select NNN001 from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 where NNSY = N'01');
 
 	if OBJECT_ID(N'tempdb..#tempIntermediate') is not null
 		drop table #tempIntermediate
@@ -67,7 +69,7 @@ BEGIN
 		   ,CustomerNo as CustCode
 		   ,CustomerName as AlphaName
 		   ,N'' as CreditMessage -- TODO: Laura to define what this really should be
-		   ,NULL as SalesGroup
+		   ,N'' as SalesGroup -- TODO: Amy Bryson, Lee Blunden, and Accounting need to define this
 		   ,NULL as Parent
 		from dbo.ods_AR_Customer
 		where CustomerStatus <> N'I'
@@ -96,15 +98,15 @@ BEGIN
 		@tmpMCU COLLATE DATABASE_DEFAULT AS ABMCU, -- Set MCU = 1, there aren't branches for AB records
 		N'' COLLATE DATABASE_DEFAULT AS ABSIC,
 		N'' COLLATE DATABASE_DEFAULT AS ABLNGP,
-		N'C3' COLLATE DATABASE_DEFAULT AS ABAT1, -- Make sure this is in UDC 01/ST
-		CreditMesssage COLLATE DATABASE_DEFAULT AS ABCM,	-- TODO Laura needs to define mapping into UDC 00/CM
+		N'C3' COLLATE DATABASE_DEFAULT AS ABAT1, 
+		CreditMesssage COLLATE DATABASE_DEFAULT AS ABCM,	
 		N'' COLLATE DATABASE_DEFAULT AS ABTAXC,	-- Set tax to print as 12-3456789 vs 123-45-6789
 		N'' COLLATE DATABASE_DEFAULT AS ABAT2,
 		N'N' COLLATE DATABASE_DEFAULT AS ABAT3,
 		N'N' COLLATE DATABASE_DEFAULT AS ABAT4,
 		N'N' COLLATE DATABASE_DEFAULT AS ABAT5,
 		N'N' COLLATE DATABASE_DEFAULT AS ABATP,
-		N'Y' COLLATE DATABASE_DEFAULT AS ABATR, -- Ship to addresses ae loaded under the S3 type
+		N'Y' COLLATE DATABASE_DEFAULT AS ABATR, 
 		N'N' COLLATE DATABASE_DEFAULT AS ABATPR,
 		N'' COLLATE DATABASE_DEFAULT AS ABAB3,
 		N'N' COLLATE DATABASE_DEFAULT AS ABATE,
@@ -121,7 +123,7 @@ BEGIN
 		N'' COLLATE DATABASE_DEFAULT AS ABAC03,
 		SalesGroup COLLATE DATABASE_DEFAULT AS ABAC04,
 		N'A' COLLATE DATABASE_DEFAULT AS ABAC05,
-		N'36' COLLATE DATABASE_DEFAULT AS ABAC06,
+		N'' COLLATE DATABASE_DEFAULT AS ABAC06,
 		N'' COLLATE DATABASE_DEFAULT AS ABAC07,
 		N'' COLLATE DATABASE_DEFAULT AS ABAC08,
 		N'' COLLATE DATABASE_DEFAULT AS ABAC09,
@@ -184,13 +186,14 @@ BEGIN
 		CAST(0 AS FLOAT) AS ABPERRS,
 		CAST(0 AS FLOAT) AS ABCAAD
 	from #tempIntermediate
-	where 
-		CreditMesssage is not NULL
-				AND
-		SalesGroup is not NULL
 
 	drop table #tempIntermediate 
 	
+	--
+	-- Update the next number for addresses
+	--
+	update N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 set NNN001 = (select max(ABAN8)+1 from atmp.F0101) where NNSY=N'01'
+
 END
 
 GO

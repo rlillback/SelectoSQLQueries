@@ -20,10 +20,10 @@
 	"buffers":
 	[
 		{
-			"file": "usp_F0101_Remit_Load.sql",
+			"file": "usp_F0116_Customer_Addresses.sql",
 			"settings":
 			{
-				"buffer_size": 7278,
+				"buffer_size": 3878,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -65,17 +65,26 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Customer_Phones.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Customer_Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Remit_Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteC3DataFromAB.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Remit_Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Remit_Phones.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Remit_Addresses.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteR3DataFromAB.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Vendor_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteV3DataFromAB.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_VendorAddressLoad.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Vendor_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Vendor_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/ResetNextNumbers.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
 		"/K/KINETICO/Common/Ray/1099-2019Data/ConsolidateData.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_CustomerAddressLoad.sql",
@@ -100,6 +109,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"VendorNo",
+			"V.",
+			"Vint",
+			"float) COLLATE",
+			"float COLLATE",
+			"x",
 			"atmp1",
 			"N'customerservice@nimbuswater.com'",
 			"testdta",
@@ -119,6 +134,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"CustomerNo",
+			"C.",
+			"Cint",
 			"atmp",
 			"@email",
 			"atmp1",
@@ -145,19 +163,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "usp_F0101_Remit_Load.sql",
+					"file": "usp_F0116_Customer_Addresses.sql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7278,
+						"buffer_size": 3878,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								603,
-								603
+								618,
+								618
 							]
 						],
 						"settings":
@@ -166,7 +184,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 187.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -214,7 +232,7 @@
 	"project": "Selecto-usp-project.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 70.0
 	},
 	"save_all_on_build": true,
 	"select_file":
