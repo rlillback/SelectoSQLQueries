@@ -16,6 +16,7 @@ GO
 --   21-Jan-2020 R.Lillback Created initial version
 --   10-Feb-2020 R.Lillback Updated the load to not bring in inactive vendors
 --   10-Feb-2020 R.Lillback starting row number is now a next number NNN001 from NNSY = 01
+--   17-Feb-2020 R.Lillback Set ABTAXC based on Form1099 in Vendor database per Laura
 --
 -- TODO:
 --   
@@ -54,6 +55,7 @@ BEGIN
 		[TaxId] [nchar](20) NULL,
 		[CorpIdentity] [nchar](1) NULL,
 		[RemittanceAddr] float NULL,
+		[Form1099] [nchar](1) NULL,
 	) 
 
 	insert into #tempIntermediate 
@@ -64,6 +66,7 @@ BEGIN
 		   ,TaxPayerIdSocialSecurityNo as TaxId
 		   ,N'C' as CorpIdentity
 		   ,NULL as RemittanceAddr
+		   ,Form1099
 		from dbo.ods_AP_Vendor
 		left join dbo.ods_VendorFlatFile on VendorNo = ALKY and AT1 = N'I' COLLATE DATABASE_DEFAULT
 		where VendorStatus <> N'I' and ALKY is NULL
@@ -94,7 +97,10 @@ BEGIN
 			N'' COLLATE DATABASE_DEFAULT AS ABLNGP,
 			N'V3' COLLATE DATABASE_DEFAULT AS ABAT1, 
 			N'' COLLATE DATABASE_DEFAULT AS ABCM,
-			INTER.CorpIdentity COLLATE DATABASE_DEFAULT AS ABTAXC,
+			case (INTER.Form1099)
+				when 'M'  then 'N'
+				else 'C'
+			end COLLATE DATABASE_DEFAULT AS ABTAXC,
 			N'N' COLLATE DATABASE_DEFAULT AS ABAT2,
 			N'N' COLLATE DATABASE_DEFAULT AS ABAT3,
 			N'N' COLLATE DATABASE_DEFAULT AS ABAT4,

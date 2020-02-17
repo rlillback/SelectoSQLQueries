@@ -21,6 +21,7 @@ BEGIN
 --
 -- HISTORY:
 --   11-Feb-2020 R.Lillback Created initial version
+--   17-Feb-2020 R.Lillback Load only first 5 digits of zip code per Laura
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#tempAddresses') is not null

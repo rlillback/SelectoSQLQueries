@@ -21,6 +21,7 @@ BEGIN
 --
 -- HISTORY:
 --   13-Feb-2020 R.Lillback Created initial version
+--   17-Feb-2020 R.Lillback Only load the first 5 digits of the Zip code (per Laura)
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#tempAddresses') is not null
@@ -77,7 +78,7 @@ BEGIN
 			ISNULL(LEFT(C.AddressLine2,40), N'') COLLATE Latin1_General_CI_AS_WS as ALADD2,
 			N'' COLLATE Latin1_General_CI_AS_WS as ALADD3,
 			N'' COLLATE Latin1_General_CI_AS_WS as ALADD4,
-			ISNULL(LEFT(C.ZipCode,12), N'') COLLATE Latin1_General_CI_AS_WS as ALADDZ,
+			ISNULL(LEFT(C.ZipCode,5), N'') COLLATE Latin1_General_CI_AS_WS as ALADDZ,
 			ISNULL(LEFT(C.City, 25), N'') COLLATE Latin1_General_CI_AS_WS as ALCTY1,
 			N'' COLLATE Latin1_General_CI_AS_WS as ALCOUN,
 			ISNULL(LEFT(C.[State],3), N'') COLLATE Latin1_General_CI_AS_WS as ALADDS,
