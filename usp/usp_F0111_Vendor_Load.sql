@@ -42,6 +42,8 @@ BEGIN
 							
     declare @who float;
     declare @name nchar(40);
+    declare @keycontact nchar(40);
+    declare @alky nchar(20);
     declare whoCursor scroll cursor for
 		select aban8 from atmp.F0101 where ABAT1 in (N'V3')
 	open whoCursor;
@@ -49,10 +51,20 @@ BEGIN
 	
 	while @@FETCH_STATUS = 0 begin
 		set @name = (select ABALPH from atmp.F0101 where ABAN8 = @who);
+		set @alky = (select ABALKY from atmp.F0101 where ABAN8 = @who);
+		set @keycontact = (select left(EmailAddress,40) from dbo.ods_AP_Vendor where VendorNo = @alky);
+		
 		-- Load the name record
 		insert into atmp.F0111
 		(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
 		values( @who, 0, 0, @name, @name, N'.', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
+
+		-- Load the key contact record if it exists
+		if (@keycontact != N'') begin
+			insert into atmp.F0111
+			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
+			values( @who, 1, 0, @keycontact, @keycontact, N'K', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
+		end
 
 		if ( 1 = 0 ) begin -- don't need this section for vendors, but we do for customers
 			-- Load the A record
