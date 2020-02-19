@@ -22,6 +22,7 @@ BEGIN
 -- HISTORY:
 --   12-Feb-2020 R.Lillback Created initial version
 --   17-Feb-2020 R.Lillback Only load first 5 digits of zip code per Laura
+--	 19-Feb-2020 R.Lillback Look up county from F0117 per Laura
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#tempAddresses') is not null
@@ -80,7 +81,7 @@ BEGIN
 			N'' COLLATE Latin1_General_CI_AS_WS as ALADD4,
 			ISNULL(LEFT(V.ADDZ,5), N'') COLLATE Latin1_General_CI_AS_WS as ALADDZ,
 			ISNULL(V.CTY1, N'') COLLATE Latin1_General_CI_AS_WS as ALCTY1,
-			N'' COLLATE Latin1_General_CI_AS_WS as ALCOUN,
+			ALCOUN = ISNULL((select top 1 A8COUN from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0117 where A8ADDZ = LEFT(V.ADDZ,5) COLLATE DATABASE_DEFAULT),N''),
 			ISNULL(V.ADDS, N'') COLLATE Latin1_General_CI_AS_WS as ALADDS,
 			N'' COLLATE Latin1_General_CI_AS_WS as ALCRTE,
 			N'' COLLATE Latin1_General_CI_AS_WS as ALBKML,

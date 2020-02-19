@@ -19,6 +19,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "usp_F03012.sql",
+			"settings":
+			{
+				"buffer_size": 13440,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -56,10 +64,12 @@
 	],
 	"file_history":
 	[
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Remit_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Customer_Addresses.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Remit_Addresses.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses.sql",
+		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200206-TEMECULA-BasePricesForPatti.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Vendor_Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Customer_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Customer_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Remit_Load.sql",
@@ -74,7 +84,6 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_VendorAddressLoad.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Vendor_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/ResetNextNumbers.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
@@ -150,8 +159,38 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "usp_F03012.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13440,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								862,
+								862
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 366.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
