@@ -7,10 +7,10 @@ go
 --   22-Feb-2020 R.Lillback Created initial version
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4104_VendorXref')
-	DROP PROCEDURE atmp.usp_F4104_VendorXref
+	DROP PROCEDURE dbo.usp_F4104_VendorXref
 GO
 
-CREATE PROCEDURE atmp.usp_F4104_VendorXref 
+CREATE PROCEDURE dbo.usp_F4104_VendorXref 
 AS
 BEGIN
 	SET NOCOUNT ON;

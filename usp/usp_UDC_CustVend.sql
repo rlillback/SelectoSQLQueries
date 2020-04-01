@@ -11,6 +11,7 @@ GO
 --
 -- HISTORY:
 --   21-Jan-2020 R.Lillback Created initial version
+--   11-Mar-2020 R.Lillback Added 40/PC and 40/PI
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_UDC_CustVend')
 	DROP PROCEDURE atmp.usp_UDC_CustVend
@@ -102,4 +103,90 @@ BEGIN
 	from testctl.F0005
 	where ltrim(rtrim(DRSY)) = N'01' and ltrim(rtrim(DRRT)) = N'01'
 
+	/*********************************************************
+	 * Next, add customer fields for pricing                 *
+	 *********************************************************/
+	delete from testctl.F0005 where ltrim(rtrim(DRSY)) = N'40' and ltrim(rtrim(DRRT)) = N'PC' and ltrim(rtrim(DRKY)) like N'SU%'
+	insert into testctl.F0005
+	select top 1
+		DRSY,
+		DRRT,
+		N'  SU0' as DRKY,
+		N'Suwanee Full Base Price' as DRDL01,
+		DRDL02,
+		DRSPHD,
+		DRUDCO,
+		N'N' as DRHRDC,
+		@user as DRUSER,
+		@pid as DRPID,
+		@jToday as DRUPMJ,
+		@jobn as DRJOBN,
+		@tNow as DRUPMT
+	from testctl.F0005
+	where ltrim(rtrim(DRSY)) = N'40' and ltrim(rtrim(DRRT)) = N'PC'
+
+	declare @loop int = 15;
+	declare @counter int = 0;
+	declare @priceGroup nchar(1);
+	while (@counter < @loop) begin
+		set @priceGroup = (
+							case @counter
+								when 0  then N'1'
+								when 1  then N'A'
+								when 2  then N'D'
+								when 3  then N'E'
+								when 4  then N'J'
+								when 5  then N'N'
+								when 6  then N'O'
+								when 7  then N'P'
+								when 8  then N'R'
+								when 9  then N'S'
+								when 10 then N'U'
+								when 11 then N'V'
+								when 12 then N'W'
+								when 13 then N'Y'
+								when 14 then N'Z'
+							end 
+						   );
+		insert into testctl.F0005
+		select top 1
+			DRSY,
+			DRRT,
+			(N'  SU' + @priceGroup) collate database_default as DRKY,
+			(N'Suwanee ' + @priceGroup) collate database_default as DRDL01,
+			DRDL02,
+			DRSPHD,
+			DRUDCO,
+			N'N' as DRHRDC,
+			@user as DRUSER,
+			@pid as DRPID,
+			@jToday as DRUPMJ,
+			@jobn as DRJOBN,
+			@tNow as DRUPMT
+		from testctl.F0005
+		where ltrim(rtrim(DRSY)) = N'40' and ltrim(rtrim(DRRT)) = N'PC'
+		set @counter = @counter + 1;
+	end
+
+	/*********************************************************
+	 * Next, add item fields for pricing                     *
+	 *********************************************************/
+	 delete from testctl.F0005 where ltrim(rtrim(DRSY)) = N'40' and ltrim(rtrim(DRRT)) = N'PI' and ltrim(rtrim(DRKY)) = N'SU'
+	insert into testctl.F0005
+	select top 1
+		DRSY,
+		DRRT,
+		N'  SU' as DRKY,
+		N'Suwanee Item' as DRDL01,
+		DRDL02,
+		DRSPHD,
+		DRUDCO,
+		N'N' as DRHRDC,
+		@user as DRUSER,
+		@pid as DRPID,
+		@jToday as DRUPMJ,
+		@jobn as DRJOBN,
+		@tNow as DRUPMT
+	from testctl.F0005
+	where ltrim(rtrim(DRSY)) = N'40' and ltrim(rtrim(DRRT)) = N'PI'
 END

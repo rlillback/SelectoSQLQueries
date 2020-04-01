@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"DATA",
+				"DATABASE_DEFAULT"
+			],
+			[
+				"jE",
+				"jEffective"
+			],
+			[
 				"JDE",
 				"JDEAssociated"
 			],
@@ -23,18 +31,6 @@
 	},
 	"buffers":
 	[
-		{
-			"contents": "use SelectoJDE\ngo\n-- ****************************************************************************************\n-- Update vendor numbers in F4102 and vendor part number cross reference in F4104\n--\n-- HISTORY:\n--   22-Feb-2020 R.Lillback Created initial version\n-- ****************************************************************************************\nIF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4104_VendorXref')\n\tDROP PROCEDURE dbo.usp_F4104_VendorXref\nGO\n\nCREATE PROCEDURE dbo.usp_F4104_VendorXref \nAS\nBEGIN\n\tSET NOCOUNT ON;\n\t\n\tif OBJECT_ID(N'tempdb..#tempVend') is not null\n\t\tdrop table #tempVend\n\t\n\tcreate table #tempVend (\n\t\tLITM nchar(25),\n\t\tALKY nchar(25)\n\t)\n\n\t-- Set up the audit trail\n\tdeclare @user nvarchar(10) = N'RLILLBACK';\n\tdeclare @pid nvarchar(10) = N'SQLLD';\n\tdeclare @jobn nvarchar(10) = N'SQLLD';\n\tdeclare @jToday numeric(18,0)= dbo.fn_DateTimeToJulian(GETDATE()); -- Julian Date Today\n\tdeclare @tNow float = CONVERT (\n\t\t\t\t\t\t\t\t   float,\n\t\t\t\t\t\t\t\t   datepart(hh,getdate())*10000 + \n\t\t\t\t\t\t\t\t   datepart(mi, getdate())*100 +\n\t\t\t\t\t\t\t\t   datepart(ss, getdate())\n\t\t\t\t\t\t\t\t   ); -- Time now as held by JDE\n\t\t\t\t\t\t\t\t   \n\n\tinsert into atmp.F4104 \n\tselect \n\t\tABAN8 as IVAN8,\n\t\tN'VN' as IVXRT,\n\t\tIMITM as IVITM,\n\t\t140365 as IVEXDJ,\n\t\t119001 as IVEFTJ,\n\t\t(select top 1 IVMCU from N0E9SQL01.JDE_DEVELOPMENT.testdta.F4104) as IVMCU,\n\t\tVendorAliasItemNo as IVCITM,\n\t\tIMDSC1 as IVDSC1,\n\t\tIMDSC2 as IVDSC2,\n\t\tN'' as IVALN,\n\t\tIMLITM as IVLITM,\n\t\tIMAITM as IVAITM,\n\t\tN'' as IVURCD,\n\t\t0 as IVURDT,\n\t\t0 as IVURAT,\n\t\t0 as IVURAB,\n\t\tN'' as IVURRF,\n\t\t@user as IVUSER,\n\t\t@pid as IVPID,\n\t\t@jobn as IVJOBN,\n\t\t@jToday as IVUPMJ,\n\t\t@tNow as IVTDAY,\n\t\t0 as IVRATO,\n\t\t0 as IVAPSP,\n\t\tN'' as IVIDEM,\n\t\tN'' as IVAPPS,\n\t\tN'' as IVCIRV,\n\t\tN'' as IVADIND,\n\t\tN'' as IVBPIND,\n\t\tN'' as IVCARDNO\n\t\tfrom \n\t\t\tdbo.ods_IM_ItemVendor\n\t\t\tinner join atmp.F4101 on LTRIM(RTRIM(ItemCode)) = IMLITM\n\t\t\tinner join atmp.F0101 on LTRIM(RTRIM(VendorNo)) = ABALKY and ABAT1 = N'V3'\n\t\t\n\t-- Update F4102 to set the vendor number correctly\n\tinsert into #tempVend\t\n\t\tselect distinct ItemCode, N'' from dbo.ods_IM_ItemVendor\n\t\t\n\tupdate \n\t\ttv\n\tset\n\t\ttv.ALKY = tv.NewALKY\n\tfrom\n\t\t(\n\t\t\tselect ALKY,\n\t\t           (select top 1 CR.VendorNo from dbo.ods_IM_ItemVendor as CR where t.LITM = CR.ItemCode collate DATABASE_DEFAULT) AS NewALKY\n\t\t\tfrom #tempVend t \n\t\t ) as tv\n\t\t\n\tupdate\n\t\tib\n\tset \n\t\tIBVEND = ABAN8\n\tfrom\n\t\t#tempVend\n\t\tinner join atmp.F4102 as ib on LTRIM(RTRIM(LITM)) = ib.IBLITM collate DATABASE_DEFAULT\n\t\tinner join atmp.F0101 on LTRIM(RTRIM(ALKY)) = ABALKY collate DATABASE_DEFAULT and ABAT1 = N'V3'\n\t\n\tdrop table #tempVend\t\nEND\n\t",
-			"file": "usp_F4104_VendorXref.sql",
-			"file_size": 2724,
-			"file_write_time": 132268685333730386,
-			"settings":
-			{
-				"buffer_size": 2621,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -72,12 +68,30 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_CopyMissingDMAAIs.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Vendor.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_TemporarySalesCodeFix.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
+		"/K/KINETICO/Common/Ray/SelectoDataLoad.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4072_Contract.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
+		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200227-PattiPriceUpdate.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0150_Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
+		"/K/KINETICO/Common/Ray/CrossWare/JDE_Import.scp",
+		"/K/KINETICO/Common/Ray/CrossWare/JDE_Export.scp",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4104_VendorXref.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_ShipTo.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_ShipTo_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_ShipTo_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_ShipTo_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Customer_Phones.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Customer_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Remit_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses.sql",
@@ -86,9 +100,7 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Customer_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Remit_Load.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteC3DataFromAB.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Remit_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Remit_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteR3DataFromAB.sql",
@@ -98,17 +110,15 @@
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_VendorAddressLoad.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/ResetNextNumbers.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
 		"/K/KINETICO/Common/Ray/1099-2019Data/ConsolidateData.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_CustomerAddressLoad.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/JDETemecula/USP_DV/usp_Nimbus_PrepareVendorDataForMerge.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/bkupPopulateAllTables.sql",
 		"/C/Users/rlillbac/Desktop/ImportPriceGroupPrices.sql"
 	],
 	"find":
 	{
-		"height": 27.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -122,6 +132,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"AIARPY",
+			"PRGR",
+			"ParseExportData",
 			"VendorNo",
 			"V.",
 			"Vint",
@@ -171,44 +184,14 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "usp_F4104_VendorXref.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2621,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								526,
-								502
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 27.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -245,7 +228,7 @@
 	"project": "Selecto-usp-project.sublime-project",
 	"replace":
 	{
-		"height": 50.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":

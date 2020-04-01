@@ -24,6 +24,7 @@ GO
 -- 05-Sep-2019 R.Lillback Get max IMITM from atmp.F4101 instead of JDE_DEVELOPMENT
 -- 06-Sep-2019 R.Lillback Populate planner number with 301
 -- 06-Sep-2019 R.Lillback Remove double " from descriptions
+-- 10-Mar-2020 R.Lillback Populated PRGR for all items with SU
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddConflicting') is not null begin
@@ -114,10 +115,10 @@ BEGIN
 					N'' collate database_default as IMCDCD, 
 					N'' collate database_default as IMPDGR, -- //TODO: Default this to SUW
 					N'' collate database_default as IMDSGP,
-					N'' collate database_default as IMPRGR, -- //TODO: Default this to SUW or some other product group
+					N'SU' collate database_default as IMPRGR, 
 					N'' collate database_default as IMRPRC, -- //TODO: Default this to SUW or some other product group
 					N'' collate database_default as IMORPR,
-					CAST(0 as float) as IMBUYR,				-- //TODO: Update this in a later procedure to populate buyers
+					CAST(0 as float) as IMBUYR,				
 					N'' collate database_default as IMDRAW,
 					N'' collate database_default as IMRVNO,
 					N'' collate database_default as IMDSZE,

@@ -14,12 +14,9 @@ GO
 -- History: 
 -- 20191119 - R.Lillback Created initial version
 -- 12-Feb-2020 - R.Lillback Converted to next numbers from a fixed address number
+-- 29-Mar-2020 - R.Lillback Updated credit message per Laura. All are '2' - PO Required
 --
 -- TODO:
---	Laura: Define how are we mapping credit messages?
---  Amy Bryson: Fill out sales group code spreadsheet.
---  Lee Blunden: Approve filled out sales group code spreadsheet.
---  Accounting: Define sales group codes to GL# mapping.
 --  
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Load_Customer')
@@ -68,10 +65,11 @@ BEGIN
 			NULL as ROWNUM
 		   ,CustomerNo as CustCode
 		   ,CustomerName as AlphaName
-		   ,N'' as CreditMessage -- TODO: Laura to define what this really should be
-		   ,N'' as SalesGroup -- TODO: Amy Bryson, Lee Blunden, and Accounting need to define this
+		   ,N'' as CreditMessage 
+		   ,ISNULL(b.ABAC04, N'') as SalesGroup 
 		   ,NULL as Parent
-		from dbo.ods_AR_Customer
+		from dbo.ods_AR_Customer as a
+		     left join dbo.ods_SalesCodeFlatFile as b on a.CustomerNo = b.ABALKY collate database_default
 		where CustomerStatus <> N'I'
 
 	-- now set the JDE address book numbers as ROW_NUMBER
@@ -99,7 +97,7 @@ BEGIN
 		N'' COLLATE DATABASE_DEFAULT AS ABSIC,
 		N'' COLLATE DATABASE_DEFAULT AS ABLNGP,
 		N'C3' COLLATE DATABASE_DEFAULT AS ABAT1, 
-		CreditMesssage COLLATE DATABASE_DEFAULT AS ABCM,	
+		N'2' COLLATE DATABASE_DEFAULT AS ABCM,	
 		N'' COLLATE DATABASE_DEFAULT AS ABTAXC,	-- Set tax to print as 12-3456789 vs 123-45-6789
 		N'' COLLATE DATABASE_DEFAULT AS ABAT2,
 		N'N' COLLATE DATABASE_DEFAULT AS ABAT3,

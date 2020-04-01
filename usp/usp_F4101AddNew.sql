@@ -26,6 +26,7 @@ GO
 -- 28-Aug-2019 R.Lillback Populate PRP5 from UDC 41/P5 with series info
 -- 06-Sep-2019 R.Lillback Populate planner number with 301
 -- 06-Sep-2019 R.Lillback Remove double " from descriptions
+-- 10-Mar-2020 R.Lillback Populated PRGR for all items with SU
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddNew') is not null begin
@@ -126,10 +127,10 @@ BEGIN
 					N'' collate database_default as IMCDCD, 
 					N'' collate database_default as IMPDGR, -- ### RAL 26-Aug-2019 //TODO: Default this to SUW
 					N'' collate database_default as IMDSGP,
-					N'' collate database_default as IMPRGR, -- ### RAL 26-Aug-2019 //TODO: Default this to SUW or some other product group
+					N'SU' collate database_default as IMPRGR,
 					N'' collate database_default as IMRPRC, -- ### RAL 26-Aug-2019 //TODO: Default this to SUW or some other product group
 					N'' collate database_default as IMORPR,
-					CAST(0 as float) as IMBUYR,				-- ### RAL 26-Aug-2019 //TODO: Update this in a later procedure to populate buyers
+					CAST(0 as float) as IMBUYR,				
 					N'' collate database_default as IMDRAW,
 					N'' collate database_default as IMRVNO,
 					N'' collate database_default as IMDSZE,

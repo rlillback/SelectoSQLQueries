@@ -6,25 +6,19 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 -------------------------------------------------------------------------------------------
--- Populate the Customer Master atmp.F03012
+-- Populate the Ship-To Customer Master atmp.F03012
 --
 -- HISTORY:
--- 20-Jan-2020 R.Lillback Created initial file
--- 10-Mar-2020 R.Lillback Set pricing schedule to SUWANEE (AIASN)
--- 10-Mar-2020 R.Lillback Set customer price group based on Sage Price Group
--- 29-Mar-2020 R.Lillback Update Payment Terms per Laura's changes
--- 29-Mar-2020 R.Lillback Update default GL mapping per Nancy's changes
--- 01-Apr-2020 R.Lillback Updated per Laura's changes after first data load
+-- 01-Apr-2020 R.Lillback Updated per Laura's changes after first data load (created version)
 -- 
--- TODO:B
--- AICRCA -> Is it ok to default to USD?
+-- TODO:
 -- 
 --------------------------------------------------------------------------------------------
-IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012')
-	DROP PROCEDURE atmp.usp_F03012
+IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012_S3')
+	DROP PROCEDURE dbo.usp_F03012_S3
 GO
 
-CREATE PROCEDURE atmp.usp_F03012
+CREATE PROCEDURE dbo.usp_F03012_S3
 AS
 BEGIN
 	-- Set up the audit trail
@@ -57,7 +51,7 @@ BEGIN
 	insert into #tempCustomer 
 		select ABAN8, ABALKY, NULL, NULL, NULL, NULL, NULL, N'', NULL
 		from atmp.F0101 
-		where ABAT1 = N'C3'
+		where ABAT1 = N'S3'
 
 	update x
 		set CreditLimit = ISNULL(c.CreditLimit, 0),
@@ -130,15 +124,18 @@ BEGIN
 					when '99' then N'H27'
 					else N'01' 			 
 		end COLLATE Latin1_General_CI_AS_WS AS AITRAR, 
-		N'C' COLLATE Latin1_General_CI_AS_WS AS AISTTO,
+		N'P' COLLATE Latin1_General_CI_AS_WS AS AISTTO,
 		N'C' COLLATE Latin1_General_CI_AS_WS AS AIRYIN, 
-		N'Y' COLLATE Latin1_General_CI_AS_WS AS AISTMT,
+		CASE 
+			when Parent = N'' then N'P'
+			else N'P'
+		end COLLATE Latin1_General_CI_AS_WS AS AISTMT,
 		ABAN8 AS AIARPY, 										
 		CASE 
 			when Parent = N'' then N'Y'
 			else N'N'
 		end COLLATE Latin1_General_CI_AS_WS AS AIATCS,
-		N'C' COLLATE Latin1_General_CI_AS_WS AS AISITO,
+		N'P' COLLATE Latin1_General_CI_AS_WS AS AISITO,
 		N'3' COLLATE Latin1_General_CI_AS_WS AS AISQNL,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIALGM, 
 		SUBSTRING(ABALPH,1, 1) COLLATE Latin1_General_CI_AS_WS AS AICYCN,
@@ -196,7 +193,7 @@ BEGIN
 		N'SQLLD' COLLATE Latin1_General_CI_AS_WS AS AIPOPN,
 		118001 AS AIDAOJ,
 		CAST(1 AS FLOAT) AS AIAN8R,
-		N'X' COLLATE Latin1_General_CI_AS_WS AS AIBADT,
+		N'S' COLLATE Latin1_General_CI_AS_WS AS AIBADT, -- Change for ship-to only addresses
 		PriceGroup COLLATE Latin1_General_CI_AS_WS AS AICPGP,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIORTP,
 		CAST(0 AS FLOAT) AS AITRDC,
@@ -334,5 +331,5 @@ BEGIN
 	from
 		atmp.F0101
 		join #tempCustomer as tmp on ABAN8 = AN8
-	-- implicit = where ABAT1 = N'C3'
+	-- implicit = where ABAT1 = N'S3'
 END
