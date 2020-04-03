@@ -10,6 +10,7 @@ GO
 --
 -- HISTORY:
 -- 09-Sep-2019 R.Lillback Created initial version
+-- 03-Apr-2020 R.Lillback Updated per Dale's feedback on first data load
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4102Add')
 	DROP PROCEDURE dbo.usp_F4102Add
@@ -62,7 +63,11 @@ BEGIN
 		IMPDGR AS IBPDGR,
 		IMDSGP AS IBDSGP,
 		CAST(0 AS FLOAT) AS IBVEND,
-		IMANPL AS IBANPL,
+		case (ProcurementType)
+			when 'B' then 301 
+			when 'M' then 302 
+			else 301
+		end AS IBANPL,
 		IMBUYR AS IBBUYR,
 		IMGLPT AS IBGLPT,
 		N'' AS IBORIG,
@@ -77,8 +82,8 @@ BEGIN
 		N'Y' AS IBCKAV,
 		N'' AS IBSRCE,
 		N'' AS IBLOTS,
-		N'' AS IBOT1Y,
-		N'' AS IBOT2Y,
+		N'N' AS IBOT1Y,
+		N'N' AS IBOT2Y,
 		CAST(0 AS FLOAT) AS IBSTDP,
 		CAST(0 AS FLOAT) AS IBFRMP,
 		CAST(0 AS FLOAT) AS IBTHRP,
@@ -138,7 +143,7 @@ BEGIN
 		N'' AS IBECO,
 		N'' AS IBECTY,
 		0 AS IBECOD,
-		IMMTF1 AS IBMTF1,
+		300 AS IBMTF1,
 		IMMTF2 AS IBMTF2,
 		IMMTF3 AS IBMTF3,
 		IMMTF4 AS IBMTF4,
@@ -274,7 +279,11 @@ BEGIN
 		N'' AS IBPDGR,
 		N'' AS IBDSGP,
 		0 AS IBVEND,
-		0 AS IBANPL,
+		case (ProcurementType)
+			when 'B' then 301 
+			when 'M' then 302 
+			else 301
+		end as IBANPL,
 		0 AS IBBUYR,
 		N'IN3S' AS IBGLPT,
 		N'' AS IBORIG,
@@ -313,10 +322,10 @@ BEGIN
 		0 AS IBCARP,
 		N'' AS IBSHCN,
 		case (ProcurementType)
-			when 'B' then N'P' collate database_default
-			when 'M' then N'M' collate database_default
-		else N'' collate database_default
-		end as IBSTKT, -- Stocking Type Purchase or Manufacture
+			when 'B' then N'P' 
+			when 'M' then N'M' 
+			else N'' 
+		end collate database_default as IBSTKT, -- Stocking Type Purchase or Manufacture
 		N'S' AS IBLNTY,
 		N'' AS IBFIFO,
 		N'' AS IBCYCL,

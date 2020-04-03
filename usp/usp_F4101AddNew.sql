@@ -27,6 +27,7 @@ GO
 -- 06-Sep-2019 R.Lillback Populate planner number with 301
 -- 06-Sep-2019 R.Lillback Remove double " from descriptions
 -- 10-Mar-2020 R.Lillback Populated PRGR for all items with SU
+-- 29-Mar-2020 R.Lillback Updated per Dale's request after first data load
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddNew') is not null begin
@@ -300,7 +301,11 @@ BEGIN
 					N'' collate database_default as IMFIFO,
 					N'' collate database_default as IMLOTS,
 					CAST(0 as float) as IMSLD,
-					N'301' collate database_default as IMANPL, -- ### 9/6/2019
+					case (ProcurementType)
+						when 'B' then 301 collate database_default
+						when 'M' then 302 collate database_default
+						else 301
+					end as IMANPL, -- ### 4/3/2020
 					N'0' collate database_default as IMMPST,
 					CAST(0 as float) as IMPCTM,
 					CAST(0 as float) as IMMMPC,
@@ -318,7 +323,7 @@ BEGIN
 					N'F' collate database_default as IMMRPP, 
 					N'B' collate database_default as IMITC,
 					N'' collate database_default as IMORDW,
-					CAST(0 as float) as IMMTF1,
+					300 as IMMTF1,
 					CAST(0 as float) as IMMTF2,
 					CAST(0 as float) as IMMTF3,
 					CAST(0 as float) as IMMTF4,

@@ -68,6 +68,8 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",
@@ -82,8 +84,6 @@
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200227-PattiPriceUpdate.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0150_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Import.scp",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Export.scp",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4104_VendorXref.sql",
@@ -132,6 +132,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"OT1Y",
 			"AIARPY",
 			"PRGR",
 			"ParseExportData",
