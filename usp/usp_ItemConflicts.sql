@@ -13,6 +13,7 @@ GO
 -- 25-Aug-2019 R.Lillback Created Initial Version
 -- 26-Aug-2019 R.Lillback Modified to show both ExtendedDescription and JDE Description
 -- 27-Aug-2019 R.Lillback Populated atmp.ItemConflicts and moved location of sql script
+-- 05-Apr-2020 R.Lillback Updated this to pre-populate the action codes.
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_ItemConflicts') is not null begin
@@ -30,6 +31,9 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
+	truncate table atmp.ItemConflicts_Backup
+	insert into atmp.ItemConflicts_Backup
+		select * from atmp.ItemConflicts
 	truncate table atmp.ItemConflicts;
 
 	declare @dt datetime = getdate();
@@ -45,5 +49,14 @@ BEGIN
 			join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F4101 on LTRIM(RTRIM(ItemCode)) = LTRIM(RTRIM(IMLITM)) collate database_default
 			left join ods_CI_ExtendedDescription as e on CI.ExtendedDescriptionKey = e.ExtendedDescriptionKey
 		where InactiveItem = N'N'
+
+	update a
+		set ActionKey = b.ActionKey
+		from atmp.ItemConflicts as a
+		join atmp.ItemConflicts_Backup as b on a.PartNumber = b.PartNumber
+
+	update atmp.ItemConflicts
+		set ActionKey = 1 
+		where ActionKey is null
 END
 GO

@@ -4,16 +4,56 @@
 		"selected_items":
 		[
 			[
+				"F40941",
+				"F40941_BACKUP"
+			],
+			[
+				"F4072",
+				"F4072_BACKUP"
+			],
+			[
+				"F",
+				"F40941_BACKUP"
+			],
+			[
+				"n",
+				"N0E9SQL01"
+			],
+			[
+				"F4905",
+				"F4095_BACKUP"
+			],
+			[
+				"Item",
+				"ItemConflicts"
+			],
+			[
+				"ItemC",
+				"ItemConflicts"
+			],
+			[
+				"ItemConflicts",
+				"ItemConflicts_Backup"
+			],
+			[
+				"N",
+				"N0E9SQL01"
+			],
+			[
+				"data",
+				"database_default"
+			],
+			[
 				"DATA",
-				"DATABASE_DEFAULT"
+				"database_default"
+			],
+			[
+				"JDE",
+				"JDE_PRODUCTION"
 			],
 			[
 				"jE",
 				"jEffective"
-			],
-			[
-				"JDE",
-				"JDEAssociated"
 			],
 			[
 				"DA",
@@ -68,8 +108,11 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_ItemConflicts.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",

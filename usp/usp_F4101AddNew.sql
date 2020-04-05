@@ -302,8 +302,8 @@ BEGIN
 					N'' collate database_default as IMLOTS,
 					CAST(0 as float) as IMSLD,
 					case (ProcurementType)
-						when 'B' then 301 collate database_default
-						when 'M' then 302 collate database_default
+						when 'B' then 301 
+						when 'M' then 302 
 						else 301
 					end as IMANPL, -- ### 4/3/2020
 					N'0' collate database_default as IMMPST,
