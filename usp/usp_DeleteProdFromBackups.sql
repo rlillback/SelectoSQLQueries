@@ -136,6 +136,12 @@ BEGIN
 			A.SNASN = B.SNASN COLLATE database_default AND
 			A.SNOSEQ = B.SNOSEQ AND
 			A.SNANPS = B.SNANPS
+
+
+	-- ALSO, we should delete any contract pricing records in atmp.F4072_BACKUP
+	-- those are populated from atmp.F4072
+	delete atmp.F4072_BACKUP
+		where ADITM != 0
 			
 END
 GO
