@@ -15,6 +15,7 @@ GO
 -- 29-Mar-2020 R.Lillback Update Payment Terms per Laura's changes
 -- 29-Mar-2020 R.Lillback Update default GL mapping per Nancy's changes
 -- 01-Apr-2020 R.Lillback Updated per Laura's changes after first data load
+-- 08-Apr-2020 R.Lillback Update Freight Handling Code to FP per Laura
 -- 
 -- TODO:B
 -- AICRCA -> Is it ok to default to USD?
@@ -210,7 +211,7 @@ BEGIN
 		LEFT((tmp.EMAIL3),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL1, --  TODO Map these
 		LEFT((tmp.SHIPVIA),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL2, -- TODO Map these
 		CAST(0 AS FLOAT) AS AILTDT,
-		N'PP' COLLATE Latin1_General_CI_AS_WS AS AIFRTH, -- Default to Pre-paid for now
+		N'FP' COLLATE Latin1_General_CI_AS_WS AS AIFRTH, 
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AIAFT,
 		N'Y' COLLATE Latin1_General_CI_AS_WS AS AIAPTS,
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AISBAL,

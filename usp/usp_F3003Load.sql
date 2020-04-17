@@ -6,7 +6,8 @@ go
 -- Populate the initial routers for Selecto by making all the routers
 -- the same and in the same workcenter 'SUW-ASSY'.
 --
--- 1-Oct-2019 R.Lillback Created initial version
+-- 01-Oct-2019 R.Lillback Created initial version
+-- 08-Apr-2020 R.Lillback Updated work center pull to get from F30006
 ------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F3003Load')
 	DROP PROCEDURE dbo.usp_F3003Load
@@ -108,7 +109,7 @@ BEGIN
 	declare @thisItem float;
 	declare @thisLITM nchar(25);
 	declare @tmpMCU nchar(12) = (select distinct IBMCU from atmp.F4102 where LTRIM(RTRIM(IBMCU)) = N'3SUW');
-	declare @tmpWC nchar(12) = (select MCMCU from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0006 where MCSTYL = N'WC' and LTRIM(rtrim(MCMCU)) = 'SUW-ASSY');
+	declare @tmpWC nchar(12) = (select IWMCU from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F30006 where LTRIM(rtrim(IWMCU)) = 'SUW-ASSY');
 
 	declare itmCursor scroll cursor for	select itemNum from #mfgItems;
 		

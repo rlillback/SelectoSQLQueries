@@ -21,6 +21,7 @@ BEGIN
 --
 -- HISTORY:
 --   05-Apr-2020 R.Lillback Created initial version
+--	 08-Apr-2020 R.Lillback Added F30006 per Dale
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	declare @user nvarchar(10) = N'RLILLBACK';
@@ -137,11 +138,16 @@ BEGIN
 			A.SNOSEQ = B.SNOSEQ AND
 			A.SNANPS = B.SNANPS
 
-
 	-- ALSO, we should delete any contract pricing records in atmp.F4072_BACKUP
 	-- those are populated from atmp.F4072
 	delete atmp.F4072_BACKUP
 		where ADITM != 0
+
+	delete atmp.F30006_BACKUP
+		from atmp.F30006_BACKUP as A
+		join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F30006 AS B ON
+			A.IWMCU = B.IWMCU COLLATE database_default AND
+			A.IWMMCU = B.IWMMCU COLLATE database_default
 			
 END
 GO

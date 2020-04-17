@@ -28,6 +28,7 @@ GO
 -- 06-Sep-2019 R.Lillback Remove double " from descriptions
 -- 10-Mar-2020 R.Lillback Populated PRGR for all items with SU
 -- 29-Mar-2020 R.Lillback Updated per Dale's request after first data load
+-- 17-Apr-2020 R.Lillback Updated due to mapping issue in Sage for Product & procurement
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddNew') is not null begin
@@ -279,10 +280,10 @@ BEGIN
 					N'' collate database_default as IMFRGD,
 					N'' collate database_default as IMTHGD,
 					N'' collate database_default as IMCOTY,
-					case (ProcurementType)
-						when 'B' then N'P' collate database_default
-						when 'M' then N'M' collate database_default
-					else N'' collate database_default
+					case (ProductType) -- 17-Apr-2020
+						when 'R' then N'P' collate database_default
+						when 'F' then N'M' collate database_default
+						else N'' collate database_default
 					end as IMSTKT, -- Stocking Type Purchase or Manufacture
 					N'S' collate database_default as IMLNTY, -- All parts are stock item types
 					N'N' collate database_default as IMCONT,
@@ -301,17 +302,17 @@ BEGIN
 					N'' collate database_default as IMFIFO,
 					N'' collate database_default as IMLOTS,
 					CAST(0 as float) as IMSLD,
-					case (ProcurementType)
-						when 'B' then 301 
-						when 'M' then 302 
+					case (ProductType) -- 17-Apr-2020
+						when 'R' then 301 
+						when 'F' then 303 
 						else 301
-					end as IMANPL, -- ### 4/3/2020
+					end collate database_default as IMANPL, -- ### 4/3/2020
 					N'0' collate database_default as IMMPST,
 					CAST(0 as float) as IMPCTM,
 					CAST(0 as float) as IMMMPC,
 					N'' collate database_default as IMPTSC,
 					N'' collate database_default as IMSNS,
-					CAST(0 as float) as IMLTLV, -- ### //TODO: Are we going to add a lead time level for planning?
+					CAST(0 as float) as IMLTLV, 
 					CAST(0 as float) as IMLTMF,
 					CAST(0 as float) as IMLTCM,
 					N'0' collate database_default as IMOPC,

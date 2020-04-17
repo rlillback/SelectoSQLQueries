@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"F30",
+				"F30006"
+			],
+			[
 				"F40941",
 				"F40941_BACKUP"
 			],
@@ -108,16 +112,18 @@
 	],
 	"file_history":
 	[
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_ItemConflicts.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
+		"//n0e9dep01/E910/DV910/PACKAGE/DV910FC/source/B984052.c",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_ItemConflicts.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_CopyMissingDMAAIs.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Vendor.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_TemporarySalesCodeFix.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
@@ -126,7 +132,6 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200227-PattiPriceUpdate.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0150_Load.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Import.scp",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Export.scp",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4104_VendorXref.sql",
@@ -161,7 +166,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -175,6 +180,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"PP",
+			"jdeSetGBRError",
 			"OT1Y",
 			"AIARPY",
 			"PRGR",
