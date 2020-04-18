@@ -22,6 +22,7 @@ BEGIN
 -- HISTORY:
 --   05-Apr-2020 R.Lillback Created initial version
 --	 08-Apr-2020 R.Lillback Added F30006 per Dale
+--   18-Apr-2020 R.Lillback Added F0012 per Laura
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	declare @user nvarchar(10) = N'RLILLBACK';
@@ -148,6 +149,12 @@ BEGIN
 		join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F30006 AS B ON
 			A.IWMCU = B.IWMCU COLLATE database_default AND
 			A.IWMMCU = B.IWMMCU COLLATE database_default
+
+	delete atmp.F0012_BACKUP
+		from atmp.F0012_BACKUP as A
+		join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F0012 AS B ON 
+			A.[KGITEM] = B.[KGITEM] COLLATE database_default AND
+			A.[KGCO] = B.[KGCO] COLLATE database_default
 			
 END
 GO

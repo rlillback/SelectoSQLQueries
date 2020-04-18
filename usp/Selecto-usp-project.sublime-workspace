@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"F001",
+				"F0012_BACKUP"
+			],
+			[
 				"F30",
 				"F30006"
 			],
@@ -112,13 +116,13 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
 		"//n0e9dep01/E910/DV910/PACKAGE/DV910FC/source/B984052.c",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_ItemConflicts.sql",
@@ -166,7 +170,7 @@
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
