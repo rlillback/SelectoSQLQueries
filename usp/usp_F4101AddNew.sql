@@ -306,7 +306,7 @@ BEGIN
 						when 'R' then 301 
 						when 'F' then 303 
 						else 301
-					end collate database_default as IMANPL, -- ### 4/3/2020
+					end as IMANPL, -- ### 4/3/2020
 					N'0' collate database_default as IMMPST,
 					CAST(0 as float) as IMPCTM,
 					CAST(0 as float) as IMMMPC,

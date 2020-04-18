@@ -11,7 +11,8 @@ GO
 --
 -- History:
 -- 05-Apr-2020 R.Lillback Created initial version
---
+-- 18-Apr-2020 R.Lillback Added F0012
+-- 18-Apr-2020 R.Lillback Added F41001
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_SuwaneeConstants') is not null begin
 	print 'Dropping procedure dbo.usp_SuwaneeConstants';
@@ -179,5 +180,10 @@ BEGIN
 		set NNN006 = (SELECT (MAX(ADATID) + 1) FROM atmp.F4072_BACKUP)
 		where ltrim(rtrim(NNSY)) = N'40'
 
+	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0012
+			select * from atmp.F0012_BACKUP
+
+	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F41001
+			select * from atmp.F41001_BACKUP
 end
 go
