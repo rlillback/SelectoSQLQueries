@@ -29,6 +29,8 @@ GO
 -- 10-Mar-2020 R.Lillback Populated PRGR for all items with SU
 -- 29-Mar-2020 R.Lillback Updated per Dale's request after first data load
 -- 17-Apr-2020 R.Lillback Updated due to mapping issue in Sage for Product & procurement
+-- 28-Apr-2020 R.Lillback Updated volume UOM to be LB for weight parts to prevent UOM 
+--                        conversion error on sales orders
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddNew') is not null begin
@@ -245,6 +247,7 @@ BEGIN
 					end collate database_default as IMUWUM, -- Weight UOM
 					case (PurchaseUnitOfMeasure)
 						when 'L' then N'LT'
+						when 'LB' then N'LB'
 						else N'GA' 
 					end collate database_default as IMUVM1, -- Volume UOM
 					case (SalesUnitOfMeasure)

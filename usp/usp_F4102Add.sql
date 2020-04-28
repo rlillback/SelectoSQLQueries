@@ -12,6 +12,7 @@ GO
 -- 09-Sep-2019 R.Lillback Created initial version
 -- 03-Apr-2020 R.Lillback Updated per Dale's feedback on first data load
 -- 17-Apr-2020 R.Lillback Updated for procurement/product type swap in Sage
+-- 28-Apr-2020 R.Lillback Fixed IBPRGR for items already in 1A (was '' now 'SU')
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4102Add')
 	DROP PROCEDURE dbo.usp_F4102Add
@@ -309,8 +310,8 @@ BEGIN
 		N'' AS IBTHGD,
 		N'' AS IBCOTY,
 		0 AS IBMMPC,
-		N'' AS IBPRGR, -- ### //TODO: What pricing group?
-		N'' AS IBRPRC, -- ### //TODO: What basket reprice group?
+		N'SU' AS IBPRGR, 
+		N'SU' AS IBRPRC, 
 		N'' AS IBORPR,
 		N'Y' AS IBBACK,
 		N'' AS IBIFLA,

@@ -26,6 +26,8 @@ GO
 -- 06-Sep-2019 R.Lillback Remove double " from descriptions
 -- 10-Mar-2020 R.Lillback Populated PRGR for all items with SU
 -- 17-Apr-2020 R.Lillback Updated based on Sage Procurement/Product type issue
+-- 28-Apr-2020 R.Lillback Updated volume UOM to use LB if purchase uom is LB to 
+--                        prevent UOM conversion errors on order entry.
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddConflicting') is not null begin
@@ -232,6 +234,7 @@ BEGIN
 					end collate database_default as IMUWUM, -- Weight UOM
 					case (PurchaseUnitOfMeasure)
 						when 'L' then N'LT'
+						when 'LB' then N'LB'
 						else N'GA' 
 					end collate database_default as IMUVM1, -- Volume UOM
 					case (SalesUnitOfMeasure)

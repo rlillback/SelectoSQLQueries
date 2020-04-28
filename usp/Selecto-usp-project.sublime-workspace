@@ -79,24 +79,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "usp_DeleteProdFromBackups.sql",
-			"settings":
-			{
-				"buffer_size": 5430,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "usp_SuwaneeConstants.sql",
-			"settings":
-			{
-				"buffer_size": 6805,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -134,13 +116,14 @@
 	],
 	"file_history":
 	[
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4106Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
 		"//n0e9dep01/E910/DV910/PACKAGE/DV910FC/source/B984052.c",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_ItemConflicts.sql",
@@ -188,7 +171,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -202,6 +185,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"IBPRGR",
+			"AIAFT",
 			"PP",
 			"jdeSetGBRError",
 			"OT1Y",
@@ -257,67 +242,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "usp_DeleteProdFromBackups.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5430,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5317,
-								5317
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1989.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "usp_SuwaneeConstants.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6805,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								6805
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2142.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
