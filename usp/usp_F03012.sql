@@ -17,10 +17,8 @@ GO
 -- 01-Apr-2020 R.Lillback Updated per Laura's changes after first data load
 -- 08-Apr-2020 R.Lillback Update Freight Handling Code to FP per Laura
 -- 28-Apr-2020 R.Lillback Update AIAFT = 'Y' instead of 'N'
--- 
--- TODO:B
--- AICRCA -> Is it ok to default to USD?
--- 
+-- 29-Apr-2020 R.Lillback Update Freight Handling Code to PP per process
+--
 --------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012')
 	DROP PROCEDURE atmp.usp_F03012
@@ -212,7 +210,7 @@ BEGIN
 		LEFT((tmp.EMAIL3),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL1, --  TODO Map these
 		LEFT((tmp.SHIPVIA),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL2, -- TODO Map these
 		CAST(0 AS FLOAT) AS AILTDT,
-		N'FP' COLLATE Latin1_General_CI_AS_WS AS AIFRTH, 
+		N'PP' COLLATE Latin1_General_CI_AS_WS AS AIFRTH, 
 		N'Y' COLLATE Latin1_General_CI_AS_WS AS AIAFT,
 		N'Y' COLLATE Latin1_General_CI_AS_WS AS AIAPTS,
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AISBAL,

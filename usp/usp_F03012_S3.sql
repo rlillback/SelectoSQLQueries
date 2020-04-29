@@ -12,6 +12,7 @@ GO
 -- 01-Apr-2020 R.Lillback Updated per Laura's changes after first data load (created version)
 -- 08-Apr-2020 R.Lillback Updated per Laura from PP to FP for freight code
 -- 28-Apr-2020 R.Lillback Update AIAFT = 'Y' instead of 'N'
+-- 29-Apr-2020 R.Lillback Update freight handling code to PP
 -- 
 -- TODO:
 -- 
@@ -209,7 +210,7 @@ BEGIN
 		LEFT((tmp.EMAIL3),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL1, --  TODO Map these
 		LEFT((tmp.SHIPVIA),30) COLLATE Latin1_General_CI_AS_WS AS AIDEL2, -- TODO Map these
 		CAST(0 AS FLOAT) AS AILTDT,
-		N'FP' COLLATE Latin1_General_CI_AS_WS AS AIFRTH, 
+		N'PP' COLLATE Latin1_General_CI_AS_WS AS AIFRTH, 
 		N'Y' COLLATE Latin1_General_CI_AS_WS AS AIAFT,
 		N'Y' COLLATE Latin1_General_CI_AS_WS AS AIAPTS,
 		N'N' COLLATE Latin1_General_CI_AS_WS AS AISBAL,
