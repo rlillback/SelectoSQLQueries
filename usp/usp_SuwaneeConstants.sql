@@ -13,6 +13,7 @@ GO
 -- 05-Apr-2020 R.Lillback Created initial version
 -- 18-Apr-2020 R.Lillback Added F0012
 -- 18-Apr-2020 R.Lillback Added F41001
+-- 01-May-2020 R.Lillback Added containers F46091 per my testing
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_SuwaneeConstants') is not null begin
 	print 'Dropping procedure dbo.usp_SuwaneeConstants';
@@ -185,5 +186,9 @@ BEGIN
 
 	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F41001
 			select * from atmp.F41001_BACKUP
+
+	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F46091
+			select * from atmp.F46091_BACKUP
+
 end
 go

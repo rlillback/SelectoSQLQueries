@@ -24,6 +24,7 @@ BEGIN
 --	 08-Apr-2020 R.Lillback Added F30006 per Dale
 --   18-Apr-2020 R.Lillback Added F0012 per Laura
 --   18-Apr-2020 R.Lillback Added F41001 per my testing
+--   01-May-2020 R.Lillback Added containers F46091 per my testing
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	declare @user nvarchar(10) = N'RLILLBACK';
@@ -163,6 +164,13 @@ BEGIN
 		join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F41001 AS B ON
 			A.CISY = B.CISY COLLATE database_default AND
 			A.CIMCU = B.CIMCU COLLATE database_default
+
+
+	delete atmp.F46091_BACKUP
+		from atmp.F46091_BACKUP as A
+		join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F46091 AS B ON
+			A.[IDMCU] = B.IDMCU COLLATE database_default AND
+			A.[IDEQTY] = B.IDEQTY COLLATE database_default
 			
 END
 GO
