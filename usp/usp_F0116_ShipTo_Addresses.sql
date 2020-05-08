@@ -21,6 +21,7 @@ BEGIN
 --
 -- HISTORY:
 --   19-Feb-2020 R.Lillback Created initial version
+--   08-May-2020 R.Lillback Removed leading 0s from Customer Addresses
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#tempAddresses') is not null
@@ -68,7 +69,7 @@ BEGIN
 	--
 	insert into #tempAddresses
 		select
-			(ltrim(RTRIM(S.CustomerNo)) + '-' + ltrim(rtrim(S.ShipToCode))) COLLATE Latin1_General_CI_AS_WS as Code,
+			(ltrim(RTRIM(substring(S.CustomerNo, patindex('%[^0]%', S.CustomerNo), 20))) + '-' + ltrim(rtrim(S.ShipToCode))) COLLATE Latin1_General_CI_AS_WS as Code,
 			Sint.ABALPH COLLATE Latin1_General_CI_AS_WS as Name,
 			Sint.ABAN8 as ALAN8, 
 			119001 as ALEFTB, -- Make sure to have and effective date of 1-Jan-2019 in case of any backdating
@@ -104,7 +105,7 @@ BEGIN
 			CAST(0 AS FLOAT) AS ALSYNCS,
 			CAST(0 AS FLOAT) AS ALCAAD
 		from dbo.ods_SO_ShipToAddress as S
-		join atmp.F0101 as Sint on (ltrim(RTRIM(S.CustomerNo)) + '-' + ltrim(rtrim(S.ShipToCode))) = Sint.ABALKY collate DATABASE_DEFAULT
+		join atmp.F0101 as Sint on (ltrim(RTRIM(substring(S.CustomerNo, patindex('%[^0]%', S.CustomerNo), 20))) + '-' + ltrim(rtrim(S.ShipToCode))) = Sint.ABALKY collate DATABASE_DEFAULT
 		where S.ShipToAddress1 is not NULL or S.ShipToAddress2 is not NULL or S.ShipToAddress3 is not NULL
 		
 		

@@ -21,6 +21,7 @@ BEGIN
 --
 -- HISTORY:
 --   11-Feb-2020 R.Lillback Created inital version
+--   08-May-2020 R.Lillback Removed leading 0s from customer codes
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#TempPhones') is not null
@@ -92,7 +93,7 @@ BEGIN
 	--===========================================================  
 	insert into #TempPhones
 		select 
-			C.CustomerNo COLLATE Latin1_General_CI_AS_WS as Code,
+			ltrim(rtrim(substring(C.CustomerNo, patindex('%[^0]%', C.CustomerNo), 20))) COLLATE Latin1_General_CI_AS_WS as Code,
 			Cint.ABALPH COLLATE Latin1_General_CI_AS_WS as Name,
 			(LEN(ltrim(rtrim(C.TelephoneNo))) + ISNULL(LEN((ltrim(rtrim(C.TelephoneExt)))),0)) As Leng,
 			'Tel' as Entr,
@@ -114,13 +115,13 @@ BEGIN
 			CAST(0 as float) as WPSYNCS,
 			CAST(0 as float) as WPCAAD
 		from dbo.ods_AR_Customer as C
-		join atmp.F0101 as Cint on C.CustomerNo = Cint.ABALKY collate DATABASE_DEFAULT
+		join atmp.F0101 as Cint on ltrim(rtrim(substring(C.CustomerNo, patindex('%[^0]%', C.CustomerNo), 20))) = Cint.ABALKY collate DATABASE_DEFAULT
 		where TelephoneNo is not null
 
 
 	insert into #TempPhones
 		select 
-			C.CustomerNo COLLATE Latin1_General_CI_AS_WS as Code,
+			ltrim(rtrim(substring(C.CustomerNo, patindex('%[^0]%', C.CustomerNo), 20))) COLLATE Latin1_General_CI_AS_WS as Code,
 			Cint.ABALPH COLLATE Latin1_General_CI_AS_WS as Name,
 			LEN(LTRIM(RTRIM(C.FaxNo))) As Leng,
 			'Fax' as Entr,
@@ -142,7 +143,7 @@ BEGIN
 			CAST(0 as float) as WPSYNCS,
 			CAST(0 as float) as WPCAAD
 		from dbo.ods_AR_Customer as C
-		join atmp.F0101 as Cint on C.CustomerNo = Cint.ABALKY collate DATABASE_DEFAULT
+		join atmp.F0101 as Cint on ltrim(rtrim(substring(C.CustomerNo, patindex('%[^0]%', C.CustomerNo), 20))) = Cint.ABALKY collate DATABASE_DEFAULT
 		where C.FaxNo is not null
 	--===========================================================
 	-- END CUSTOMER LOAD

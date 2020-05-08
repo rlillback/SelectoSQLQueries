@@ -13,6 +13,7 @@ GO
 --
 -- HISTORY:
 --   11-Feb-2020 R.Lillback Created initial version
+--	 08-May-2020 R.Lillback remove leading zeros from vendor code
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Remit_Load')
 	DROP PROCEDURE dbo.usp_F0101_Remit_Load
@@ -57,7 +58,7 @@ BEGIN
 	insert into #tempIntermediate 
 		select 
 			NULL as ROWNUM
-		   ,VendorNo as VendCode
+		   ,ltrim(rtrim(substring(VendorNo, patindex('%[^0]%', VendorNo), 20))) as VendCode
 		   ,LEFT(VendorName,40) as AlphaName
 		   ,TaxPayerIdSocialSecurityNo as TaxId
 		   ,N'C' as CorpIdentity
@@ -85,7 +86,7 @@ BEGIN
 	-- now set the JDE address book numbers for the parent address
 	--
 	update #tempIntermediate
-	set ParentAddr = (select ABAN8 from atmp.F0101 where VendCode = ABALKY COLLATE DATABASE_DEFAULT)
+	set ParentAddr = (select ABAN8 from atmp.F0101 where ltrim(rtrim(substring(VendorNo, patindex('%[^0]%', VendorNo), 20))) = ABALKY COLLATE DATABASE_DEFAULT)
 	                               
 	insert into atmp.F0101
 	select 

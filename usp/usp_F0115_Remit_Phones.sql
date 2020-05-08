@@ -21,6 +21,7 @@ BEGIN
 --
 -- HISTORY:
 --   12-Feb-2020 R.Lillback Created inital version
+--   08-May-2020 R.Lillback Remove leading 0s from Vendor number
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#TempPhones') is not null
@@ -92,7 +93,7 @@ BEGIN
 	--===========================================================  
 	insert into #TempPhones
 		select 
-			V.ALKY COLLATE Latin1_General_CI_AS_WS as Code,
+			ltrim(rtrim(substring(V.ALKY, patindex('%[^0]%', V.ALKY), 20))) COLLATE Latin1_General_CI_AS_WS as Code,
 			Vint.ABALPH COLLATE Latin1_General_CI_AS_WS as Name,
 			1 As Leng,
 			'Tel' as Entr,
@@ -114,7 +115,7 @@ BEGIN
 			CAST(0 as float) as WPSYNCS,
 			CAST(0 as float) as WPCAAD
 		from dbo.ods_VendorFlatFile as V
-		join atmp.F0101 as Vint on V.ALKY = Vint.ABALKY collate DATABASE_DEFAULT
+		join atmp.F0101 as Vint on ltrim(rtrim(substring(V.ALKY, patindex('%[^0]%', V.ALKY), 20))) = Vint.ABALKY collate DATABASE_DEFAULT
 		where V.AT1 = N'R3' and V.PH1 != N''
 	--===========================================================
 	-- END VENDOR LOAD

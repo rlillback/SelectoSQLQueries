@@ -13,6 +13,7 @@ GO
 --
 -- History: 
 -- 19-Feb-2020 - R.Lillback Created initial version
+-- 08-May-2020 - R.Lillback Strip leading zeros from customer numbers
 --
 -- TODO:
 --  
@@ -63,11 +64,11 @@ BEGIN
 			NULL as ROWNUM
 		   ,ShipToCode as ShipToCode
 		   ,ShipToName as AlphaName
-		   ,CustomerNo as CustCode
-		   ,(ltrim(RTRIM(CustomerNo)) + '-' + ltrim(rtrim(ShipToCode))) as UKID
+		   ,ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) as CustCode
+		   ,(ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) + '-' + ltrim(rtrim(ShipToCode))) as UKID
 		   ,NULL as JDEAssociated
 		from dbo.ods_SO_ShipToAddress
-		join atmp.F0101 on CustomerNo = ABALKY COLLATE DATABASE_DEFAULT
+		join atmp.F0101 on (ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20)))) = ABALKY COLLATE DATABASE_DEFAULT
 
 	-- now set the JDE address book numbers as ROW_NUMBER
 	update x

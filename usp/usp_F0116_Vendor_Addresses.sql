@@ -23,6 +23,7 @@ BEGIN
 --   11-Feb-2020 R.Lillback Created initial version
 --   17-Feb-2020 R.Lillback Load only first 5 digits of zip code per Laura
 --	 19-Feb-2020 R.Lillback Look up county from F0117 per Laura
+--   08-May-2020 R.Lillback Remove leading 0s from Vendor number
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#tempAddresses') is not null
@@ -70,7 +71,7 @@ BEGIN
 	--
 	insert into #tempAddresses
 		select
-			V.VendorNo COLLATE Latin1_General_CI_AS_WS as Code,
+			ltrim(rtrim(substring(V.VendorNo, patindex('%[^0]%', V.VendorNo), 20))) COLLATE Latin1_General_CI_AS_WS as Code,
 			Vint.ABALPH COLLATE Latin1_General_CI_AS_WS as Name,
 			Vint.ABAN8 as ALAN8, 
 			119001 as ALEFTB, -- Make sure to have and effective date of 1-Jan-2019 in case of any backdating
@@ -106,7 +107,7 @@ BEGIN
 			CAST(0 AS FLOAT) AS ALSYNCS,
 			CAST(0 AS FLOAT) AS ALCAAD
 		from dbo.ods_AP_Vendor as V
-		join atmp.F0101 as Vint on V.VendorNo = Vint.ABALKY
+		join atmp.F0101 as Vint on ltrim(rtrim(substring(V.VendorNo, patindex('%[^0]%', V.VendorNo), 20))) = Vint.ABALKY
 		where V.AddressLine1 is not NULL or V.Addressline2 is not NULL
 		
 		

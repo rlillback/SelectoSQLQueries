@@ -17,6 +17,7 @@ GO
 --   10-Feb-2020 R.Lillback Updated the load to not bring in inactive vendors
 --   10-Feb-2020 R.Lillback starting row number is now a next number NNN001 from NNSY = 01
 --   17-Feb-2020 R.Lillback Set ABTAXC based on Form1099 in Vendor database per Laura
+--   08-May-2020 R.Lillback Trim leading 0's from vendor codes
 --
 -- TODO:
 --   
@@ -61,7 +62,7 @@ BEGIN
 	insert into #tempIntermediate 
 		select 
 			NULL as ROWNUM
-		   ,VendorNo as VendCode
+		   ,ltrim(rtrim(substring(VendorNo, patindex('%[^0]%', VendorNo), 20))) as VendCode
 		   ,LEFT(VendorName,40) as AlphaName
 		   ,TaxPayerIdSocialSecurityNo as TaxId
 		   ,N'C' as CorpIdentity

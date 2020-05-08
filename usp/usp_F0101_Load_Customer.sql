@@ -15,6 +15,7 @@ GO
 -- 20191119 - R.Lillback Created initial version
 -- 12-Feb-2020 - R.Lillback Converted to next numbers from a fixed address number
 -- 29-Mar-2020 - R.Lillback Updated credit message per Laura. All are '2' - PO Required
+-- 08-May-2020 - R.Lillback Strip leading 0's from customer code
 --
 -- TODO:
 --  
@@ -63,7 +64,7 @@ BEGIN
 	insert into #tempIntermediate 
 		select 
 			NULL as ROWNUM
-		   ,CustomerNo as CustCode
+		   ,ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) as CustCode
 		   ,CustomerName as AlphaName
 		   ,N'' as CreditMessage 
 		   ,ISNULL(b.ABAC04, N'') as SalesGroup 

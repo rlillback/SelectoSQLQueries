@@ -23,6 +23,7 @@ BEGIN
 --   13-Feb-2020 R.Lillback Created initial version
 --   17-Feb-2020 R.Lillback Only load the first 5 digits of the Zip code (per Laura)
 --	 19-Feb-2020 R.Lillback Look up county from F0117 per Laura
+--   08-May-2020 R.Lillback Removed leading 0s from customer number
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	if OBJECT_ID(N'tempdb..#tempAddresses') is not null
@@ -70,7 +71,7 @@ BEGIN
 	--
 	insert into #tempAddresses
 		select
-			C.CustomerNo COLLATE Latin1_General_CI_AS_WS as Code,
+			ltrim(rtrim(substring(C.CustomerNo, patindex('%[^0]%', C.CustomerNo), 20))) COLLATE Latin1_General_CI_AS_WS as Code,
 			Cint.ABALPH COLLATE Latin1_General_CI_AS_WS as Name,
 			Cint.ABAN8 as ALAN8, 
 			119001 as ALEFTB, -- Make sure to have and effective date of 1-Jan-2019 in case of any backdating
@@ -106,7 +107,7 @@ BEGIN
 			CAST(0 AS FLOAT) AS ALSYNCS,
 			CAST(0 AS FLOAT) AS ALCAAD
 		from dbo.ods_AR_Customer as C
-		join atmp.F0101 as Cint on C.CustomerNo = Cint.ABALKY
+		join atmp.F0101 as Cint on ltrim(rtrim(substring(C.CustomerNo, patindex('%[^0]%', C.CustomerNo), 20))) = Cint.ABALKY
 		where C.AddressLine1 is not NULL or C.Addressline2 is not NULL
 		
 		
