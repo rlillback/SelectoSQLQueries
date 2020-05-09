@@ -13,8 +13,7 @@ GO
 -- 08-Apr-2020 R.Lillback Updated per Laura from PP to FP for freight code
 -- 28-Apr-2020 R.Lillback Update AIAFT = 'Y' instead of 'N'
 -- 29-Apr-2020 R.Lillback Update freight handling code to PP
--- 
--- TODO:
+-- 08-May-2020 R.Lillback Fixed issue with no leading 0s in join to ods_AR_Customer
 -- 
 --------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012_S3')
@@ -64,7 +63,7 @@ BEGIN
 		    Parent = N'P',
 		    PriceGroup = N'SU' + ISNULL(LEFT(c.PriceLevel,1), N'0')
 	from #tempCustomer as x
-		left join dbo.ods_AR_Customer as c on x.ALKY = c.CustomerNo collate DATABASE_DEFAULT
+		left join dbo.ods_AR_Customer as c on x.ALKY = ltrim(rtrim(substring(c.CustomerNo, patindex('%[^0]', c.CustomerNo), 20))) collate DATABASE_DEFAULT
 
 	insert into atmp.F03012							   
 	select
