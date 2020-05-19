@@ -31,6 +31,7 @@ GO
 -- 17-Apr-2020 R.Lillback Updated due to mapping issue in Sage for Product & procurement
 -- 28-Apr-2020 R.Lillback Updated volume UOM to be LB for weight parts to prevent UOM 
 --                        conversion error on sales orders
+-- 12-May-2020 R.Lillback Revered the 17-Apr-2020 Modification
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddNew') is not null begin
@@ -80,7 +81,7 @@ BEGIN
 					(@rowOffset + ROW_NUMBER() OVER(ORDER BY ItemCode asc)) AS IMITM,
 					LEFT(ItemCode,25) collate database_default as IMLITM ,
 					LEFT(ItemCode,25) collate database_default as IMAITM ,
-					LEFT(ItemCodeDesc,30) collate database_default as IMDSC1,
+					UPPER(LEFT(ItemCodeDesc,30)) collate database_default as IMDSC1,
 					N'' collate database_default as IMDSC2,
 					LEFT(ItemCodeDesc,30) collate database_default as IMSRTX,
 					N'' collate database_default as IMALN,
@@ -283,9 +284,9 @@ BEGIN
 					N'' collate database_default as IMFRGD,
 					N'' collate database_default as IMTHGD,
 					N'' collate database_default as IMCOTY,
-					case (ProductType) -- 17-Apr-2020
-						when 'R' then N'P' collate database_default
-						when 'F' then N'M' collate database_default
+					case (ProcurementType) -- 17-Apr-2020 & reverted on 12-May-2020
+						when 'B' then N'P' collate database_default
+						when 'M' then N'M' collate database_default
 						else N'' collate database_default
 					end as IMSTKT, -- Stocking Type Purchase or Manufacture
 					N'S' collate database_default as IMLNTY, -- All parts are stock item types
@@ -305,9 +306,9 @@ BEGIN
 					N'' collate database_default as IMFIFO,
 					N'' collate database_default as IMLOTS,
 					CAST(0 as float) as IMSLD,
-					case (ProductType) -- 17-Apr-2020
-						when 'R' then 301 
-						when 'F' then 303 
+					case (ProcurementType) -- 17-Apr-2020
+						when 'B' then 301 
+						when 'M' then 303 
 						else 301
 					end as IMANPL, -- ### 4/3/2020
 					N'0' collate database_default as IMMPST,

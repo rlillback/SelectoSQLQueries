@@ -60,7 +60,7 @@ BEGIN
 		select 
 			NULL as ROWNUM
 		   ,ltrim(rtrim(substring(VendorNo, patindex('%[^0]%', VendorNo), 20))) as VendCode
-		   ,LEFT(VendorName,40) as AlphaName
+		   ,UPPER(LEFT(VendorName,40)) as AlphaName
 		   ,TaxPayerIdSocialSecurityNo as TaxId
 		   ,N'C' as CorpIdentity
 		   ,NULL as RemittanceAddr

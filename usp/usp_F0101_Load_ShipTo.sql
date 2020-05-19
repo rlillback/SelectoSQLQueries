@@ -63,7 +63,7 @@ BEGIN
 		select 
 			NULL as ROWNUM
 		   ,ShipToCode as ShipToCode
-		   ,ShipToName as AlphaName
+		   ,UPPER(ShipToName) as AlphaName
 		   ,ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) as CustCode
 		   ,(ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) + '-' + ltrim(rtrim(ShipToCode))) as UKID
 		   ,NULL as JDEAssociated

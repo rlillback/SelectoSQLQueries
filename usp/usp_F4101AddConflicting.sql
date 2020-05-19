@@ -28,6 +28,7 @@ GO
 -- 17-Apr-2020 R.Lillback Updated based on Sage Procurement/Product type issue
 -- 28-Apr-2020 R.Lillback Updated volume UOM to use LB if purchase uom is LB to 
 --                        prevent UOM conversion errors on order entry.
+-- 12-May-2020 R.Lillback Removed the 17-Apr-2020 change
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddConflicting') is not null begin
@@ -67,7 +68,7 @@ BEGIN
 					(@rowOffset + ROW_NUMBER() OVER(ORDER BY ItemCode asc)) AS IMITM,
 					LEFT(RTRIM(ItemCode),22) + N'-SU' collate database_default as IMLITM ,
 					LEFT(RTRIM(ItemCode),22) + N'-SU' collate database_default as IMAITM ,
-					LEFT(ItemCodeDesc,30) collate database_default as IMDSC1,
+					UPPER(LEFT(ItemCodeDesc,30)) collate database_default as IMDSC1,
 					N'' collate database_default as IMDSC2,
 					LEFT(ItemCodeDesc,30) collate database_default as IMSRTX,
 					N'' collate database_default as IMALN,
@@ -270,9 +271,9 @@ BEGIN
 					N'' collate database_default as IMFRGD,
 					N'' collate database_default as IMTHGD,
 					N'' collate database_default as IMCOTY,
-					case (ProductType) -- 17-Apr-2020
-						when 'R' then N'P' collate database_default
-						when 'F' then N'M' collate database_default
+					case (ProcurementType) -- 17-Apr-2020 & reverted back in 12-May-2020
+						when 'B' then N'P' collate database_default
+						when 'M' then N'M' collate database_default
 					else N'' collate database_default
 					end as IMSTKT, -- Stocking Type Purchase or Manufacture
 					N'S' collate database_default as IMLNTY, -- All parts are stock item types
@@ -292,9 +293,9 @@ BEGIN
 					N'' collate database_default as IMFIFO,
 					N'' collate database_default as IMLOTS,
 					CAST(0 as float) as IMSLD,
-					case (ProductType) -- 17-Apr-2020
-						when 'R' then N'301'
-						when 'F' then N'303'
+					case (ProcurementType) -- 17-Apr-2020
+						when 'B' then N'301'
+						when 'M' then N'303'
 						else N'301'
 					end collate database_default as IMANPL, -- ### 9/6/2019
 					N'0' collate database_default as IMMPST,

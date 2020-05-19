@@ -65,7 +65,7 @@ BEGIN
 		select 
 			NULL as ROWNUM
 		   ,ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) as CustCode
-		   ,CustomerName as AlphaName
+		   ,UPPER(CustomerName) as AlphaName
 		   ,N'' as CreditMessage 
 		   ,ISNULL(b.ABAC04, N'') as SalesGroup 
 		   ,NULL as Parent

@@ -13,6 +13,7 @@ GO
 -- 03-Apr-2020 R.Lillback Updated per Dale's feedback on first data load
 -- 17-Apr-2020 R.Lillback Updated for procurement/product type swap in Sage
 -- 28-Apr-2020 R.Lillback Fixed IBPRGR for items already in 1A (was '' now 'SU')
+-- 12-May-2020 R.Lillback Reversed 17-Apr-2020 change
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4102Add')
 	DROP PROCEDURE dbo.usp_F4102Add
@@ -65,9 +66,9 @@ BEGIN
 		IMPDGR AS IBPDGR,
 		IMDSGP AS IBDSGP,
 		CAST(0 AS FLOAT) AS IBVEND,
-		case (ProductType)
-			when 'R' then 301 
-			when 'F' then 303 
+		case (ProcurementType)
+			when 'B' then 301 
+			when 'M' then 303 
 			else 301
 		end AS IBANPL,
 		IMBUYR AS IBBUYR,
@@ -281,9 +282,9 @@ BEGIN
 		N'' AS IBPDGR,
 		N'' AS IBDSGP,
 		0 AS IBVEND,
-		case (ProductType)
-			when 'R' then 301 
-			when 'F' then 303 
+		case (ProcurementType)
+			when 'B' then 301 
+			when 'M' then 303 
 			else 301
 		end as IBANPL,
 		0 AS IBBUYR,
@@ -323,9 +324,9 @@ BEGIN
 		0 AS IBCARS,
 		0 AS IBCARP,
 		N'' AS IBSHCN,
-		case (ProductType)
-			when 'R' then N'P' 
-			when 'F' then N'M' 
+		case (ProcurementType)
+			when 'B' then N'P' 
+			when 'M' then N'M' 
 			else N'' 
 		end collate database_default as IBSTKT, -- Stocking Type Purchase or Manufacture
 		N'S' AS IBLNTY,
