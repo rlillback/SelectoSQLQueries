@@ -8,6 +8,7 @@ go
 --
 -- 01-Oct-2019 R.Lillback Created initial version
 -- 08-Apr-2020 R.Lillback Updated work center pull to get from F30006
+-- 20-May-2020 R.Lillback change IRDSC1 from SUW ASSEMBLY WC to SUWANEE ASSEMBLY WC
 ------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F3003Load')
 	DROP PROCEDURE dbo.usp_F3003Load
@@ -154,7 +155,7 @@ BEGIN
 				@thisLITM COLLATE DATABASE_DEFAULT AS IRKITA,
 				@tmpMCU COLLATE DATABASE_DEFAULT AS IRMMCU,
 				N'' COLLATE DATABASE_DEFAULT AS IRALD,
-				N'SUW ASSEMBLY WC' COLLATE DATABASE_DEFAULT AS IRDSC1,
+				N'SUWANEE ASSEMBLY WC' COLLATE DATABASE_DEFAULT AS IRDSC1,
 				N'' COLLATE DATABASE_DEFAULT AS IRLINE,
 				@tmpWC COLLATE DATABASE_DEFAULT AS IRMCU,
 				CAST(1000 AS FLOAT) AS IROPSQ,

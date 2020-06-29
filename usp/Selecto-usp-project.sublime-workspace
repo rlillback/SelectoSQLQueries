@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"objec",
+				"object_id"
+			],
+			[
 				"F001",
 				"F0012_BACKUP"
 			],
@@ -80,21 +84,23 @@
 	"buffers":
 	[
 		{
-			"contents": "use SelectoJDE\ngo\n\nSET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n-- ****************************************************************************************\n-- Import item branch data from atmp.F4101 into atmp.F4102 for Suwanee aka Selecto\n--\n-- HISTORY:\n-- 09-Sep-2019 R.Lillback Created initial version\n-- 03-Apr-2020 R.Lillback Updated per Dale's feedback on first data load\n-- 17-Apr-2020 R.Lillback Updated for procurement/product type swap in Sage\n-- 28-Apr-2020 R.Lillback Fixed IBPRGR for items already in 1A (was '' now 'SU')\n-- 12-May-2020 R.Lillback Reversed 17-Apr-2020 change\n-- ****************************************************************************************\nIF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4102Add')\n\tDROP PROCEDURE dbo.usp_F4102Add\nGO\n\nCREATE PROCEDURE dbo.usp_F4102Add \nAS\nBEGIN\n\tSET NOCOUNT ON;\n\tdeclare @user nvarchar(10) = N'RLILLBACK';\n\tdeclare @pid nvarchar(10) = N'SQLLD';\n\tdeclare @jobn nvarchar(10) = N'SQLLD';\n\tdeclare @jToday numeric(18,0)= dbo.fn_DateTimeToJulian(GETDATE()); -- Julian Date Today\n\tdeclare @tNow float = CONVERT (\n\t\t\t\t\t\t\t\t   float,\n\t\t\t\t\t\t\t\t   datepart(hh,getdate())*10000 + \n\t\t\t\t\t\t\t\t   datepart(mi, getdate())*100 +\n\t\t\t\t\t\t\t\t   datepart(ss, getdate())\n\t\t\t\t\t\t\t\t   ); -- Time now as held by JDE\n\n\ttruncate table atmp.F4102; -- Clear the table before loading data into it\n\t                               \n\tinsert into atmp.F4102 -- Insert the new data into it\n\tselect \n\t\tIMITM AS IBITM,\n\t\tIMLITM AS IBLITM,\n\t\tIMAITM AS IBAITM,\n\t\tN'        3SUW' AS IBMCU,\n\t\tIMSRP1 AS IBSRP1,\n\t\tIMSRP2 AS IBSRP2,\n\t\tIMSRP3 AS IBSRP3,\n\t\tIMSRP4 AS IBSRP4,\n\t\tIMSRP5 AS IBSRP5,\n\t\tIMSRP6 AS IBSRP6,\n\t\tIMSRP7 AS IBSRP7,\n\t\tIMSRP8 AS IBSRP8,\n\t\tIMSRP9 AS IBSRP9,\n\t\tIMSRP0 AS IBSRP0,\n\t\tIMPRP1 AS IBPRP1,\n\t\tIMPRP2 AS IBPRP2,\n\t\tIMPRP3 AS IBPRP3,\n\t\tIMPRP4 AS IBPRP4,\n\t\tIMPRP5 AS IBPRP5,\n\t\tIMPRP6 AS IBPRP6,\n\t\tIMPRP7 AS IBPRP7,\n\t\tIMPRP8 AS IBPRP8,\n\t\tIMPRP9 AS IBPRP9,\n\t\tIMPRP0 AS IBPRP0,\n\t\tIMCDCD AS IBCDCD,\n\t\tIMPDGR AS IBPDGR,\n\t\tIMDSGP AS IBDSGP,\n\t\tCAST(0 AS FLOAT) AS IBVEND,\n\t\tcase (ProcurementType)\n\t\t\twhen 'B' then 301 \n\t\t\twhen 'M' then 303 \n\t\t\telse 301\n\t\tend AS IBANPL,\n\t\tIMBUYR AS IBBUYR,\n\t\tIMGLPT AS IBGLPT,\n\t\tN'' AS IBORIG,\n\t\t0 AS IBROPI,\n\t\t0 AS IBROQI,\n\t\t0 AS IBRQMX,\n\t\t0 AS IBRQMN,\n\t\t0 AS IBWOMO,\n\t\t0 AS IBSERV,\n\t\t0 AS IBSAFE, \n\t\t0 AS IBSLD,\n\t\tN'Y' AS IBCKAV,\n\t\tN'' AS IBSRCE,\n\t\tN'' AS IBLOTS,\n\t\tN'N' AS IBOT1Y,\n\t\tN'N' AS IBOT2Y,\n\t\tCAST(0 AS FLOAT) AS IBSTDP,\n\t\tCAST(0 AS FLOAT) AS IBFRMP,\n\t\tCAST(0 AS FLOAT) AS IBTHRP,\n\t\tN'' AS IBSTDG,\n\t\tN'' AS IBFRGD,\n\t\tN'' AS IBTHGD,\n\t\tN'' AS IBCOTY,\n\t\tCAST(0 AS FLOAT) AS IBMMPC,\n\t\tIMPRGR AS IBPRGR,\n\t\tIMRPRC AS IBRPRC,\n\t\tIMORPR AS IBORPR,\n\t\tIMBACK AS IBBACK,\n\t\tIMIFLA AS IBIFLA,\n\t\tIMABCS AS IBABCS,\n\t\tIMABCM AS IBABCM,\n\t\tIMABCI AS IBABCI,\n\t\tIMOVR AS IBOVR,\n\t\tIMSHCM AS IBSHCM,\n\t\tIMCARS AS IBCARS,\n\t\tIMCARP AS IBCARP,\n\t\tIMSHCN AS IBSHCN,\n\t\tIMSTKT AS IBSTKT,\n\t\tIMLNTY AS IBLNTY,\n\t\tIMFIFO AS IBFIFO,\n\t\tIMCYCL AS IBCYCL,\n\t\tIMINMG AS IBINMG,\n\t\tIMWARR AS IBWARR,\n\t\tIMSRNR AS IBSRNR,\n\t\tIMPCTM AS IBPCTM,\n\t\tIMCMCG AS IBCMCG,\n\t\tN'Y' AS IBFUF1,\n\t\tcase (PurchasesTaxClass)\n\t\t\twhen 'NT' then N'N'\n\t\t\telse N'Y'\n\t\tend AS IBTX,   -- Purchasing taxable\n\t\tcase (TaxClass)\n\t\t\twhen 'NT' then N'N'\n\t\t\telse N'Y'\n\t\tend AS IBTAX1, -- Sales taxable\n\t\tIMMPST AS IBMPST,\n\t\tN'' AS IBMRPD,\n\t\tN'' AS IBMRPC,\n\t\tCAST(0 AS FLOAT) AS IBUPC,\n\t\tIMSNS AS IBSNS,\n\t\tN'' AS IBMERL,\n\t\tIMLTLV AS IBLTLV,\n\t\tIMLTMF AS IBLTMF,\n\t\tIMLTCM AS IBLTCM,\n\t\tIMOPC AS IBOPC,\n\t\tIMOPV AS IBOPV,\n\t\tIMACQ AS IBACQ,\n\t\tIMMLQ AS IBMLQ,\n\t\tIMLTPU AS IBLTPU,\n\t\tIMMPSP AS IBMPSP,\n\t\tIMMRPP AS IBMRPP,\n\t\tIMITC AS IBITC,\n\t\tN'' AS IBECO,\n\t\tN'' AS IBECTY,\n\t\t0 AS IBECOD,\n\t\t300 AS IBMTF1,\n\t\tIMMTF2 AS IBMTF2,\n\t\tIMMTF3 AS IBMTF3,\n\t\tIMMTF4 AS IBMTF4,\n\t\tIMMTF5 AS IBMTF5,\n\t\tCAST(0 AS FLOAT) AS IBMOVD,\n\t\tCAST(0 AS FLOAT) AS IBQUED,\n\t\tCAST(0 AS FLOAT) AS IBSETL,\n\t\tCAST(0 AS FLOAT) AS IBSRNK,\n\t\tN'' AS IBSRKF,\n\t\tN'U' AS IBTIMB,\n\t\tCAST(0 AS FLOAT) AS IBBQTY,\n\t\tIMORDW AS IBORDW,\n\t\tIMEXPD AS IBEXPD,\n\t\tIMDEFD AS IBDEFD,\n\t\tCAST(0 AS FLOAT) AS IBMULT,\n\t\tIMSFLT AS IBSFLT,\n\t\tIMMAKE AS IBMAKE,\n\t\t0 AS IBLFDJ,\n\t\tIMLLX AS IBLLX,\n\t\tIMCMGL AS IBCMGL,\n\t\tIMURCD AS IBURCD,\n\t\tIMURDT AS IBURDT,\n\t\tIMURAT AS IBURAT,\n\t\tIMURAB AS IBURAB,\n\t\tIMURRF AS IBURRF,\n\t\t@user AS IBUSER,\n\t\t@pid AS IBPID,\n\t\t@jobn AS IBJOBN,\n\t\t@jToday AS IBUPMJ,\n\t\t@tNow AS IBTDAY,\n\t\tIMTFLA AS IBTFLA,\n\t\tIMCOMH AS IBCOMH,\n\t\tIMAVRT AS IBAVRT,\n\t\tIMPOC AS IBPOC,\n\t\tIMAING AS IBAING,\n\t\tIMBBDD AS IBBBDD,\n\t\tIMCMDM AS IBCMDM,\n\t\tIMLECM AS IBLECM,\n\t\tIMLEDD AS IBLEDD,\n\t\tN'Y' AS IBMLOT,\n\t\tIMPEFD AS IBPEFD,\n\t\tIMSBDD AS IBSBDD,\n\t\tIMU1DD AS IBU1DD,\n\t\tIMU2DD AS IBU2DD,\n\t\tIMU3DD AS IBU3DD,\n\t\tIMU4DD AS IBU4DD,\n\t\tIMU5DD AS IBU5DD,\n\t\tIMXDCK AS IBXDCK,\n\t\tIMLAF AS IBLAF,\n\t\tIMLTFM AS IBLTFM,\n\t\tIMRWLA AS IBRWLA,\n\t\tIMLNPA AS IBLNPA,\n\t\tIMLOTC AS IBLOTC,\n\t\tIMAPSC AS IBAPSC,\n\t\tIMPRI1 AS IBPRI1,\n\t\tIMPRI2 AS IBPRI2,\n\t\tCAST(0 AS FLOAT) AS IBLTCV,\n\t\tIMASHL AS IBASHL,\n\t\tIMOPTH AS IBOPTH,\n\t\tIMCUTH AS IBCUTH,\n\t\tIMUMTH AS IBUMTH,\n\t\tIMLMFG AS IBLMFG,\n\t\tIMLINE AS IBLINE,\n\t\tIMDFTPCT AS IBDFTPCT,\n\t\tIMKBIT AS IBKBIT,\n\t\tIMDFENDITM AS IBDFENDITM,\n\t\tIMKANEXLL AS IBKANEXLL,\n\t\tIMSCPSELL AS IBSCPSELL,\n\t\tIMMOPTH AS IBMOPTH,\n\t\tIMMCUTH AS IBMCUTH,\n\t\tIMCUMTH AS IBCUMTH,\n\t\tIMATPRN AS IBATPRN,\n\t\tIMATPCA AS IBATPCA,\n\t\tIMATPAC AS IBATPAC,\n\t\tIMCOORE AS IBCOORE,\n\t\tIMVCPFC AS IBVCPFC,\n\t\tIMPNYN AS IBPNYN\n\tfrom atmp.F4101\n\tinner join dbo.ods_CI_Item on IMLITM = ItemCode\n\n\t-- Now add in the items that we are keeping the existing F4101 record\n\tinsert into atmp.F4102 -- Insert the new data into it\n\tselect \n\t\tIMITM AS IBITM,\n\t\tIMLITM AS IBLITM,\n\t\tIMAITM AS IBAITM,\n\t\tN'        3SUW' AS IBMCU,\n\t\tN'' as IBPRP1,\n\t\tIBSRP2 = (select LTRIM(RTRIM(DRKY)) \n\t\t\t\t\t\t\t  from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 \n\t\t\t\t\t\t\t  where DRSY = N'41' and DRRT = N'S2' and\n\t\t\t\t\t\t\t\t\tLTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_BRAND)) collate database_default), -- ### RAL 28-Aug-2019 Added SRP2 population\n\t\tIBSRP3 = (select LTRIM(RTRIM(DRKY))\n\t\t\t\t\tfrom N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 as udc\n\t\t\t\t\tleft join dbo.ods_IM_UDT_CARTRIDGE_TECHNOLOGY as sage \n\t\t\t\t\ton udc.DRSY = N'41' and udc.DRRT = N'S3' and\n\t\t\t\t\t\tudc.DRDL02 = LEFT(RTRIM(sage.UDF_DESCRIPTION),30) collate database_default\n\t\t\t\t\twhere LTRIM(RTRIM(sage.UDF_CODE)) = LTRIM(RTRIM(i.UDF_CARTRIDGE_CODE))) collate database_default, -- ### RAL 28-Aug-2019 Added SRP3 population\n\t\tN'' as IMSRP4,\n\t\tIBSRP5 = (select LTRIM(RTRIM(DRKY)) \n\t\t\t\t\tfrom N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 \n\t\t\t\t\twhere DRSY = N'41' and DRRT = N'S5' and\n\t\t\t\t\t\tLTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_CARTRIDGE_SIZE)) collate database_default), -- ### RAL 28-Aug-2019 Added SRP5 population \n\t\tIBSRP6 = (select RIGHT(DRKY,6) \n\t\t\t\t\tfrom N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 \n\t\t\t\t\twhere DRSY = N'41' and DRRT = N'06' and\n\t\t\t\t\t\tLTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_PRODUCT_STAGE)) collate database_default), -- ### RAL 28-Aug-2019 Added SRP6 population\n\t\tN'' as IBSRP7,\n\t\tN'' as IBSRP8,\n\t\tN'' as IBSRP9,\n\t\tN'' as IBSRP0,\n\t\tIBPRP1 = (select LTRIM(RTRIM(DRKY)) \n\t\t\t\t\tfrom N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 \n\t\t\t\t\twhere DRSY = N'41' and DRRT = N'P1' and\n\t\t\t\t\t\tLTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_PRODUCT_CATEGORY)) collate database_default), -- ### RAL 28-Aug-2019 Added PRP1 population\n\t\tN'' as IBPRP2,\n\t\tN'' as IBPRP3,\n\t\tN'' as IBPRP4,\n\t\tIBPRP5 = (select LTRIM(RTRIM(DRKY)) \n\t\t\t\t\tfrom N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0005 \n\t\t\t\t\twhere DRSY = N'41' and DRRT = N'P5' and\n\t\t\t\t\t\tLTRIM(RTRIM(DRDL02)) = LTRIM(RTRIM(UDF_SERIES)) collate database_default), -- ### RAL 28-Aug-2019 Added PRP5 population\n\t\tN'' as IBPRP6,\n\t\tN'SUW' as IBPRP7, -- SUW for Suwanee product code\n\t\tN'' as IBPRP8,\n\t\tcase (ProductType)\n\t\t\twhen 'F' then N'FG'\n\t\t\twhen 'R' then N'RAW'\n\t\t\telse N''\n\t\tend as IMPRP9, \n\t\tN'' AS IBPRP0,\n\t\tN'' AS IBCDCD,\n\t\tN'' AS IBPDGR,\n\t\tN'' AS IBDSGP,\n\t\t0 AS IBVEND,\n\t\tcase (i.ProcurementType)\n\t\t\twhen 'B' then 301 \n\t\t\twhen 'M' then 303 \n\t\t\telse 301\n\t\tend as IBANPL,\n\t\t0 AS IBBUYR,\n\t\tN'IN3S' AS IBGLPT,\n\t\tN'' AS IBORIG,\n\t\t0 AS IBROPI,\n\t\t0 AS IBROQI,\n\t\t0 AS IBRQMX,\n\t\t0 AS IBRQMN,\n\t\t0 AS IBWOMO,\n\t\t0 AS IBSERV,\n\t\t0 AS IBSAFE, \n\t\t0 AS IBSLD,\n\t\tN'Y' AS IBCKAV,\n\t\tN'' AS IBSRCE,\n\t\tN'' AS IBLOTS,\n\t\tN'' AS IBOT1Y,\n\t\tN'' AS IBOT2Y,\n\t\t0 AS IBSTDP,\n\t\t0 AS IBFRMP,\n\t\t0 AS IBTHRP,\n\t\tN'' AS IBSTDG,\n\t\tN'' AS IBFRGD,\n\t\tN'' AS IBTHGD,\n\t\tN'' AS IBCOTY,\n\t\t0 AS IBMMPC,\n\t\tN'SU' AS IBPRGR, \n\t\tN'SU' AS IBRPRC, \n\t\tN'' AS IBORPR,\n\t\tN'Y' AS IBBACK,\n\t\tN'' AS IBIFLA,\n\t\tN'' AS IBABCS,\n\t\tN'' AS IBABCM,\n\t\tN'' AS IBABCI,\n\t\tN'' AS IBOVR,\n\t\tN'' AS IBSHCM,\n\t\t0 AS IBCARS,\n\t\t0 AS IBCARP,\n\t\tN'' AS IBSHCN,\n\t\tcase (i.ProcurementType)\n\t\t\twhen 'B' then N'P' \n\t\t\twhen 'M' then N'M' \n\t\t\telse N'' \n\t\tend collate database_default as IBSTKT, -- Stocking Type Purchase or Manufacture\n\t\tN'S' AS IBLNTY,\n\t\tN'' AS IBFIFO,\n\t\tN'' AS IBCYCL,\n\t\tN'' AS IBINMG,\n\t\tN'' AS IBWARR, -- //TODO: ### Add Warranty code\n\t\tN'' AS IBSRNR,\n\t\t0 AS IBPCTM,\n\t\tN'' AS IBCMCG,\n\t\tN'Y' AS IBFUF1,\n\t\tcase (PurchasesTaxClass)\n\t\t\twhen 'NT' then N'N'\n\t\t\telse N'Y'\n\t\tend AS IBTX,   -- Purchasing taxable\n\t\tcase (TaxClass)\n\t\t\twhen 'NT' then N'N'\n\t\t\telse N'Y'\n\t\tend AS IBTAX1, -- Sales taxable\n\t\tN'0' AS IBMPST,\n\t\tN'' AS IBMRPD,\n\t\tN'' AS IBMRPC,\n\t\t0AS IBUPC,\n\t\tN'' AS IBSNS,\n\t\tN'' AS IBMERL,\n\t\t0 AS IBLTLV,\n\t\t0 AS IBLTMF,\n\t\t0 AS IBLTCM,\n\t\tN'0' AS IBOPC,\n\t\t0 AS IBOPV,\n\t\t1 AS IBACQ,\n\t\t0 AS IBMLQ,\n\t\t0 AS IBLTPU,\n\t\tN'G' AS IBMPSP,\n\t\tN'F' AS IBMRPP,\n\t\tN'B' AS IBITC,\n\t\tN'' AS IBECO,\n\t\tN'' AS IBECTY,\n\t\t0 AS IBECOD,\n\t\t0 AS IBMTF1,\n\t\t0 AS IBMTF2,\n\t\t0 AS IBMTF3,\n\t\t0 AS IBMTF4,\n\t\t0 AS IBMTF5,\n\t\t0 AS IBMOVD,\n\t\t0 AS IBQUED,\n\t\t0 AS IBSETL,\n\t\t0 AS IBSRNK,\n\t\tN'' AS IBSRKF,\n\t\tN'U' AS IBTIMB,\n\t\t0 AS IBBQTY,\n\t\tN'' AS IBORDW,\n\t\t0 AS IBEXPD,\n\t\t0 AS IBDEFD,\n\t\t0 AS IBMULT,\n\t\t0 AS IBSFLT,\n\t\tN'' AS IBMAKE,\n\t\t0 AS IBLFDJ,\n\t\t0 AS IBLLX,\n\t\tN'1' AS IBCMGL,\n\t\tN'2' AS IBURCD,\n\t\t0 AS IBURDT,\n\t\t0 AS IBURAT,\n\t\t0 AS IBURAB,\n\t\tN'' AS IBURRF,\n\t\t@user AS IBUSER,\n\t\t@pid AS IBPID,\n\t\t@jobn AS IBJOBN,\n\t\t@jToday AS IBUPMJ,\n\t\t@tNow AS IBTDAY,\n\t\tN'' AS IBTFLA,\n\t\t0 AS IBCOMH,\n\t\t0 AS IBAVRT,\n\t\tN'0' AS IBPOC,\n\t\tN'0' AS IBAING,\n\t\t0 AS IBBBDD,\n\t\tN'1' AS IBCMDM,\n\t\tN'1' AS IBLECM,\n\t\t0 AS IBLEDD,\n\t\tN'Y' AS IBMLOT,\n\t\t0 AS IBPEFD,\n\t\t0 AS IBSBDD,\n\t\t0 AS IBU1DD,\n\t\t0 AS IBU2DD,\n\t\t0 AS IBU3DD,\n\t\t0 AS IBU4DD,\n\t\t0 AS IBU5DD,\n\t\tN'0' AS IBXDCK,\n\t\tN'' AS IBLAF,\n\t\tN'' AS IBLTFM,\n\t\tN'' AS IBRWLA,\n\t\tN'' AS IBLNPA,\n\t\tN'' AS IBLOTC,\n\t\tN'' AS IBAPSC,\n\t\t0 AS IBPRI1,\n\t\t0 AS IBPRI2,\n\t\t0 AS IBLTCV,\n\t\tN'' AS IBASHL,\n\t\t0 AS IBOPTH,\n\t\t0 AS IBCUTH,\n\t\tN'' AS IBUMTH,\n\t\tN'0' AS IBLMFG,\n\t\tN'' AS IBLINE,\n\t\t0 AS IBDFTPCT,\n\t\tN'0' AS IBKBIT,\n\t\tN'0' AS IBDFENDITM,\n\t\tN'0' AS IBKANEXLL,\n\t\tN'0' AS IBSCPSELL,\n\t\t0 AS IBMOPTH,\n\t\t0 AS IBMCUTH,\n\t\tN'' AS IBCUMTH,\n\t\tN'' AS IBATPRN,\n\t\tN'' AS IBATPCA,\n\t\tN'' AS IBATPAC,\n\t\t0 AS IBCOORE,\n\t\tN'' AS IBVCPFC,\n\t\tN'N' AS IBPNYN\n\tfrom atmp.ItemConflicts\n\t\tjoin N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4101 on PartNumber = IMLITM collate database_default\n\t\tjoin dbo.ods_CI_Item i on PartNumber = ItemCode\n\twhere ActionKey = 1 -- Only select item conflicts with an existing F4101 record\nEND\nGO\n",
-			"file": "usp_F4102Add.sql",
-			"file_size": 11297,
-			"file_write_time": 132337886393636372,
+			"contents": "use SelectoJDE\ngo\n\nSET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\n-- ****************************************************************************************\n-- Populate JDE's F03B11Z1 file with data from the open invoice file\n--\n-- History: \n-- 29-Jun-2020 R.Lillback Created Initial Version\n--  \n-- ****************************************************************************************\nIF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03B11Z1')\n\tDROP PROCEDURE dbo.usp_F03B11Z1\nGO\n\nCREATE PROCEDURE dbo.usp_F03B11Z1\nAS\nBEGIN\n\n\tSET NOCOUNT ON;\n\n\tif object_id(N'tempdb..#F03B11Z1') is not null\n\t\tdrop table #F03B11Z1\n\nCREATE TABLE #F03B11Z1(\n\t[VJEDUS] [nchar](10) NOT NULL,\n\t[VJEDTY] [nchar](1) NULL,\n\t[VJEDSQ] [float] NULL,\n\t[VJEDTN] [nchar](22) NOT NULL,\n\t[VJEDCT] [nchar](2) NULL,\n\t[VJEDLN] [float] NOT NULL,\n\t[VJEDTS] [nchar](6) NULL,\n\t[VJEDFT] [nchar](10) NULL,\n\t[VJEDDT] [numeric](18, 0) NULL,\n\t[VJEDER] [nchar](1) NULL,\n\t[VJEDDL] [float] NULL,\n\t[VJEDSP] [nchar](1) NULL,\n\t[VJEDTC] [nchar](1) NULL,\n\t[VJEDTR] [nchar](1) NULL,\n\t[VJEDBT] [nchar](15) NOT NULL,\n\t[VJEDGL] [nchar](1) NULL,\n\t[VJEDDH] [nchar](1) NULL,\n\t[VJEDAN] [float] NULL,\n\t[VJDOC] [float] NULL,\n\t[VJDCT] [nchar](2) NULL,\n\t[VJKCO] [nchar](5) NULL,\n\t[VJSFX] [nchar](3) NULL,\n\t[VJAN8] [float] NULL,\n\t[VJDGJ] [numeric](18, 0) NULL,\n\t[VJDIVJ] [numeric](18, 0) NULL,\n\t[VJICUT] [nchar](2) NULL,\n\t[VJICU] [float] NULL,\n\t[VJDICJ] [numeric](18, 0) NULL,\n\t[VJFY] [float] NULL,\n\t[VJCTRY] [float] NULL,\n\t[VJPN] [float] NULL,\n\t[VJCO] [nchar](5) NULL,\n\t[VJGLC] [nchar](4) NULL,\n\t[VJAID] [nchar](8) NULL,\n\t[VJPA8] [float] NULL,\n\t[VJAN8J] [float] NULL,\n\t[VJPYR] [float] NULL,\n\t[VJPOST] [nchar](1) NULL,\n\t[VJISTR] [nchar](1) NULL,\n\t[VJBALJ] [nchar](1) NULL,\n\t[VJPST] [nchar](1) NULL,\n\t[VJAG] [float] NULL,\n\t[VJAAP] [float] NULL,\n\t[VJADSC] [float] NULL,\n\t[VJADSA] [float] NULL,\n\t[VJATXA] [float] NULL,\n\t[VJATXN] [float] NULL,\n\t[VJSTAM] [float] NULL,\n\t[VJCRRM] [nchar](1) NULL,\n\t[VJCRCD] [nchar](3) NULL,\n\t[VJCRR] [float] NULL,\n\t[VJDMCD] [nchar](1) NULL,\n\t[VJACR] [float] NULL,\n\t[VJFAP] [float] NULL,\n\t[VJCDS] [float] NULL,\n\t[VJCDSA] [float] NULL,\n\t[VJCTXA] [float] NULL,\n\t[VJCTXN] [float] NULL,\n\t[VJCTAM] [float] NULL,\n\t[VJTXA1] [nchar](10) NULL,\n\t[VJEXR1] [nchar](2) NULL,\n\t[VJDSVJ] [numeric](18, 0) NULL,\n\t[VJGLBA] [nchar](8) NULL,\n\t[VJAM] [nchar](1) NULL,\n\t[VJAID2] [nchar](8) NULL,\n\t[VJAM2] [nchar](1) NULL,\n\t[VJMCU] [nchar](12) NULL,\n\t[VJOBJ] [nchar](6) NULL,\n\t[VJSUB] [nchar](8) NULL,\n\t[VJSBLT] [nchar](1) NULL,\n\t[VJSBL] [nchar](8) NULL,\n\t[VJPTC] [nchar](3) NULL,\n\t[VJDDJ] [numeric](18, 0) NULL,\n\t[VJDDNJ] [numeric](18, 0) NULL,\n\t[VJRDDJ] [numeric](18, 0) NULL,\n\t[VJRDSJ] [numeric](18, 0) NULL,\n\t[VJSMTJ] [numeric](18, 0) NULL,\n\t[VJNBRR] [nchar](1) NULL,\n\t[VJRDRL] [nchar](1) NULL,\n\t[VJRMDS] [float] NULL,\n\t[VJCOLL] [nchar](1) NULL,\n\t[VJCORC] [nchar](2) NULL,\n\t[VJAFC] [nchar](1) NULL,\n\t[VJRSCO] [nchar](2) NULL,\n\t[VJCKNU] [nchar](25) NULL,\n\t[VJODOC] [float] NULL,\n\t[VJODCT] [nchar](2) NULL,\n\t[VJOKCO] [nchar](5) NULL,\n\t[VJOSFX] [nchar](3) NULL,\n\t[VJVINV] [nchar](25) NULL,\n\t[VJPO] [nchar](8) NULL,\n\t[VJPDCT] [nchar](2) NULL,\n\t[VJPKCO] [nchar](5) NULL,\n\t[VJDCTO] [nchar](2) NULL,\n\t[VJLNID] [float] NULL,\n\t[VJSDOC] [float] NULL,\n\t[VJSDCT] [nchar](2) NULL,\n\t[VJSKCO] [nchar](5) NULL,\n\t[VJSFXO] [nchar](3) NULL,\n\t[VJVLDT] [numeric](18, 0) NULL,\n\t[VJCMC1] [float] NULL,\n\t[VJVR01] [nchar](25) NULL,\n\t[VJUNIT] [nchar](8) NULL,\n\t[VJMCU2] [nchar](12) NULL,\n\t[VJRMK] [nchar](30) NULL,\n\t[VJALPH] [nchar](40) NULL,\n\t[VJRF] [nchar](2) NULL,\n\t[VJDRF] [float] NULL,\n\t[VJCTL] [nchar](13) NULL,\n\t[VJFNLP] [nchar](1) NULL,\n\t[VJITM] [float] NULL,\n\t[VJU] [float] NULL,\n\t[VJUM] [nchar](2) NULL,\n\t[VJALT6] [nchar](1) NULL,\n\t[VJRYIN] [nchar](1) NULL,\n\t[VJVDGJ] [numeric](18, 0) NULL,\n\t[VJVRE] [nchar](3) NULL,\n\t[VJRP1] [nchar](1) NULL,\n\t[VJRP2] [nchar](1) NULL,\n\t[VJRP3] [nchar](1) NULL,\n\t[VJAR01] [nchar](3) NULL,\n\t[VJAR02] [nchar](3) NULL,\n\t[VJAR03] [nchar](3) NULL,\n\t[VJAR04] [nchar](3) NULL,\n\t[VJAR05] [nchar](3) NULL,\n\t[VJAR06] [nchar](3) NULL,\n\t[VJAR07] [nchar](3) NULL,\n\t[VJAR08] [nchar](3) NULL,\n\t[VJAR09] [nchar](3) NULL,\n\t[VJAR10] [nchar](3) NULL,\n\t[VJURC1] [nchar](3) NULL,\n\t[VJURDT] [numeric](18, 0) NULL,\n\t[VJURAT] [float] NULL,\n\t[VJURAB] [float] NULL,\n\t[VJURRF] [nchar](15) NULL,\n\t[VJTORG] [nchar](10) NULL,\n\t[VJUSER] [nchar](10) NULL,\n\t[VJPID] [nchar](10) NULL,\n\t[VJUPMJ] [numeric](18, 0) NULL,\n\t[VJUPMT] [float] NULL,\n\t[VJJOBN] [nchar](10) NULL,\n\t[VJHCRR] [float] NULL,\n\t[VJHDGJ] [numeric](18, 0) NULL,\n\t[VJDIM] [float] NULL,\n\t[VJDID] [float] NULL,\n\t[VJDIY] [float] NULL,\n\t[VJDI#] [float] NULL,\n\t[VJDGM] [float] NULL,\n\t[VJDGD] [float] NULL,\n\t[VJDGY] [float] NULL,\n\t[VJDG#] [float] NULL,\n\t[VJDICM] [float] NULL,\n\t[VJDICD] [float] NULL,\n\t[VJDICY] [float] NULL,\n\t[VJDIC#] [float] NULL,\n\t[VJDSVM] [float] NULL,\n\t[VJDSVD] [float] NULL,\n\t[VJDSVY] [float] NULL,\n\t[VJDSV#] [float] NULL,\n\t[VJDDM] [float] NULL,\n\t[VJDDD] [float] NULL,\n\t[VJDDY] [float] NULL,\n\t[VJDD#] [float] NULL,\n\t[VJDDNM] [float] NULL,\n\t[VJDDND] [float] NULL,\n\t[VJDDNY] [float] NULL,\n\t[VJDDN#] [float] NULL,\n\t[VJSMTM] [float] NULL,\n\t[VJSMTD] [float] NULL,\n\t[VJSMTY] [float] NULL,\n\t[VJSMT#] [float] NULL,\n\t[VJRDDM] [float] NULL,\n\t[VJRDDD] [float] NULL,\n\t[VJRDDY] [float] NULL,\n\t[VJRDD#] [float] NULL,\n\t[VJRDSM] [float] NULL,\n\t[VJRDSD] [float] NULL,\n\t[VJRDSY] [float] NULL,\n\t[VJRDS#] [float] NULL,\n\t[VJHDGM] [float] NULL,\n\t[VJHDGD] [float] NULL,\n\t[VJHDGY] [float] NULL,\n\t[VJHDG#] [float] NULL,\n\t[VJSHPN] [float] NULL,\n\t[VJDTXS] [nchar](1) NULL,\n\t[VJOMOD] [nchar](1) NULL,\n\t[VJCLMG] [nchar](10) NULL,\n\t[VJCMGR] [nchar](10) NULL,\n\t[VJATAD] [float] NULL,\n\t[VJCTAD] [float] NULL,\n\t[VJNRTA] [float] NULL,\n\t[VJFNRT] [float] NULL,\n\t[VJPRGF] [nchar](1) NULL,\n\t[VJGFL1] [nchar](1) NULL,\n\t[VJGFL2] [nchar](1) NULL,\n\t[VJDOCO] [float] NULL,\n\t[VJKCOO] [nchar](5) NULL,\n\t[VJSOTF] [nchar](1) NULL,\n\t[VJDTPB] [numeric](18, 0) NULL,\n\t[VJERDJ] [numeric](18, 0) NULL,\n\t[VJNETST] [nchar](1) NULL,\n\t[VJRMR1] [nchar](50) NULL\n)\n\n\t--\n\t-- Copy data into the F03B11Z1 from the open invoice file\n\t--\n\tinsert into #F03B11Z1\n\t\tselect \n\t\t\tN'LEDGINGTON' as VJEDUS,\n\t\t\tN'' as VJEDTY,\n\t\t\t0 as VJEDSQ,\n\t\t\tN'1' as VJEDTN,\n\t\t\tN'' as VJEDCT,\n\t\t\t1000 as VJEDLN,\n\t\t\tN'' as VJEDTS,\n\t\t\tN'' as VJEDFT,\n\t\t\tdbo.fn_DateTimeToJulian(GETDATE()) as VJEDDT,\n\t\t\tN'' as VJEDER,\n\t\t\t0 as VJEDDL,\n\t\t\tN'' as VJEDSP,\n\t\t\tN'A' as VJEDTC,\n\t\t\tN'I' as VJEDTR,\n\t\t\tN'8023' as VJEDBT,\n\t\t\tN'' as VJEDGL,\n\t\t\tN'0' as VJEDDH,\n\t\t\t821756 as VJEDAN,\n\t\t\t0 as VJDOC,\n\t\t\tN'' as VJDCT,\n\t\t\tN'' as VJKCO,\n\t\t\tN'' as VJSFX,\n\t\t\t(select aban8 from n0e9sql01.jde_development.testdta.f0101 where abalky = ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) collate database_default) as VJAN8,\n\t\t\tdbo.fn_DateTimeToJulian(GETDATE()) as VJDGJ,\n\t\t\tdbo.fn_DateTimeToJulian(InvoiceDate) as VJDIVJ,\n\t\t\tN'IB' as VJICUT,\n\t\t\t0 as VJICU,\n\t\t\tdbo.fn_DateTimeToJulian(GETDATE()) as VJDICJ,\n\t\t\t0 as VJFY,\n\t\t\t0 as VJCTRY,\n\t\t\t0 as VJPN,\n\t\t\tN'03000' as VJCO,\n\t\t\tN'' as VJGLC,\n\t\t\tN'' as VJAID,\n\t\t\tNULL as VJPA8,\n\t\t\tNULL as VJAN8J,\n\t\t\tNULL as VJPYR,\n\t\t\tN'' as VJPOST,\n\t\t\tN' ' as VJISTR,\n\t\t\tN'' as VJBALJ,\n\t\t\tN'A' as VJPST,\n\t\t\tcast(Balance * 100.0 as float)     as VJAG,\n\t\t\t0 as VJAAP,\n\t\t\t0 as VJADSC,\n\t\t\t0 as VJADSA,\n\t\t\t0 as VJATXA,\n\t\t\t0 as VJATXN,\n\t\t\t0 as VJSTAM,\n\t\t\tN'' as VJCRRM,\n\t\t\tN'' as VJCRCD,\n\t\t\t0 as VJCRR,\n\t\t\tN'' as VJDMCD,\n\t\t\t0 as VJACR,\n\t\t\t0 as VJFAP,\n\t\t\t0 as VJCDS,\n\t\t\t0 as VJCDSA,\n\t\t\t0 as VJCTXA,\n\t\t\t0 as VJCTXN,\n\t\t\t0 as VJCTAM,\n\t\t\tN'' as VJTXA1,\n\t\t\tN'' as VJEXR1,\n\t\t\t0 as VJDSVJ,\n\t\t\tN'' as VJGLBA,\n\t\t\tN'2' as VJAM,\n\t\t\tN'' as VJAID2,\n\t\t\tN'' as VJAM2,\n\t\t\tN'        3SUW' as VJMCU,\n\t\t\tN'' as VJOBJ,\n\t\t\tN'' as VJSUB,\n\t\t\tN'' as VJSBLT,\n\t\t\tN'' as VJSBL,\n\t\t\tcase (TermsCode) -- Per spreadsheet on Teams site\n\t\t\t\t when '00' then N'01'\n\t\t\t\t when '01' then N'1/1'\n\t\t\t\t when '02' then N'2/1'\n\t\t\t\t when '05' then N'1.6'\n\t\t\t\t when '06' then N'1/2'\n\t\t\t\t when '07' then N'1.5'\n\t\t\t\t when '08' then N'6/1'\n\t\t\t\t when '10' then N'N10'\n\t\t\t\t when '21' then N'N20'\n\t\t\t\t when '30' then N'N30'\n\t\t\t\t when '36' then N'N36'\n\t\t\t\t when '45' then N'N45'\n\t\t\t\t when '60' then N'N60'\n\t\t\t\t when '90' then N'N90'\n\t\t\t\t when '99' then N'H27'\n\t\t\t\t else N'01'\n\t\t\tend collate database_default as VJPTC,\n\t\t\tdbo.fn_DateTimeToJulian(InvoiceDueDate) as VJDDJ,\n\t\t\tdbo.fn_DateTimeToJulian(InvoiceDiscountDate) as VJDDNJ,\n\t\t\t0 as VJRDDJ,\n\t\t\t0 as VJRDSJ,\n\t\t\t0 as VJSMTJ,\n\t\t\tN'' as VJNBRR,\n\t\t\tN'' as VJRDRL,\n\t\t\t0 as VJRMDS,\n\t\t\tN'' as VJCOLL,\n\t\t\tN'' as VJCORC,\n\t\t\tN'' as VJAFC,\n\t\t\tN'' as VJRSCO,\n\t\t\tN'' as VJCKNU,\n\t\t\t0 as VJODOC,\n\t\t\tN'' as VJODCT,\n\t\t\tN'' as VJOKCO,\n\t\t\tN'' as VJOSFX,\n\t\t\tN'' as VJVINV,\n\t\t\tN'' as VJPO,\n\t\t\tN'' as VJPDCT,\n\t\t\tN'' as VJPKCO,\n\t\t\tN'' as VJDCTO,\n\t\t\t0 as VJLNID,\n\t\t\t0 as VJSDOC,\n\t\t\tN'' as VJSDCT,\n\t\t\tN'' as VJSKCO,\n\t\t\tN'' as VJSFXO,\n\t\t\t0 as VJVLDT,\n\t\t\t0 as VJCMC1,\n\t\t\tCustomerPONo collate database_default as VJVR01,\n\t\t\tN'' as VJUNIT,\n\t\t\tN'' as VJMCU2,\n\t\t\t(InvoiceType + N'-' + ltrim(rtrim(substring(InvoiceNo, patindex('%[^0]%', InvoiceNo), 20)))) collate database_default as VJRMK,\n\t\t\tN'' as VJALPH,\n\t\t\tN'' as VJRF,\n\t\t\t0 as VJDRF,\n\t\t\tN'' as VJCTL,\n\t\t\tN'' as VJFNLP,\n\t\t\t0 as VJITM,\n\t\t\t0 as VJU,\n\t\t\tN'' as VJUM,\n\t\t\tN'' as VJALT6,\n\t\t\tN'' as VJRYIN,\n\t\t\t0 as VJVDGJ,\n\t\t\tN'' as VJVRE,\n\t\t\tN'' as VJRP1,\n\t\t\tN'' as VJRP2,\n\t\t\tN'' as VJRP3,\n\t\t\tN'' as VJAR01,\n\t\t\tN'' as VJAR02,\n\t\t\tN'' as VJAR03,\n\t\t\tN'' as VJAR04,\n\t\t\tN'' as VJAR05,\n\t\t\tN'' as VJAR06,\n\t\t\tN'' as VJAR07,\n\t\t\tN'' as VJAR08,\n\t\t\tN'' as VJAR09,\n\t\t\tN'' as VJAR10,\n\t\t\tN'' as VJURC1,\n\t\t\t0 as VJURDT,\n\t\t\t0 as VJURAT,\n\t\t\t0 as VJURAB,\n\t\t\tN'' as VJURRF,\n\t\t\tN'' as VJTORG,\n\t\t\tN'' as VJUSER,\n\t\t\tN'' as VJPID,\n\t\t\t0 as VJUPMJ,\n\t\t\t0 as VJUPMT,\n\t\t\tN'' as VJJOBN,\n\t\t\t0 as VJHCRR,\n\t\t\t0 as VJHDGJ,\n\t\t\t0 as VJDIM,\n\t\t\t0 as VJDID,\n\t\t\t0 as VJDIY,\n\t\t\t0 as VJDI#,\n\t\t\t0 as VJDGM,\n\t\t\t0 as VJDGD,\n\t\t\t0 as VJDGY,\n\t\t\t0 as VJDG#,\n\t\t\t0 as VJDICM,\n\t\t\t0 as VJDICD,\n\t\t\t0 as VJDICY,\n\t\t\t0 as VJDIC#,\n\t\t\t0 as VJDSVM,\n\t\t\t0 as VJDSVD,\n\t\t\t0 as VJDSVY,\n\t\t\t0 as VJDSV#,\n\t\t\t0 as VJDDM,\n\t\t\t0 as VJDDD,\n\t\t\t0 as VJDDY,\n\t\t\t0 as VJDD#,\n\t\t\t0 as VJDDNM,\n\t\t\t0 as VJDDND,\n\t\t\t0 as VJDDNY,\n\t\t\t0 as VJDDN#,\n\t\t\t0 as VJSMTM,\n\t\t\t0 as VJSMTD,\n\t\t\t0 as VJSMTY,\n\t\t\t0 as VJSMT#,\n\t\t\t0 as VJRDDM,\n\t\t\t0 as VJRDDD,\n\t\t\t0 as VJRDDY,\n\t\t\t0 as VJRDD#,\n\t\t\t0 as VJRDSM,\n\t\t\t0 as VJRDSD,\n\t\t\t0 as VJRDSY,\n\t\t\t0 as VJRDS#,\n\t\t\t0 as VJHDGM,\n\t\t\t0 as VJHDGD,\n\t\t\t0 as VJHDGY,\n\t\t\t0 as VJHDG#,\n\t\t\t0 as VJSHPN,\n\t\t\tN'' as VJDTXS,\n\t\t\tN'' as VJOMOD,\n\t\t\tN'' as VJCLMG,\n\t\t\tN'' as VJCMGR,\n\t\t\t0 as VJATAD,\n\t\t\t0 as VJCTAD,\n\t\t\t0 as VJNRTA,\n\t\t\t0 as VJFNRT,\n\t\t\tN'' as VJPRGF,\n\t\t\tN'' as VJGFL1,\n\t\t\tN'' as VJGFL2,\n\t\t\t0 as VJDOCO,\n\t\t\tN'' as VJKCOO,\n\t\t\tN'' as VJSOTF,\n\t\t\t0 as VJDTPB,\n\t\t\t0 as VJERDJ,\n\t\t\tN'' as VJNETST,\n\t\t\tN'' as VJRMR1\n\t\tfrom dbo.ods_AR_OpenInvoice\n\t\twhere Balance <> 0\n\n\t--\n\t-- Set each transaction as a unique ID\n\t--\n\tupdate x\n\t\tset x.VJEDTN = x.NewEDTN\n\tfrom (\n\t\tselect \n\t\t\tVJEDTN,\n\t\t\tROW_NUMBER() over (order by VJEDTN asc) as NewEDTN\n\t\tfrom #F03B11Z1\n\t) as x\n\n\t--\n\t-- Copy things into JDE\n\t--\n\tinsert into atmp.F03B11Z1\n\t\tselect * from #F03B11Z1\n\n\tdrop table #F03B11Z1\nend\ngo",
+			"file": "usp_F03012Z1.sql",
+			"file_size": 11398,
+			"file_write_time": 132379318891077765,
 			"settings":
 			{
-				"buffer_size": 10849,
+				"buffer_size": 10889,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "usp_F4101AddNew.sql",
+			"file": "usp_F0911Z1.sql",
 			"settings":
 			{
-				"buffer_size": 21459,
+				"buffer_size": 9833,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -135,11 +141,19 @@
 	],
 	"file_history":
 	[
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_ShipTo.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
+		"/E/gitHub/Rollout/TestFiles/SageRolloutExample1.csv",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4104_VendorXref.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Remit_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Remit_Load.sql",
+		"/C/KineticoSSISConfiguration/KineticoExperience.dtsConfig",
+		"/C/KineticoSSISConfiguration/DD_ExportItemRestrictions.dtsConfig",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0030_Vendor.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4072_Contract.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_ShipTo.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Customer_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
@@ -151,13 +165,11 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Remit_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Vendor_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_ShipTo_Phones.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Remit_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Customer_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F41021Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4106Add.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
 		"//n0e9dep01/E910/DV910/PACKAGE/DV910FC/source/B984052.c",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_ItemConflicts.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",
@@ -165,13 +177,11 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Vendor.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_TemporarySalesCodeFix.sql",
 		"/K/KINETICO/Common/Ray/SelectoDataLoad.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4072_Contract.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200227-PattiPriceUpdate.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0150_Load.sql",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Import.scp",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Export.scp",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4104_VendorXref.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_ShipTo_Load.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200206-TEMECULA-BasePricesForPatti.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Vendor_Load.sql",
@@ -192,7 +202,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -206,6 +216,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"IBVEND",
 			"VendorNo",
 			"'FP'",
 			"IBPRGR",
@@ -270,19 +281,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "usp_F4102Add.sql",
+					"file": "usp_F03012Z1.sql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10849,
+						"buffer_size": 10889,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1516,
-								1516
+								0,
+								10889
 							]
 						],
 						"settings":
@@ -291,7 +302,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 702.0,
+						"translation.y": 6810.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -299,19 +310,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "usp_F4101AddNew.sql",
-					"semi_transient": true,
+					"file": "usp_F0911Z1.sql",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21459,
+						"buffer_size": 9833,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2905,
-								3130
+								9833,
+								9833
 							]
 						],
 						"settings":
@@ -320,7 +331,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 357.0,
+						"translation.y": 6234.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

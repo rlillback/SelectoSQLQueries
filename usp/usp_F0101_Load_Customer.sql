@@ -16,6 +16,7 @@ GO
 -- 12-Feb-2020 - R.Lillback Converted to next numbers from a fixed address number
 -- 29-Mar-2020 - R.Lillback Updated credit message per Laura. All are '2' - PO Required
 -- 08-May-2020 - R.Lillback Strip leading 0's from customer code
+-- 20-May-2020 - R.Lillback Set ABAC02 = 'SUW'
 --
 -- TODO:
 --  
@@ -47,7 +48,7 @@ BEGIN
 	declare @tmpMCU nchar(12) = (SELECT ABMCU FROM N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 WHERE ABAN8 = 4590); 
 
 	-- set the starting customer number 
-	declare @startingRowNum float = (select NNN001 from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 where NNSY = N'01');
+	declare @startingRowNum float = (select (NNN001) from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 where NNSY = N'01');
 
 	if OBJECT_ID(N'tempdb..#tempIntermediate') is not null
 		drop table #tempIntermediate
@@ -118,7 +119,7 @@ BEGIN
 		CAST(ROWNUM AS FLOAT) AS ABAN86,
 		CAST(ROWNUM AS FLOAT) AS ABAN85,
 		N'SUW' COLLATE DATABASE_DEFAULT AS ABAC01,
-		N'' COLLATE DATABASE_DEFAULT AS ABAC02,
+		N'SUW' COLLATE DATABASE_DEFAULT AS ABAC02,
 		N'' COLLATE DATABASE_DEFAULT AS ABAC03,
 		SalesGroup COLLATE DATABASE_DEFAULT AS ABAC04,
 		N'A' COLLATE DATABASE_DEFAULT AS ABAC05,

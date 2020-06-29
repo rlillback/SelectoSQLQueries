@@ -10,6 +10,7 @@ GO
 --
 -- HISTORY:
 --   11-Mar-2020 R.Lillback Created initial version
+--   27-May-2020 R.Lillback Fixed issue with no leading zero's on customer numbers
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4072_Contract')
 	DROP PROCEDURE dbo.usp_F4072_Contract
@@ -93,7 +94,7 @@ BEGIN
 		N'' as ADRULENAME
 	from #tempContract
 	join atmp.F4101 on IMLITM = rtrim(ItemCode) COLLATE DATABASE_DEFAULT 
-	join atmp.F0101 on ABALKY = rtrim(CustomerNo) COLLATE DATABASE_DEFAULT 
+	join atmp.F0101 on ABALKY = ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) COLLATE DATABASE_DEFAULT 
 
 
 	/*********************************************************************
@@ -150,7 +151,7 @@ BEGIN
 		N'' as ADRULENAME
 	from #tempContract
 	join atmp.F4101 on IMLITM = rtrim(ItemCode) COLLATE DATABASE_DEFAULT 
-	join atmp.F0101 on ABALKY = rtrim(CustomerNo) COLLATE DATABASE_DEFAULT
+	join atmp.F0101 on ABALKY = ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) COLLATE DATABASE_DEFAULT
 
 	/*********************************************************************
 	 * Finally, lets make all the discounts.  This maps to JDE as        *
@@ -210,7 +211,7 @@ BEGIN
 		N'' as ADRULENAME
 	from #tempContract
 	join atmp.F4101 on IMLITM = rtrim(ItemCode) COLLATE DATABASE_DEFAULT 
-	join atmp.F0101 on ABALKY = rtrim(CustomerNo) COLLATE DATABASE_DEFAULT
+	join atmp.F0101 on ABALKY = ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) COLLATE DATABASE_DEFAULT
 
 	/* 
 	 * And we also have to add a 100% STDMULTI for these people
@@ -256,7 +257,7 @@ BEGIN
 		N'' as ADRULENAME
 	from #tempContract
 	join atmp.F4101 on IMLITM = rtrim(ItemCode) COLLATE DATABASE_DEFAULT 
-	join atmp.F0101 on ABALKY = rtrim(CustomerNo) COLLATE DATABASE_DEFAULT
+	join atmp.F0101 on ABALKY = ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) COLLATE DATABASE_DEFAULT
 
 	-- adjust the rule numbers
 	declare @maxrule FLOAT = (select MAX(ADATID) from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4072);
@@ -269,7 +270,7 @@ BEGIN
 		from atmp.F4072
 	) as t	
 
-	DROP TABLE #tempContract
+	 DROP TABLE #tempContract
 
 END
 GO

@@ -18,6 +18,8 @@ GO
 --   10-Feb-2020 R.Lillback starting row number is now a next number NNN001 from NNSY = 01
 --   17-Feb-2020 R.Lillback Set ABTAXC based on Form1099 in Vendor database per Laura
 --   08-May-2020 R.Lillback Trim leading 0's from vendor codes
+--	 20-May-2020 R.Lillback Set ABAC02 = SUW
+--   06-Jun-2020 - R.Lillback Set starting row number based on accounting's method
 --
 -- TODO:
 --   
@@ -44,7 +46,7 @@ BEGIN
 	declare @tmpMCU nchar(12) = (SELECT ABMCU FROM N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 WHERE ABAN8 = 4590);
 
 	-- set the starting customer number 
-	declare @startingRowNum float = (select NNN001 from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 where NNSY = N'01');
+	declare @startingRowNum float = (select (MAX(ABAN8) + 1) from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 where ABAT1 in ('V', 'TAX'));
 
 	if OBJECT_ID(N'tempdb..#tempIntermediate') is not null
 		drop table #tempIntermediate
@@ -120,7 +122,7 @@ BEGIN
 			CAST(INTER.ROWNUM AS FLOAT) AS ABAN86,
 			CAST(INTER.RemittanceAddr AS FLOAT) AS ABAN85,
 			N'SUW' COLLATE DATABASE_DEFAULT AS ABAC01,
-			N'' COLLATE DATABASE_DEFAULT AS ABAC02,
+			N'SUW' COLLATE DATABASE_DEFAULT AS ABAC02,
 			N'' COLLATE DATABASE_DEFAULT AS ABAC03,
 			N'' COLLATE DATABASE_DEFAULT AS ABAC04,
 			N'' COLLATE DATABASE_DEFAULT AS ABAC05,
@@ -187,11 +189,6 @@ BEGIN
 			CAST(0 AS FLOAT) AS ABPERRS,
 			CAST(0 AS FLOAT) AS ABCAAD
 	from #tempIntermediate as INTER
-
-	--
-	-- Update the next number for addresses
-	--
-	update N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 set NNN001 = (select max(ABAN8)+1 from atmp.F0101) where NNSY=N'01'
 
 	drop table #tempIntermediate
 	

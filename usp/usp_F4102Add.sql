@@ -282,7 +282,7 @@ BEGIN
 		N'' AS IBPDGR,
 		N'' AS IBDSGP,
 		0 AS IBVEND,
-		case (ProcurementType)
+		case (i.ProcurementType)
 			when 'B' then 301 
 			when 'M' then 303 
 			else 301
@@ -324,7 +324,7 @@ BEGIN
 		0 AS IBCARS,
 		0 AS IBCARP,
 		N'' AS IBSHCN,
-		case (ProcurementType)
+		case (i.ProcurementType)
 			when 'B' then N'P' 
 			when 'M' then N'M' 
 			else N'' 

@@ -15,6 +15,8 @@ GO
 --   11-Feb-2020 R.Lillback Created initial version
 --	 08-May-2020 R.Lillback remove leading zeros from vendor code
 --   09-May-2020 R.Lillback Fix bug in vendor update
+--   20-May-2020 R.Lillback Set ABAC02 = 'SUW'
+--   06-Jun-2020 R.Lillback Updated remit AN8 to use the accounting range, but not rules
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Remit_Load')
 	DROP PROCEDURE dbo.usp_F0101_Remit_Load
@@ -38,7 +40,7 @@ BEGIN
 	declare @tmpMCU nchar(12) = (SELECT ABMCU FROM N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 WHERE ABAN8 = 4590);
 
 	-- set the starting customer number 
-	declare @startingRowNum float = (select NNN001 from N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 where NNSY = N'01');
+	declare @startingRowNum float = (select (MAX(ABAN8)) from N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0101 where ABAT1 = 'R');
 
 	if OBJECT_ID(N'tempdb..#tempIntermediate') is not null
 		drop table #tempIntermediate
@@ -58,32 +60,18 @@ BEGIN
 	--
 	insert into #tempIntermediate 
 		select 
-			NULL as ROWNUM
+			(100000 + (select ABAN8 from atmp.F0101 where ABAT1 = 'V3' and ABALKY = ltrim(rtrim(substring(VendorNo, patindex('%[^0]%', VendorNo), 20))))) as ROWNUM
 		   ,ltrim(rtrim(substring(VendorNo, patindex('%[^0]%', VendorNo), 20))) as VendCode
 		   ,UPPER(LEFT(VendorName,40)) as AlphaName
 		   ,TaxPayerIdSocialSecurityNo as TaxId
 		   ,N'C' as CorpIdentity
-		   ,NULL as RemittanceAddr
+		   ,(100000 + (select ABAN8 from atmp.F0101 where ABAT1 = 'V3' and ABALKY = ltrim(rtrim(substring(VendorNo, patindex('%[^0]%', VendorNo), 20))))) as RemittanceAddr
 		   ,NULL as ParentAddr
 		from dbo.ods_AP_Vendor
 		join dbo.ods_VendorFlatFile on VendorNo = ALKY and AT1 = N'R3' COLLATE DATABASE_DEFAULT
 		where VendorStatus <> N'I' 
 
-	-- now set the JDE address book numbers as ROW_NUMBER
-	update x
-		set x.ROWNUM = y.xrn, x.RemittanceAddr = y.xrn
-	from #tempIntermediate as x
-	join 
-	(
-		select  
-			@startingRowNum
-			+ ROW_NUMBER() OVER(ORDER BY VendCode) 
-			- 1  as xrn,
-			VendCode as cc
-		from #tempIntermediate
-	) as y on x.VendCode = y.cc
-
-	--
+		--
 	-- now set the JDE address book numbers for the parent address
 	--
 	update #tempIntermediate
@@ -196,11 +184,6 @@ BEGIN
 	from atmp.F0101 as x
 	join #tempIntermediate on ABALKY = VendCode COLLATE DATABASE_DEFAULT
 	where ABAN8 in (select ParentAddr from #tempIntermediate)
-
-	--
-	-- Update the next number for addresses
-	--
-	update N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002 set NNN001 = (select max(ABAN8)+1 from atmp.F0101) where NNSY=N'01'
 
 	drop table #tempIntermediate
 	

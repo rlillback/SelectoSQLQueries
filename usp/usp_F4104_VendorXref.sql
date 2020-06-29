@@ -84,7 +84,7 @@ BEGIN
 	from
 		(
 			select ALKY,
-		           (select top 1 CR.VendorNo from dbo.ods_IM_ItemVendor as CR where t.LITM = CR.ItemCode collate DATABASE_DEFAULT) AS NewALKY
+		    (select top 1 sub.VendorNo as Vend from dbo.ods_IM_ItemVendor as sub where t.LITM = sub.ItemCode collate DATABASE_DEFAULT order by [LastReceiptDate] desc) AS NewALKY
 			from #tempVend t 
 		 ) as tv
 		
