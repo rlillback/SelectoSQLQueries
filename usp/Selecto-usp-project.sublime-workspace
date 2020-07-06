@@ -84,13 +84,27 @@
 	"buffers":
 	[
 		{
-			"contents": "use SelectoJDE\ngo\n\nSET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\n-- ****************************************************************************************\n-- Populate JDE's F03B11Z1 file with data from the open invoice file\n--\n-- History: \n-- 29-Jun-2020 R.Lillback Created Initial Version\n--  \n-- ****************************************************************************************\nIF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03B11Z1')\n\tDROP PROCEDURE dbo.usp_F03B11Z1\nGO\n\nCREATE PROCEDURE dbo.usp_F03B11Z1\nAS\nBEGIN\n\n\tSET NOCOUNT ON;\n\n\tif object_id(N'tempdb..#F03B11Z1') is not null\n\t\tdrop table #F03B11Z1\n\nCREATE TABLE #F03B11Z1(\n\t[VJEDUS] [nchar](10) NOT NULL,\n\t[VJEDTY] [nchar](1) NULL,\n\t[VJEDSQ] [float] NULL,\n\t[VJEDTN] [nchar](22) NOT NULL,\n\t[VJEDCT] [nchar](2) NULL,\n\t[VJEDLN] [float] NOT NULL,\n\t[VJEDTS] [nchar](6) NULL,\n\t[VJEDFT] [nchar](10) NULL,\n\t[VJEDDT] [numeric](18, 0) NULL,\n\t[VJEDER] [nchar](1) NULL,\n\t[VJEDDL] [float] NULL,\n\t[VJEDSP] [nchar](1) NULL,\n\t[VJEDTC] [nchar](1) NULL,\n\t[VJEDTR] [nchar](1) NULL,\n\t[VJEDBT] [nchar](15) NOT NULL,\n\t[VJEDGL] [nchar](1) NULL,\n\t[VJEDDH] [nchar](1) NULL,\n\t[VJEDAN] [float] NULL,\n\t[VJDOC] [float] NULL,\n\t[VJDCT] [nchar](2) NULL,\n\t[VJKCO] [nchar](5) NULL,\n\t[VJSFX] [nchar](3) NULL,\n\t[VJAN8] [float] NULL,\n\t[VJDGJ] [numeric](18, 0) NULL,\n\t[VJDIVJ] [numeric](18, 0) NULL,\n\t[VJICUT] [nchar](2) NULL,\n\t[VJICU] [float] NULL,\n\t[VJDICJ] [numeric](18, 0) NULL,\n\t[VJFY] [float] NULL,\n\t[VJCTRY] [float] NULL,\n\t[VJPN] [float] NULL,\n\t[VJCO] [nchar](5) NULL,\n\t[VJGLC] [nchar](4) NULL,\n\t[VJAID] [nchar](8) NULL,\n\t[VJPA8] [float] NULL,\n\t[VJAN8J] [float] NULL,\n\t[VJPYR] [float] NULL,\n\t[VJPOST] [nchar](1) NULL,\n\t[VJISTR] [nchar](1) NULL,\n\t[VJBALJ] [nchar](1) NULL,\n\t[VJPST] [nchar](1) NULL,\n\t[VJAG] [float] NULL,\n\t[VJAAP] [float] NULL,\n\t[VJADSC] [float] NULL,\n\t[VJADSA] [float] NULL,\n\t[VJATXA] [float] NULL,\n\t[VJATXN] [float] NULL,\n\t[VJSTAM] [float] NULL,\n\t[VJCRRM] [nchar](1) NULL,\n\t[VJCRCD] [nchar](3) NULL,\n\t[VJCRR] [float] NULL,\n\t[VJDMCD] [nchar](1) NULL,\n\t[VJACR] [float] NULL,\n\t[VJFAP] [float] NULL,\n\t[VJCDS] [float] NULL,\n\t[VJCDSA] [float] NULL,\n\t[VJCTXA] [float] NULL,\n\t[VJCTXN] [float] NULL,\n\t[VJCTAM] [float] NULL,\n\t[VJTXA1] [nchar](10) NULL,\n\t[VJEXR1] [nchar](2) NULL,\n\t[VJDSVJ] [numeric](18, 0) NULL,\n\t[VJGLBA] [nchar](8) NULL,\n\t[VJAM] [nchar](1) NULL,\n\t[VJAID2] [nchar](8) NULL,\n\t[VJAM2] [nchar](1) NULL,\n\t[VJMCU] [nchar](12) NULL,\n\t[VJOBJ] [nchar](6) NULL,\n\t[VJSUB] [nchar](8) NULL,\n\t[VJSBLT] [nchar](1) NULL,\n\t[VJSBL] [nchar](8) NULL,\n\t[VJPTC] [nchar](3) NULL,\n\t[VJDDJ] [numeric](18, 0) NULL,\n\t[VJDDNJ] [numeric](18, 0) NULL,\n\t[VJRDDJ] [numeric](18, 0) NULL,\n\t[VJRDSJ] [numeric](18, 0) NULL,\n\t[VJSMTJ] [numeric](18, 0) NULL,\n\t[VJNBRR] [nchar](1) NULL,\n\t[VJRDRL] [nchar](1) NULL,\n\t[VJRMDS] [float] NULL,\n\t[VJCOLL] [nchar](1) NULL,\n\t[VJCORC] [nchar](2) NULL,\n\t[VJAFC] [nchar](1) NULL,\n\t[VJRSCO] [nchar](2) NULL,\n\t[VJCKNU] [nchar](25) NULL,\n\t[VJODOC] [float] NULL,\n\t[VJODCT] [nchar](2) NULL,\n\t[VJOKCO] [nchar](5) NULL,\n\t[VJOSFX] [nchar](3) NULL,\n\t[VJVINV] [nchar](25) NULL,\n\t[VJPO] [nchar](8) NULL,\n\t[VJPDCT] [nchar](2) NULL,\n\t[VJPKCO] [nchar](5) NULL,\n\t[VJDCTO] [nchar](2) NULL,\n\t[VJLNID] [float] NULL,\n\t[VJSDOC] [float] NULL,\n\t[VJSDCT] [nchar](2) NULL,\n\t[VJSKCO] [nchar](5) NULL,\n\t[VJSFXO] [nchar](3) NULL,\n\t[VJVLDT] [numeric](18, 0) NULL,\n\t[VJCMC1] [float] NULL,\n\t[VJVR01] [nchar](25) NULL,\n\t[VJUNIT] [nchar](8) NULL,\n\t[VJMCU2] [nchar](12) NULL,\n\t[VJRMK] [nchar](30) NULL,\n\t[VJALPH] [nchar](40) NULL,\n\t[VJRF] [nchar](2) NULL,\n\t[VJDRF] [float] NULL,\n\t[VJCTL] [nchar](13) NULL,\n\t[VJFNLP] [nchar](1) NULL,\n\t[VJITM] [float] NULL,\n\t[VJU] [float] NULL,\n\t[VJUM] [nchar](2) NULL,\n\t[VJALT6] [nchar](1) NULL,\n\t[VJRYIN] [nchar](1) NULL,\n\t[VJVDGJ] [numeric](18, 0) NULL,\n\t[VJVRE] [nchar](3) NULL,\n\t[VJRP1] [nchar](1) NULL,\n\t[VJRP2] [nchar](1) NULL,\n\t[VJRP3] [nchar](1) NULL,\n\t[VJAR01] [nchar](3) NULL,\n\t[VJAR02] [nchar](3) NULL,\n\t[VJAR03] [nchar](3) NULL,\n\t[VJAR04] [nchar](3) NULL,\n\t[VJAR05] [nchar](3) NULL,\n\t[VJAR06] [nchar](3) NULL,\n\t[VJAR07] [nchar](3) NULL,\n\t[VJAR08] [nchar](3) NULL,\n\t[VJAR09] [nchar](3) NULL,\n\t[VJAR10] [nchar](3) NULL,\n\t[VJURC1] [nchar](3) NULL,\n\t[VJURDT] [numeric](18, 0) NULL,\n\t[VJURAT] [float] NULL,\n\t[VJURAB] [float] NULL,\n\t[VJURRF] [nchar](15) NULL,\n\t[VJTORG] [nchar](10) NULL,\n\t[VJUSER] [nchar](10) NULL,\n\t[VJPID] [nchar](10) NULL,\n\t[VJUPMJ] [numeric](18, 0) NULL,\n\t[VJUPMT] [float] NULL,\n\t[VJJOBN] [nchar](10) NULL,\n\t[VJHCRR] [float] NULL,\n\t[VJHDGJ] [numeric](18, 0) NULL,\n\t[VJDIM] [float] NULL,\n\t[VJDID] [float] NULL,\n\t[VJDIY] [float] NULL,\n\t[VJDI#] [float] NULL,\n\t[VJDGM] [float] NULL,\n\t[VJDGD] [float] NULL,\n\t[VJDGY] [float] NULL,\n\t[VJDG#] [float] NULL,\n\t[VJDICM] [float] NULL,\n\t[VJDICD] [float] NULL,\n\t[VJDICY] [float] NULL,\n\t[VJDIC#] [float] NULL,\n\t[VJDSVM] [float] NULL,\n\t[VJDSVD] [float] NULL,\n\t[VJDSVY] [float] NULL,\n\t[VJDSV#] [float] NULL,\n\t[VJDDM] [float] NULL,\n\t[VJDDD] [float] NULL,\n\t[VJDDY] [float] NULL,\n\t[VJDD#] [float] NULL,\n\t[VJDDNM] [float] NULL,\n\t[VJDDND] [float] NULL,\n\t[VJDDNY] [float] NULL,\n\t[VJDDN#] [float] NULL,\n\t[VJSMTM] [float] NULL,\n\t[VJSMTD] [float] NULL,\n\t[VJSMTY] [float] NULL,\n\t[VJSMT#] [float] NULL,\n\t[VJRDDM] [float] NULL,\n\t[VJRDDD] [float] NULL,\n\t[VJRDDY] [float] NULL,\n\t[VJRDD#] [float] NULL,\n\t[VJRDSM] [float] NULL,\n\t[VJRDSD] [float] NULL,\n\t[VJRDSY] [float] NULL,\n\t[VJRDS#] [float] NULL,\n\t[VJHDGM] [float] NULL,\n\t[VJHDGD] [float] NULL,\n\t[VJHDGY] [float] NULL,\n\t[VJHDG#] [float] NULL,\n\t[VJSHPN] [float] NULL,\n\t[VJDTXS] [nchar](1) NULL,\n\t[VJOMOD] [nchar](1) NULL,\n\t[VJCLMG] [nchar](10) NULL,\n\t[VJCMGR] [nchar](10) NULL,\n\t[VJATAD] [float] NULL,\n\t[VJCTAD] [float] NULL,\n\t[VJNRTA] [float] NULL,\n\t[VJFNRT] [float] NULL,\n\t[VJPRGF] [nchar](1) NULL,\n\t[VJGFL1] [nchar](1) NULL,\n\t[VJGFL2] [nchar](1) NULL,\n\t[VJDOCO] [float] NULL,\n\t[VJKCOO] [nchar](5) NULL,\n\t[VJSOTF] [nchar](1) NULL,\n\t[VJDTPB] [numeric](18, 0) NULL,\n\t[VJERDJ] [numeric](18, 0) NULL,\n\t[VJNETST] [nchar](1) NULL,\n\t[VJRMR1] [nchar](50) NULL\n)\n\n\t--\n\t-- Copy data into the F03B11Z1 from the open invoice file\n\t--\n\tinsert into #F03B11Z1\n\t\tselect \n\t\t\tN'LEDGINGTON' as VJEDUS,\n\t\t\tN'' as VJEDTY,\n\t\t\t0 as VJEDSQ,\n\t\t\tN'1' as VJEDTN,\n\t\t\tN'' as VJEDCT,\n\t\t\t1000 as VJEDLN,\n\t\t\tN'' as VJEDTS,\n\t\t\tN'' as VJEDFT,\n\t\t\tdbo.fn_DateTimeToJulian(GETDATE()) as VJEDDT,\n\t\t\tN'' as VJEDER,\n\t\t\t0 as VJEDDL,\n\t\t\tN'' as VJEDSP,\n\t\t\tN'A' as VJEDTC,\n\t\t\tN'I' as VJEDTR,\n\t\t\tN'8023' as VJEDBT,\n\t\t\tN'' as VJEDGL,\n\t\t\tN'0' as VJEDDH,\n\t\t\t821756 as VJEDAN,\n\t\t\t0 as VJDOC,\n\t\t\tN'' as VJDCT,\n\t\t\tN'' as VJKCO,\n\t\t\tN'' as VJSFX,\n\t\t\t(select aban8 from n0e9sql01.jde_development.testdta.f0101 where abalky = ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) collate database_default) as VJAN8,\n\t\t\tdbo.fn_DateTimeToJulian(GETDATE()) as VJDGJ,\n\t\t\tdbo.fn_DateTimeToJulian(InvoiceDate) as VJDIVJ,\n\t\t\tN'IB' as VJICUT,\n\t\t\t0 as VJICU,\n\t\t\tdbo.fn_DateTimeToJulian(GETDATE()) as VJDICJ,\n\t\t\t0 as VJFY,\n\t\t\t0 as VJCTRY,\n\t\t\t0 as VJPN,\n\t\t\tN'03000' as VJCO,\n\t\t\tN'' as VJGLC,\n\t\t\tN'' as VJAID,\n\t\t\tNULL as VJPA8,\n\t\t\tNULL as VJAN8J,\n\t\t\tNULL as VJPYR,\n\t\t\tN'' as VJPOST,\n\t\t\tN' ' as VJISTR,\n\t\t\tN'' as VJBALJ,\n\t\t\tN'A' as VJPST,\n\t\t\tcast(Balance * 100.0 as float)     as VJAG,\n\t\t\t0 as VJAAP,\n\t\t\t0 as VJADSC,\n\t\t\t0 as VJADSA,\n\t\t\t0 as VJATXA,\n\t\t\t0 as VJATXN,\n\t\t\t0 as VJSTAM,\n\t\t\tN'' as VJCRRM,\n\t\t\tN'' as VJCRCD,\n\t\t\t0 as VJCRR,\n\t\t\tN'' as VJDMCD,\n\t\t\t0 as VJACR,\n\t\t\t0 as VJFAP,\n\t\t\t0 as VJCDS,\n\t\t\t0 as VJCDSA,\n\t\t\t0 as VJCTXA,\n\t\t\t0 as VJCTXN,\n\t\t\t0 as VJCTAM,\n\t\t\tN'' as VJTXA1,\n\t\t\tN'' as VJEXR1,\n\t\t\t0 as VJDSVJ,\n\t\t\tN'' as VJGLBA,\n\t\t\tN'2' as VJAM,\n\t\t\tN'' as VJAID2,\n\t\t\tN'' as VJAM2,\n\t\t\tN'        3SUW' as VJMCU,\n\t\t\tN'' as VJOBJ,\n\t\t\tN'' as VJSUB,\n\t\t\tN'' as VJSBLT,\n\t\t\tN'' as VJSBL,\n\t\t\tcase (TermsCode) -- Per spreadsheet on Teams site\n\t\t\t\t when '00' then N'01'\n\t\t\t\t when '01' then N'1/1'\n\t\t\t\t when '02' then N'2/1'\n\t\t\t\t when '05' then N'1.6'\n\t\t\t\t when '06' then N'1/2'\n\t\t\t\t when '07' then N'1.5'\n\t\t\t\t when '08' then N'6/1'\n\t\t\t\t when '10' then N'N10'\n\t\t\t\t when '21' then N'N20'\n\t\t\t\t when '30' then N'N30'\n\t\t\t\t when '36' then N'N36'\n\t\t\t\t when '45' then N'N45'\n\t\t\t\t when '60' then N'N60'\n\t\t\t\t when '90' then N'N90'\n\t\t\t\t when '99' then N'H27'\n\t\t\t\t else N'01'\n\t\t\tend collate database_default as VJPTC,\n\t\t\tdbo.fn_DateTimeToJulian(InvoiceDueDate) as VJDDJ,\n\t\t\tdbo.fn_DateTimeToJulian(InvoiceDiscountDate) as VJDDNJ,\n\t\t\t0 as VJRDDJ,\n\t\t\t0 as VJRDSJ,\n\t\t\t0 as VJSMTJ,\n\t\t\tN'' as VJNBRR,\n\t\t\tN'' as VJRDRL,\n\t\t\t0 as VJRMDS,\n\t\t\tN'' as VJCOLL,\n\t\t\tN'' as VJCORC,\n\t\t\tN'' as VJAFC,\n\t\t\tN'' as VJRSCO,\n\t\t\tN'' as VJCKNU,\n\t\t\t0 as VJODOC,\n\t\t\tN'' as VJODCT,\n\t\t\tN'' as VJOKCO,\n\t\t\tN'' as VJOSFX,\n\t\t\tN'' as VJVINV,\n\t\t\tN'' as VJPO,\n\t\t\tN'' as VJPDCT,\n\t\t\tN'' as VJPKCO,\n\t\t\tN'' as VJDCTO,\n\t\t\t0 as VJLNID,\n\t\t\t0 as VJSDOC,\n\t\t\tN'' as VJSDCT,\n\t\t\tN'' as VJSKCO,\n\t\t\tN'' as VJSFXO,\n\t\t\t0 as VJVLDT,\n\t\t\t0 as VJCMC1,\n\t\t\tCustomerPONo collate database_default as VJVR01,\n\t\t\tN'' as VJUNIT,\n\t\t\tN'' as VJMCU2,\n\t\t\t(InvoiceType + N'-' + ltrim(rtrim(substring(InvoiceNo, patindex('%[^0]%', InvoiceNo), 20)))) collate database_default as VJRMK,\n\t\t\tN'' as VJALPH,\n\t\t\tN'' as VJRF,\n\t\t\t0 as VJDRF,\n\t\t\tN'' as VJCTL,\n\t\t\tN'' as VJFNLP,\n\t\t\t0 as VJITM,\n\t\t\t0 as VJU,\n\t\t\tN'' as VJUM,\n\t\t\tN'' as VJALT6,\n\t\t\tN'' as VJRYIN,\n\t\t\t0 as VJVDGJ,\n\t\t\tN'' as VJVRE,\n\t\t\tN'' as VJRP1,\n\t\t\tN'' as VJRP2,\n\t\t\tN'' as VJRP3,\n\t\t\tN'' as VJAR01,\n\t\t\tN'' as VJAR02,\n\t\t\tN'' as VJAR03,\n\t\t\tN'' as VJAR04,\n\t\t\tN'' as VJAR05,\n\t\t\tN'' as VJAR06,\n\t\t\tN'' as VJAR07,\n\t\t\tN'' as VJAR08,\n\t\t\tN'' as VJAR09,\n\t\t\tN'' as VJAR10,\n\t\t\tN'' as VJURC1,\n\t\t\t0 as VJURDT,\n\t\t\t0 as VJURAT,\n\t\t\t0 as VJURAB,\n\t\t\tN'' as VJURRF,\n\t\t\tN'' as VJTORG,\n\t\t\tN'' as VJUSER,\n\t\t\tN'' as VJPID,\n\t\t\t0 as VJUPMJ,\n\t\t\t0 as VJUPMT,\n\t\t\tN'' as VJJOBN,\n\t\t\t0 as VJHCRR,\n\t\t\t0 as VJHDGJ,\n\t\t\t0 as VJDIM,\n\t\t\t0 as VJDID,\n\t\t\t0 as VJDIY,\n\t\t\t0 as VJDI#,\n\t\t\t0 as VJDGM,\n\t\t\t0 as VJDGD,\n\t\t\t0 as VJDGY,\n\t\t\t0 as VJDG#,\n\t\t\t0 as VJDICM,\n\t\t\t0 as VJDICD,\n\t\t\t0 as VJDICY,\n\t\t\t0 as VJDIC#,\n\t\t\t0 as VJDSVM,\n\t\t\t0 as VJDSVD,\n\t\t\t0 as VJDSVY,\n\t\t\t0 as VJDSV#,\n\t\t\t0 as VJDDM,\n\t\t\t0 as VJDDD,\n\t\t\t0 as VJDDY,\n\t\t\t0 as VJDD#,\n\t\t\t0 as VJDDNM,\n\t\t\t0 as VJDDND,\n\t\t\t0 as VJDDNY,\n\t\t\t0 as VJDDN#,\n\t\t\t0 as VJSMTM,\n\t\t\t0 as VJSMTD,\n\t\t\t0 as VJSMTY,\n\t\t\t0 as VJSMT#,\n\t\t\t0 as VJRDDM,\n\t\t\t0 as VJRDDD,\n\t\t\t0 as VJRDDY,\n\t\t\t0 as VJRDD#,\n\t\t\t0 as VJRDSM,\n\t\t\t0 as VJRDSD,\n\t\t\t0 as VJRDSY,\n\t\t\t0 as VJRDS#,\n\t\t\t0 as VJHDGM,\n\t\t\t0 as VJHDGD,\n\t\t\t0 as VJHDGY,\n\t\t\t0 as VJHDG#,\n\t\t\t0 as VJSHPN,\n\t\t\tN'' as VJDTXS,\n\t\t\tN'' as VJOMOD,\n\t\t\tN'' as VJCLMG,\n\t\t\tN'' as VJCMGR,\n\t\t\t0 as VJATAD,\n\t\t\t0 as VJCTAD,\n\t\t\t0 as VJNRTA,\n\t\t\t0 as VJFNRT,\n\t\t\tN'' as VJPRGF,\n\t\t\tN'' as VJGFL1,\n\t\t\tN'' as VJGFL2,\n\t\t\t0 as VJDOCO,\n\t\t\tN'' as VJKCOO,\n\t\t\tN'' as VJSOTF,\n\t\t\t0 as VJDTPB,\n\t\t\t0 as VJERDJ,\n\t\t\tN'' as VJNETST,\n\t\t\tN'' as VJRMR1\n\t\tfrom dbo.ods_AR_OpenInvoice\n\t\twhere Balance <> 0\n\n\t--\n\t-- Set each transaction as a unique ID\n\t--\n\tupdate x\n\t\tset x.VJEDTN = x.NewEDTN\n\tfrom (\n\t\tselect \n\t\t\tVJEDTN,\n\t\t\tROW_NUMBER() over (order by VJEDTN asc) as NewEDTN\n\t\tfrom #F03B11Z1\n\t) as x\n\n\t--\n\t-- Copy things into JDE\n\t--\n\tinsert into atmp.F03B11Z1\n\t\tselect * from #F03B11Z1\n\n\tdrop table #F03B11Z1\nend\ngo",
 			"file": "usp_F03012Z1.sql",
-			"file_size": 11398,
-			"file_write_time": 132379318891077765,
 			"settings":
 			{
-				"buffer_size": 10889,
+				"buffer_size": 10917,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "usp_F0101_Load_ShipTo.sql",
+			"settings":
+			{
+				"buffer_size": 7049,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "usp_F03012_URRF.sql",
+			"settings":
+			{
+				"buffer_size": 1958,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -99,7 +113,16 @@
 			"file": "usp_F0911Z1.sql",
 			"settings":
 			{
-				"buffer_size": 9833,
+				"buffer_size": 9884,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/gitHub/Rollout/logfiles/Rollout.BLL.log",
+			"settings":
+			{
+				"buffer_size": 0,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -216,6 +239,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"VNANI",
+			"DGJ",
 			"IBVEND",
 			"VendorNo",
 			"'FP'",
@@ -276,7 +301,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -285,7 +310,122 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10889,
+						"buffer_size": 10917,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1092,
+								1092
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "usp_F0101_Load_ShipTo.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7049,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1524,
+								2359
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 648.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "usp_F03012_URRF.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1958,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1072,
+								1072
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "usp_F0911Z1.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9884,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1187,
+								1187
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/E/gitHub/Rollout/logfiles/Rollout.BLL.log",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
 						"regions":
 						{
 						},
@@ -293,48 +433,18 @@
 						[
 							[
 								0,
-								10889
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 6810.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "usp_F0911Z1.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9833,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9833,
-								9833
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 6234.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]

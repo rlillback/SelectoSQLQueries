@@ -10,6 +10,7 @@ GO
 --
 -- History: 
 -- 29-Jun-2020 R.Lillback Created Initial Version
+-- 06-Jul-2020 R.Lillback Updated Version Per Laura's Review
 --  
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0911Z1')
@@ -256,12 +257,12 @@ BEGIN
 			dbo.fn_DateTimeToJulian(GETDATE()) as VNDSYJ,
 			0 as VNTICU,
 			N'' as VNCO,
-			N'' as VNANI,
-			N'' as VNAM,
+			N'00097005' as VNANI,
+			N'1' as VNAM,
 			N'' as VNAID,
-			N'       91900' as VNMCU,
-			N'82000' as VNOBJ,
-			N'000' as VNSUB,
+			N'' as VNMCU,
+			N'' as VNOBJ,
+			N'' as VNSUB,
 			N'' as VNSBL,
 			N'' as VNSBLT,
 			N'AA' as VNLT,
@@ -273,7 +274,7 @@ BEGIN
 			0 as VNCRR,
 			0 as VNHCRR,
 			0 as VNHDGJ,
-			cast((Balance * 100) as numeric(15,2)) as VNAA,
+			cast((Balance * -100) as numeric(15,2)) as VNAA,
 			0 as VNU,
 			N'' as VNUM,
 			N'' as VNGLC,

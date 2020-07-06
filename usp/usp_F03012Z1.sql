@@ -11,6 +11,7 @@ GO
 --
 -- History: 
 -- 29-Jun-2020 R.Lillback Created Initial Version
+-- 06-Jul-2020 R.Lillback Updated version per Laura's review
 --  
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03B11Z1')
@@ -259,7 +260,7 @@ CREATE TABLE #F03B11Z1(
 			N'' as VJKCO,
 			N'' as VJSFX,
 			(select aban8 from n0e9sql01.jde_development.testdta.f0101 where abalky = ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) collate database_default) as VJAN8,
-			dbo.fn_DateTimeToJulian(GETDATE()) as VJDGJ,
+			0 as VJDGJ,
 			dbo.fn_DateTimeToJulian(InvoiceDate) as VJDIVJ,
 			N'IB' as VJICUT,
 			0 as VJICU,
@@ -473,7 +474,7 @@ CREATE TABLE #F03B11Z1(
 	--
 	-- Copy things into JDE
 	--
-	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F03B11Z1
+	insert into atmp.F03B11Z1
 		select * from #F03B11Z1
 
 	drop table #F03B11Z1
