@@ -17,9 +17,8 @@ GO
 -- 29-Mar-2020 - R.Lillback Updated credit message per Laura. All are '2' - PO Required
 -- 08-May-2020 - R.Lillback Strip leading 0's from customer code
 -- 20-May-2020 - R.Lillback Set ABAC02 = 'SUW'
+-- 02-Aug-2020 - R.Lillback fixed join on #tempintermediate to scrape leading 0's
 --
--- TODO:
---  
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F0101_Load_Customer')
 	DROP PROCEDURE dbo.usp_F0101_Load_Customer
@@ -71,7 +70,7 @@ BEGIN
 		   ,ISNULL(b.ABAC04, N'') as SalesGroup 
 		   ,NULL as Parent
 		from dbo.ods_AR_Customer as a
-		     left join dbo.ods_SalesCodeFlatFile as b on a.CustomerNo = b.ABALKY collate database_default
+		     left join dbo.ods_SalesCodeFlatFile as b on ltrim(rtrim(substring(CustomerNo, patindex('%[^0]%', CustomerNo), 20))) = b.ABALKY collate database_default
 		where CustomerStatus <> N'I'
 
 	-- now set the JDE address book numbers as ROW_NUMBER

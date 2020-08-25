@@ -14,6 +14,7 @@ GO
 -- 18-Apr-2020 R.Lillback Added F0012
 -- 18-Apr-2020 R.Lillback Added F41001
 -- 01-May-2020 R.Lillback Added containers F46091 per my testing
+-- 24-Jul-2020 R.Lillback Updated per Dale
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_SuwaneeConstants') is not null begin
 	print 'Dropping procedure dbo.usp_SuwaneeConstants';
@@ -98,18 +99,6 @@ BEGIN
 			A.TXNMCU = B.TXNMCU COLLATE database_default
 		WHERE B.TXNMCU IS NULL
 
-	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4095
-		select A.* 
-		from atmp.F4095_BACKUP AS A
-		left join N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4095 AS B ON
-			A.MLANUM = B.MLANUM AND
-			A.MLCO = B.MLCO COLLATE database_default AND 
-			A.MLDCTO = B.MLDCTO COLLATE database_default AND
-			A.MLDCT = B.MLDCT COLLATE database_default AND
-			A.MLGLPT = B.MLGLPT COLLATE database_default AND
-			A.MLCOST = B.MLCOST COLLATE database_default
-		WHERE B.MLANUM IS NULL
-
 	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F4070
 		select A.* 
 		from atmp.F4070_BACKUP AS A
@@ -189,6 +178,15 @@ BEGIN
 
 	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F46091
 			select * from atmp.F46091_BACKUP
+
+	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F0007
+			select * from atmp.F0007_BACKUP
+
+	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F3009
+			select * from atmp.F3009_BACKUP
+
+	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F30006
+			select * from atmp.F30006_BACKUP
 
 end
 go

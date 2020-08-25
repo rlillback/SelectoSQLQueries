@@ -14,6 +14,7 @@ GO
 -- 28-Apr-2020 R.Lillback Update AIAFT = 'Y' instead of 'N'
 -- 29-Apr-2020 R.Lillback Update freight handling code to PP
 -- 08-May-2020 R.Lillback Fixed issue with no leading 0s in join to ods_AR_Customer
+-- 06-Aug-2020 R.Lillback Don't populate GL information for S3 addresses
 -- 
 --------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012_S3')
@@ -70,36 +71,9 @@ BEGIN
 		CAST(ABAN8 AS FLOAT) AS AIAN8,
 		N'00000' COLLATE Latin1_General_CI_AS_WS AS AICO,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIARC,
-		CASE ABAC04
-			WHEN N'348' THEN N'       92200' 
-			ELSE N'       91900'
-		END COLLATE Latin1_General_CI_AS_WS AS AIMCUR, -- //:TODO Does this change??
-		CASE ABAC04
-			when N'302' then N'50010'
-			when N'313' then N'50010'
-			when N'337' then N'50010'
-			when N'338' then N'50070'
-			when N'339' then N'50020'
-			when N'346' then N'50010'
-			when N'347' then N'50010'
-			when N'348' then N'50010'
-			when N'510' then N'55090'
-			when N'535' then N'55090'
-			else N'50010'
-		end COLLATE Latin1_General_CI_AS_WS AS AIOBAR,
-		CASE ABAC04
-			when N'302' then N'005' -- was 002
-			when N'313' then N'119'
-			when N'337' then N'126'
-			when N'338' then N'012'
-			when N'339' then N'000'
-			when N'346' then N'130'
-			when N'347' then N'128'
-			when N'348' then N'002'
-			when N'510' then N'035'
-			when N'535' then N'055'
-			else N'000'
-		end COLLATE Latin1_General_CI_AS_WS AS AIAIDR,
+		N'' COLLATE Latin1_General_CI_AS_WS AS AIMCUR, -- //:TODO Does this change??
+		N'' COLLATE Latin1_General_CI_AS_WS AS AIOBAR,
+		N'' COLLATE Latin1_General_CI_AS_WS AS AIAIDR,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIKCOR,
 		CAST(0 AS FLOAT) AS AIDCAR,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIDTAR,

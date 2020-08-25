@@ -19,6 +19,7 @@ GO
 -- 28-Apr-2020 R.Lillback Update AIAFT = 'Y' instead of 'N'
 -- 29-Apr-2020 R.Lillback Update Freight Handling Code to PP per process
 -- 09-May-2020 R.Lillback Fixed issue with join into dbo.ods_AR_Customer and leading zeros
+-- 06-Aug-2020 R.Lillback Changed default sub and object accounts to 9s for easier searching
 --
 --------------------------------------------------------------------------------------------
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F03012')
@@ -90,7 +91,7 @@ BEGIN
 			when N'348' then N'50010'
 			when N'510' then N'55090'
 			when N'535' then N'55090'
-			else N'50010'
+			else N'99999'
 		end COLLATE Latin1_General_CI_AS_WS AS AIOBAR,
 		CASE ABAC04
 			when N'302' then N'005' -- was 002
@@ -103,7 +104,7 @@ BEGIN
 			when N'348' then N'002'
 			when N'510' then N'035'
 			when N'535' then N'055'
-			else N'000'
+			else N'999'
 		end COLLATE Latin1_General_CI_AS_WS AS AIAIDR,
 		N'' COLLATE Latin1_General_CI_AS_WS AS AIKCOR,
 		CAST(0 AS FLOAT) AS AIDCAR,

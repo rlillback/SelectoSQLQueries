@@ -25,6 +25,7 @@ BEGIN
 --   18-Apr-2020 R.Lillback Added F0012 per Laura
 --   18-Apr-2020 R.Lillback Added F41001 per my testing
 --   01-May-2020 R.Lillback Added containers F46091 per my testing
+--   24-Jul-2020 R.Lillback Added F0007, F3009 per Dale
 -- ****************************************************************************************
 	SET NOCOUNT ON;
 	declare @user nvarchar(10) = N'RLILLBACK';
@@ -53,6 +54,22 @@ BEGIN
 				A.GMMCU = B.GMMCU collate database_default  AND
 				A.GMOBJ = B.GMOBJ collate database_default AND
 				A.GMSUB = B.GMSUB collate database_default 
+
+	delete atmp.F0007_BACKUP
+		from atmp.F0007_BACKUP AS a
+		join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F0007 AS B ON
+			A.CZMMCU = B.CZMMCU collate database_default AND
+			A.CZWDCT = B.CZWDCT collate database_default AND
+			A.CZWDCK = B.CZWDCK collate database_default AND
+			A.CZCTRY = B.CZCTRY AND
+			A.CZYR = B.CZYR AND
+			A.CZMT = B.CZMT AND
+			A.CZSHFT = B.CZSHFT collate database_default
+
+	delete atmp.F3009_BACKUP
+		from atmp.F3009_BACKUP as A
+		join N0E9SQL01.JDE_PRODUCTION.PRODDTA.F3009 AS B ON
+			A.IAMMCU = B.IAMMCU collate database_default
 
 	declare @nn FLOAT = (select NNN001 from N0E9SQL01.JDE_PRODUCTION.PRODCTL.F0002 WHERE LTRIM(RTRIM(NNSY)) = N'09');
 	update

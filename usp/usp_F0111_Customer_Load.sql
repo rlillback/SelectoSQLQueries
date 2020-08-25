@@ -10,6 +10,7 @@ go
 --
 -- HISTORY:
 --   13-Feb-2020 R.Lillback Created Initial Version
+--	 25-Aug-2020 R.Lillback No longer load all the records other than the name one
 -- ****************************************************************************************
 
 SET ANSI_NULLS ON
@@ -54,7 +55,7 @@ BEGIN
 		(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
 		values( @who, 0, 0, @name, @name, N'.', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
 
-		if ( 1 = 1 ) begin -- load all of these for Customers
+		if ( 1 = 0 ) begin -- DONT load all of these for Customers
 			-- Load the A record
 			insert into atmp.F0111
 			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
