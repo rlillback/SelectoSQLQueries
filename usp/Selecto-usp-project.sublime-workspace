@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"la",
+				"leadtime"
+			],
+			[
+				"leadT",
+				"leadtime"
+			],
+			[
 				"F0",
 				"F03B11Z1"
 			],
@@ -136,19 +144,20 @@
 	],
 	"file_history":
 	[
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Customer_Load.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Remit_Load.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_ShipTo_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Vendor_Load.sql",
-		"/C/Users/rlillbac/Desktop/Retrans/Retrans_PostShip.dtsx",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012Z1.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102_VendorLeadTimes.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Remit_Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Customer_Load.sql",
+		"/C/Program Files (x86)/Microsoft SQL Server Management Studio 18/Common7/IDE/ssms.pkgundef",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_TemporarySalesCodeFix.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_CustomerEmails.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_VendorACHemails.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F41021Add.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4105Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_OpenInvoiceLoad.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101_DescriptionUpdate.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012Z1.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0911Z1.sql",
 		"/E/gitHub/Rollout/logfiles/Rollout.BLL.log",
 		"/E/gitHub/Rollout/TestFiles/SageRolloutTest1.csv",
@@ -172,34 +181,36 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Remit_Load.sql",
 		"/C/KineticoSSISConfiguration/KineticoExperience.dtsConfig",
 		"/C/KineticoSSISConfiguration/DD_ExportItemRestrictions.dtsConfig",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0030_Vendor.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4072_Contract.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Customer_Addresses.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102_UpdateCartridges.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_ShipTo_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Remit_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Vendor_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_ShipTo_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Customer_Phones.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F41021Add.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4106Add.sql",
 		"//n0e9dep01/E910/DV910/PACKAGE/DV910FC/source/B984052.c",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_ItemConflicts.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Remit.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_CopyMissingDMAAIs.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0401_Vendor.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_TemporarySalesCodeFix.sql",
 		"/K/KINETICO/Common/Ray/SelectoDataLoad.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_UDC_CustVend.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200227-PattiPriceUpdate.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0150_Load.sql",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Import.scp",
 		"/K/KINETICO/Common/Ray/CrossWare/JDE_Export.scp",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_ShipTo_Load.sql",
 		"/K/KINETICO/Common/Ray/SQLQueryBackup/AdvancedPricing/20200206-TEMECULA-BasePricesForPatti.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteC3DataFromAB.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteR3DataFromAB.sql",
@@ -216,7 +227,7 @@
 	],
 	"find":
 	{
-		"height": 32.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -230,6 +241,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"nameCursor",
+			"em",
+			"OPC",
 			"dbo.fn_DateTimeToJulian(GETDATE())",
 			"EXA",
 			"VDEXA",
@@ -273,6 +287,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"itmCursor",
+			"emx",
 			"@jToday",
 			"CustomerNo",
 			"C.",
@@ -305,7 +321,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 32.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -342,7 +358,7 @@
 	"project": "Selecto-usp-project.sublime-project",
 	"replace":
 	{
-		"height": 60.0
+		"height": 70.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -380,7 +396,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 252.0,
+	"side_bar_width": 301.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

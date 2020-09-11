@@ -14,6 +14,7 @@ GO
 -- 17-Apr-2020 R.Lillback Updated for procurement/product type swap in Sage
 -- 28-Apr-2020 R.Lillback Fixed IBPRGR for items already in 1A (was '' now 'SU')
 -- 12-May-2020 R.Lillback Reversed 17-Apr-2020 change
+-- 09-Sep-2020 R.Lillback Changed OPC and MPST per M.Sedar
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4102Add')
 	DROP PROCEDURE dbo.usp_F4102Add
@@ -346,7 +347,7 @@ BEGIN
 			when 'NT' then N'N'
 			else N'Y'
 		end AS IBTAX1, -- Sales taxable
-		N'0' AS IBMPST,
+		N'3' AS IBMPST, -- Was 0
 		N'' AS IBMRPD,
 		N'' AS IBMRPC,
 		0AS IBUPC,
@@ -355,7 +356,7 @@ BEGIN
 		0 AS IBLTLV,
 		0 AS IBLTMF,
 		0 AS IBLTCM,
-		N'0' AS IBOPC,
+		N'1' AS IBOPC, -- Was 0
 		0 AS IBOPV,
 		1 AS IBACQ,
 		0 AS IBMLQ,

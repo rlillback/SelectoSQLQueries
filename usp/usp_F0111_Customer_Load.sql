@@ -55,54 +55,6 @@ BEGIN
 		(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
 		values( @who, 0, 0, @name, @name, N'.', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
 
-		if ( 1 = 0 ) begin -- DONT load all of these for Customers
-			-- Load the A record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 1, 0, @email, @email, N'A', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 1 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 2, 0, @email, @email, N'1', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 2 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 3, 0, @email, @email, N'2', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 3 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 4, 0, @email, @email, N'3', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 4 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 5, 0, @email, @email, N'4', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 5 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 6, 0, @email, @email, N'5', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 6 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 7, 0, @email, @email, N'6', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 7 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 8, 0, @email, @email, N'7', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-			-- Load the 8 record
-			insert into atmp.F0111
-			(WWAN8, WWIDLN, WWDSS5, WWMLNM, WWALPH, WWTYC, WWUSER, WWPID, WWUPMJ, WWJOBN, WWUPMT, WWDDATE, WWDMON, WWDYR, WWSYNCS, WWCAAD)
-			values( @who, 9, 0, @email, @email, N'8', @user, @pid, @jToday, @jobn, @tNow, 0, 0, 0, 0, 0 )
-
-		end -- if
-
 		-- fetch next record
 		fetch next from whoCursor into @who;
 	end

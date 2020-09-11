@@ -32,6 +32,7 @@ GO
 -- 28-Apr-2020 R.Lillback Updated volume UOM to be LB for weight parts to prevent UOM 
 --                        conversion error on sales orders
 -- 12-May-2020 R.Lillback Revered the 17-Apr-2020 Modification
+-- 09-Sep-2020 R.Lillback Changed OPC from 0 to 1 and MPST from 0 to 3 per M.Sedar
 --
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_F4101AddNew') is not null begin
@@ -311,7 +312,7 @@ BEGIN
 						when 'M' then 303 
 						else 301
 					end as IMANPL, -- ### 4/3/2020
-					N'0' collate database_default as IMMPST,
+					N'3' collate database_default as IMMPST,
 					CAST(0 as float) as IMPCTM,
 					CAST(0 as float) as IMMMPC,
 					N'' collate database_default as IMPTSC,
@@ -319,7 +320,7 @@ BEGIN
 					CAST(0 as float) as IMLTLV, 
 					CAST(0 as float) as IMLTMF,
 					CAST(0 as float) as IMLTCM,
-					N'0' collate database_default as IMOPC,
+					N'1' collate database_default as IMOPC,
 					CAST(0 as float) as IMOPV,
 					CAST(1 as float) as IMACQ, 
 					CAST(0 as float) as IMMLQ,

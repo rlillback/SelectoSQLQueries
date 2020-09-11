@@ -14,6 +14,7 @@ GO
 --
 -- HISTORY:
 -- 09-Sep-2019 R.Lillback Created initial version
+-- 27-Aug-2020 R.Lillback Updated purchasing cost to populate only COCSPO not COCSIN
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4105Add')
 	DROP PROCEDURE dbo.usp_F4105Add
@@ -95,11 +96,11 @@ BEGIN
 		N'' AS COLOTG,
 		N'08' AS COLEDG,
 		cast((StandardUnitCost * 10000) as float) AS COUNCS, 
-		N'' AS COCSPO,
 		CASE (StandardUnitCost)
 			WHEN 0 THEN N'' 
 			ELSE N'P'  
-		END AS COCSIN, -- Set this as the purchasing costing method if cost!=0
+		END AS COCSPO, -- Set this as the purchasing costing method if cost!=0
+		N'' AS COCSIN,
 		N'' AS COURCD,
 		0 AS COURDT,
 		CAST(0 AS FLOAT) AS COURAT,
@@ -183,11 +184,11 @@ BEGIN
 		N'' AS COLOTG,
 		N'08' AS COLEDG,
 		cast((StandardUnitCost * 10000) as float) AS COUNCS, 
-		N'' AS COCSPO,
 		CASE (StandardUnitCost)
 			WHEN 0 THEN N'' 
 			ELSE N'P'  
-		END AS COCSIN, -- Set this as the purchasing costing method if cost!=0
+		END AS COCSPO, -- Set this as the purchasing costing method if cost!=0
+		N'' AS COCSIN,
 		N'' AS COURCD,
 		0 AS COURDT,
 		CAST(0 AS FLOAT) AS COURAT,
