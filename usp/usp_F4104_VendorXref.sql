@@ -5,6 +5,8 @@ go
 --
 -- HISTORY:
 --   22-Feb-2020 R.Lillback Created initial version
+--   12-Sep-2020 R.Lillback Added the isnull statement into IVCITM as that isn't populated 
+--                          for a single Sage record.
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4104_VendorXref')
 	DROP PROCEDURE dbo.usp_F4104_VendorXref
@@ -44,7 +46,7 @@ BEGIN
 		140365 as IVEXDJ,
 		119001 as IVEFTJ,
 		(select top 1 IVMCU from N0E9SQL01.JDE_DEVELOPMENT.testdta.F4104) as IVMCU,
-		VendorAliasItemNo as IVCITM,
+		isnull(VendorAliasItemNo, IMLITM) as IVCITM,
 		IMDSC1 as IVDSC1,
 		IMDSC2 as IVDSC2,
 		N'' as IVALN,

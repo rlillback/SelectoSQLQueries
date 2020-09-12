@@ -19,7 +19,9 @@ GO
 --   17-Feb-2020 R.Lillback Set ABTAXC based on Form1099 in Vendor database per Laura
 --   08-May-2020 R.Lillback Trim leading 0's from vendor codes
 --	 20-May-2020 R.Lillback Set ABAC02 = SUW
---   06-Jun-2020 - R.Lillback Set starting row number based on accounting's method
+--   06-Jun-2020 R.Lillback Set starting row number based on accounting's method
+--   12-Sep-2020 R.Lillback Added a 'fix' for populating address book records based on accounting's method.
+--							This method constantly steps on existing new records added in production.
 --
 -- TODO:
 --   
@@ -87,6 +89,45 @@ BEGIN
 			VendCode as cc
 		from #tempIntermediate
 	) as y on x.VendCode = y.cc
+
+	-- ### 12-Sep-2020 Now find all conflicting address book numbers
+	if OBJECT_ID(N'tempdb..#badVendorNumbers') is not null
+		drop table #badVendorNumbers
+
+	create table #badVendorNumbers (
+		badnum float
+	)
+	insert into #badVendorNumbers
+		select aban8 
+		from n0e9sql01.JDE_DEVELOPMENT.testdta.F0101 
+		inner join #tempIntermediate on aban8 = ROWNUM
+	declare @badCount int = (select count(*) from #badVendorNumbers);
+
+    while (@badCount > 0) begin
+		set @startingRowNum = (select max(ROWNUM)+1 from #tempIntermediate)
+		update x
+			set x.ROWNUM = y.xrn, x.RemittanceAddr = y.xrn
+		from #tempIntermediate as x
+		join 
+		(
+			select  
+				@startingRowNum
+				+ ROW_NUMBER() OVER(ORDER BY VendCode) 
+				- 1  as xrn,
+				VendCode as cc
+			from #tempIntermediate
+		) as y on x.VendCode = y.cc	
+		where x.ROWNUM in (select badnum from #badVendorNumbers)
+
+		truncate table #badVendorNumbers
+		insert into #badVendorNumbers
+			select aban8 
+			from n0e9sql01.JDE_DEVELOPMENT.testdta.F0101 
+			inner join #tempIntermediate on aban8 = ROWNUM
+		set @badCount = (select count(*) from #badVendorNumbers)
+		-- Iterate until there are no conflicting address book numbers
+	end
+	-- ### END ADDED CODE FOR CONFLICTING ADDRESS BOOK NUMBERS
 	                               
 	insert into atmp.F0101
 	select 
