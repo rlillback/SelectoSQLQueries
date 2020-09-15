@@ -148,6 +148,7 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0030_VendorWire.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4104_VendorXref.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Vendor_Load.sql",
@@ -231,7 +232,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 29.0
 	},
 	"find_in_files":
 	{
@@ -325,7 +326,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 24.0
+		"height": 29.0
 	},
 	"input":
 	{
@@ -362,7 +363,7 @@
 	"project": "Selecto-usp-project.sublime-project",
 	"replace":
 	{
-		"height": 44.0
+		"height": 54.0
 	},
 	"save_all_on_build": true,
 	"select_file":
