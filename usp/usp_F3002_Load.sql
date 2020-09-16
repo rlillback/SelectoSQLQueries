@@ -15,6 +15,7 @@ GO
 --   26-Nov-2019 R.Lillback Fixed bug where BOM lines did not populate if the PN already
 --               exists in JDE; therefore, atmp.F4101 is null.  If NULL, then grab
 --	             IMUOM1 from JDE_DEVELOPMENT.
+--   15-Sep-2020 R.Lillback Removed 1452 from being replaced in the BOMs
 -- ****************************************************************************************
 IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F3002Load')
 	DROP PROCEDURE dbo.usp_F3002Load
@@ -89,13 +90,8 @@ BEGIN
 	where
 		ActionKey = 2
 
-	-- Now replace all PN's 300-054 with 1452
-	update 
-		#BOMTemp
-	set 
-		ChildNum = N'1452'
-	where
-		ChildNum = N'300-054'
+-- Do NOT do anything with 300-054
+
 
 	-- truncate the table first
 	truncate table atmp.F3002
@@ -123,7 +119,7 @@ BEGIN
 			LEFT(Sage.ChildNum,25) COLLATE database_default AS IXLITM,
 			IB2.IBAITM COLLATE database_default AS IXAITM,
 			IB2.IBMCU COLLATE database_default AS IXCMCU,
-			CAST( Sage.LineNumShort AS FLOAT) AS IXCPNT,
+			CAST( Sage.LineNumShort * 10 AS FLOAT) AS IXCPNT,
 			CAST( 0 AS FLOAT) AS IXSBNT,
 			N'Y' COLLATE database_default AS IXPRTA,
 			CAST( Sage.LineQty AS FLOAT) AS IXQNTY,
@@ -192,7 +188,7 @@ BEGIN
 			CAST( 0 AS FLOAT) AS IXSTRC,
 			CAST( 0 AS FLOAT) AS IXENDC,
 			N'' COLLATE database_default AS IXAPSC,
-			CAST( (Sage.LineNumShort * 100) AS FLOAT) AS IXCPNB,
+			CAST( (Sage.LineNumShort * 10) AS FLOAT) AS IXCPNB,
 			N'' COLLATE database_default AS IXBSEQAN,
 			N'1' COLLATE database_default AS IXBCHAR,
 			N'' COLLATE database_default AS IXBOSTR

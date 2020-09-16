@@ -12,9 +12,14 @@ GO
 -- 09-Sep-2019 R.Lillback Created initial version
 -- 01-May-2020 R.Lillback Added 2ndary location of SUSHIP to all parts
 -- ****************************************************************************************
-IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F41021Add')
+IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F41021Add') BEGIN
+	print(N'dropping procedure dbo.usp_F41021Add');
 	DROP PROCEDURE dbo.usp_F41021Add
+END
 GO
+
+print(N'creating procedure dbo.usp_F41021Add');
+go
 
 CREATE PROCEDURE dbo.usp_F41021Add 
 AS

@@ -16,9 +16,14 @@ GO
 -- 12-May-2020 R.Lillback Reversed 17-Apr-2020 change
 -- 09-Sep-2020 R.Lillback Changed OPC and MPST per M.Sedar
 -- ****************************************************************************************
-IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4102Add')
+IF EXISTS(SELECT * FROM SYS.objects WHERE TYPE = 'P' AND name = N'usp_F4102Add') BEGIN
+	print('dropping procedure dbo.usp_F4102Add')
 	DROP PROCEDURE dbo.usp_F4102Add
+end
 GO
+
+print('creating procedure dbo.usp_F4102Add');
+go
 
 CREATE PROCEDURE dbo.usp_F4102Add 
 AS

@@ -1,0 +1,25 @@
+--- !<tag:PlacesTheItemDataLoadTouchesInJDE>
+File: atmp.F3002
+  - usp_F3002_Load: Loads the BOMs into F3002
+---
+File: atmp.F3003
+  - usp_F3003_Load: Create dummy Routers for items with BOM into F3003.
+---
+File: atmp.F4101
+  - usp_F4101_AddNew: Adds new items into atmp.F4101
+    NextNumber: None, it uses max(IMITM) + 10 from testdta.F4101.  It doesn't update NextNumber either
+  - usp_F4101AddConflicting:  Adds conflicting item nubers that will have the -SU suffix added.
+    NextNumber: None, it uses max(IMITM) from atmp.F4101.  It does not update NextNumber either
+    Note: Only runs on items that have -SU updated.  Therefore, it shouldn't do anything now.
+  - usp_F4101_DescriptionUpdate: Updates Item Descriptions from a flat file loaded data table.
+---
+File: atmp.F4102
+  - usp_F4102Add: Adds all items in atmp.F4101 & All conflicting items that will use the existing JDE Description into F4102
+  - usp_F4102_VendorLeadTimes: Populate the vendor's lead times into F4102 & update the message display fence
+  - usp_F4102_UpdateCartridges: Modify the stocking type to WIP for cartridges
+---
+File: atmp.F41021
+  - usp_F41021Add: Update item location file for all items added to atmp.F4102
+    Note: Must run after usp_F4102Add
+---
+

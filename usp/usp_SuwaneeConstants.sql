@@ -15,6 +15,7 @@ GO
 -- 18-Apr-2020 R.Lillback Added F41001
 -- 01-May-2020 R.Lillback Added containers F46091 per my testing
 -- 24-Jul-2020 R.Lillback Updated per Dale
+-- 16-Sep-2020 R.Lillback Added nn update for short item number
 -----------------------------------------------------------------------------------------
 IF OBJECT_ID('dbo.usp_SuwaneeConstants') is not null begin
 	print 'Dropping procedure dbo.usp_SuwaneeConstants';
@@ -188,5 +189,8 @@ BEGIN
 	insert into N0E9SQL01.JDE_DEVELOPMENT.TESTDTA.F30006
 			select * from atmp.F30006_BACKUP
 
+	update N0E9SQL01.JDE_DEVELOPMENT.TESTCTL.F0002
+		set NNN001 = (SELECT (MAX(IMITM) + 1) FROM atmp.F4101)
+		where ltrim(rtrim(NNSY)) = N'41'
 end
 go
