@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"end",
+				"END"
+			],
+			[
+				"N",
+				"NextNumber"
+			],
+			[
 				"object",
 				"OBJECT_ID"
 			],
@@ -76,10 +84,6 @@
 				"ItemConflicts_Backup"
 			],
 			[
-				"N",
-				"N0E9SQL01"
-			],
-			[
 				"data",
 				"database_default"
 			],
@@ -111,31 +115,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "usp_F4101AddNew.sql",
-			"settings":
-			{
-				"buffer_size": 21542,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "usp_F3003Load.sql",
-			"settings":
-			{
-				"buffer_size": 7871,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "usp_F3002Load.sql",
-			"settings":
-			{
-				"buffer_size": 7659,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -173,11 +152,23 @@
 	],
 	"file_history":
 	[
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102_Add.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F41021_Add.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4072_Contract.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3002_Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/PlacesTheItemDataLoadTouchesInJDE.yaml",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102_UpdateCartridges.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101_AddConflicting.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102_VendorLeadTimes.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3002Load.sql",
+		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0030_VendorWire.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4104_VendorXref.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Vendor.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Vendor_Load.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102_VendorLeadTimes.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Remit_Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_Customer_Load.sql",
 		"/C/Program Files (x86)/Microsoft SQL Server Management Studio 18/Common7/IDE/ssms.pkgundef",
@@ -185,8 +176,6 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_CustomerEmails.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0111_VendorACHemails.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F41021Add.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102Add.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddNew.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4105Add.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_OpenInvoiceLoad.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012Z1.sql",
@@ -213,11 +202,8 @@
 		"/C/KineticoSSISConfiguration/DD_ExportItemRestrictions.dtsConfig",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0101_Load_Customer.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0030_Vendor.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4072_Contract.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F3003Load.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Customer_Addresses.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4101AddConflicting.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4102_UpdateCartridges.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012_S3.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F03012.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0116_Vendor_Addresses.sql",
@@ -226,7 +212,6 @@
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Vendor_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_ShipTo_Phones.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F0115_Customer_Phones.sql",
-		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_SuwaneeConstants.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_DeleteProdFromBackups.sql",
 		"/C/Users/rlillbac/Desktop/SelectoSQLQueries/usp/usp_F4106Add.sql",
 		"//n0e9dep01/E910/DV910/PACKAGE/DV910FC/source/B984052.c",
@@ -257,7 +242,7 @@
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 29.0
 	},
 	"find_in_files":
 	{
@@ -271,6 +256,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"F0002",
 			"nameCursor",
 			"em",
 			"OPC",
@@ -344,96 +330,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "usp_F4101AddNew.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 21542,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3706,
-								3717
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1404.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "usp_F3003Load.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7871,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1037,
-								1037
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4284.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "usp_F3002Load.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7659,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								7659
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2159.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -443,7 +341,7 @@
 	},
 	"input":
 	{
-		"height": 39.0
+		"height": 41.0
 	},
 	"layout":
 	{
